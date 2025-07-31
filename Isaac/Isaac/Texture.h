@@ -1,37 +1,28 @@
 #pragma once
+
+// 텍스처를 그리는 역할
+// 한곳에서 렌더링을 담당하기 위해 리팩토링
 class Texture
 {
 public:
-	void Load(wstring fileName, int32 maxCountX, int32 maxCountY, int32 transparent, RenderLayer type);
-	void Destroy();
+	Texture();
 
-	void Render(HDC hdc, Vector pos, Vector srcpos);
+	void Load(string key, string texturePath, int32 transparent, int32 xFrameCount = 1, int32 yFrameCount = 1);
+	void Render(HDC hdc, Vector pos, Vector src, Vector rederSize, bool applyCameraPos = true);
 
-	void SetCenterAlign(bool center) { _centerAlign = center; }
-	void SetSize(int32 x, int32 y) { _sizeX = x; _sizeY = y; }
+	int32 GetTextureWidth()
+	{
+		return _sizeX;
+	}
 
-	int32 GetSizeX() { return _sizeX; }
-	int32 GetSizeY() { return _sizeY; }
-
-	Size GetFrameSize() { return Size(_frameSizeX, _frameSizeY); }
-	void GetFrameCount(int32& outX, int32& outY) { outX = _maxCountX; outY = _maxCountY; }
-
-private:
-	HDC _textureHdc = 0;
-	HBITMAP _bitmap;
-
-	int32 _transparent = -1;
-	int32 _textureSizeX = 0;
-	int32 _textureSizeY = 0;
-
-	int32 _sizeX = 0;
-	int32 _sizeY = 0;
-
-	int32 _maxCountX = 0;
-	int32 _maxCountY = 0;
-	int32 _frameSizeX = 0;
-	int32 _frameSizeY = 0;
-
-	bool _centerAlign = true;
+public:
+	// 텍스처를 그리기위한 변수
+	HDC			_textureHdc = 0;
+	HBITMAP		_bitmap;
+	int32		_transparent = -1;	// 투명하게 보여야하는 색상
+	int32		_sizeX = 0;
+	int32		_sizeY = 0;
+	int32		_frameCountX = 0;	// X축으로 몇개의 프레임이 있는지
+	int32		_frameCountY = 0;	// Y축으로 몇개의 프레임이 있는지
 };
 

@@ -1,0 +1,15 @@
+{
+  "list":[
+    {
+      "id" : 1000,
+      "Name" : "Globin",
+      "SpriteName" : {
+        "head" : {"file" : "Monster/GlobinHead.bmp", "framesX" : 1, "framesY" : 1, "duration" : 0.5},
+        "body" : {"file" : "Monster/GlobinBody.bmp", "framesX" : 1, "framesY" : 1, "duration" : 0.5}
+      },
+      "Hp" : 10,
+      "Speed" : 300,
+      "Atk" : 5
+    }
+  ]
+}

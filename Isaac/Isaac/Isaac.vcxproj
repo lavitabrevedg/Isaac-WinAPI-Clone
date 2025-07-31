@@ -134,8 +134,11 @@
     <ClInclude Include="EditorScene.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="ImageRenderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="SpriteRenderer.h" />
     <ClInclude Include="Stage_Scene.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Isaac.h" />
@@ -160,8 +163,11 @@
     <ClCompile Include="Defines.cpp" />
     <ClCompile Include="EditorScene.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="ImageRenderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="SpriteRenderer.cpp" />
     <ClCompile Include="Stage_Scene.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Isaac.cpp" />
