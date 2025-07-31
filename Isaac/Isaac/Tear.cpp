@@ -18,6 +18,6 @@ void Tear::Update(float deltatime)
 {
 }
 
-void Tear::Render(HDC hdc)
+void Tear::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
 }

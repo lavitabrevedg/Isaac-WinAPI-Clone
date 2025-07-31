@@ -40,7 +40,7 @@ void Player::Update(float deltatime)
 	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Down)) { HeadDir = DIR_DOWN; }
 }
 
-void Player::Render(HDC hdc)
+void Player::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	Super::Render(hdc);
+	Super::Render(_dxRenderTarget);
 }

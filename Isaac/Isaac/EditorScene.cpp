@@ -16,9 +16,9 @@ void EditorScene::Update(float deltatime)
 	Super::Update(deltatime);
 }
 
-void EditorScene::Render(HDC hdc)
+void EditorScene::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	Super::Render(hdc);
+	Super::Render(_dxRenderTarget);
 }
 
 void EditorScene::Save()

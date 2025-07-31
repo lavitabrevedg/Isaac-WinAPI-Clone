@@ -26,21 +26,21 @@ void RectCollider::UpdateComponent(float deltaTime)
 	_collision.bottom = _owner->GetPos().y + _height * 0.5f;
 }
 
-void RectCollider::RenderComponent(HDC hdc, Vector pos)
+void RectCollider::RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
 {
 	return;
 
-	// 충돌 영역을 그리기
-	HPEN pen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
-	HGDIOBJ oldPen = SelectObject(hdc, pen);
+	//// 충돌 영역을 그리기
+	//HPEN pen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+	//HGDIOBJ oldPen = SelectObject(hdc, pen);
 
-	HBRUSH brush = (HBRUSH)GetStockObject(NULL_BRUSH);
-	HBRUSH oldbrush = (HBRUSH)::SelectObject(hdc, brush);
+	//HBRUSH brush = (HBRUSH)GetStockObject(NULL_BRUSH);
+	//HBRUSH oldbrush = (HBRUSH)::SelectObject(hdc, brush);
 
-	Rectangle(hdc, (int)_collision.left, (int)_collision.top, (int)_collision.right, (int)_collision.bottom);
-	
-	SelectObject(hdc, oldPen);
-	DeleteObject(pen);
-	SelectObject(hdc, oldbrush);
-	DeleteObject(brush);
+	//Rectangle(hdc, (int)_collision.left, (int)_collision.top, (int)_collision.right, (int)_collision.bottom);
+	//
+	//SelectObject(hdc, oldPen);
+	//DeleteObject(pen);
+	//SelectObject(hdc, oldbrush);
+	//DeleteObject(brush);
 }

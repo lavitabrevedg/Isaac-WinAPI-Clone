@@ -6,6 +6,6 @@ public:
 	virtual ~Component() {}
 	virtual void InitComponent() {}
 	virtual void UpdateComponent(float deltaTime) {}
-	virtual void RenderComponent(HDC hdc, Vector pos) {}
+	virtual void RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos) {}
 };
 

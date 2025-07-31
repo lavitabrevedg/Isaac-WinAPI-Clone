@@ -9,7 +9,7 @@ public:
 
 	virtual void Update(float deltatime) {};
 	virtual void PostUpdate(float deltaTime) {};
-	virtual void Render(HDC hdc) {};
+	virtual void Render(ID2D1RenderTarget* _dxRenderTarget) {};
 
 	Vector GetCameraPos() { return _camerapos; }
 

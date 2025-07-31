@@ -22,7 +22,7 @@ void LobbyScene::Update(float deltatime)
 	}
 }
 
-void LobbyScene::Render(HDC hdc)
+void LobbyScene::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	Super::Render(hdc);
+	Super::Render(_dxRenderTarget);
 }

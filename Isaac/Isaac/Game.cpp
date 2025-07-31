@@ -82,8 +82,9 @@ void Game::Update()
 		_nextScene = nullptr;
 	}
 
-	InputManager::GetInstance()->Update();
 	TimeManager::GetInstance()->Update();
+	InputManager::GetInstance()->Update();
+	ResourceManager::GetInstance()->Update(TimeManager::GetInstance()->GetDeltaTime());
 
 	if (_currScene)
 	{

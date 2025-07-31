@@ -15,7 +15,7 @@ public:
 	virtual void Init() override;
 	virtual void Destroy() override;
 	virtual void Update(float deltatime) override;
-	virtual void Render(HDC hdc) override;
+	virtual void Render(ID2D1RenderTarget* _dxRenderTarget) override;
 
 	void Save();
 	void Load();

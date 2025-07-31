@@ -11,6 +11,6 @@ public:
 	virtual void Destroy();
 
 	virtual void Update(float deltatime);
-	virtual void Render(HDC hdc);
+	virtual void Render(ID2D1RenderTarget* _dxRenderTarget);
 };
 

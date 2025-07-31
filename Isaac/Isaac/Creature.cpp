@@ -4,3 +4,7 @@
 Creature::Creature(Vector pos) : Super(pos)
 {
 }
+
+Creature::~Creature()
+{
+}

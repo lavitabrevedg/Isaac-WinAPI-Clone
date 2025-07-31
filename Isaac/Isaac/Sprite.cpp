@@ -29,25 +29,23 @@ void Sprite::Render(ID2D1RenderTarget* renderTarget, Vector pos)
 		srcX + _bitmap->GetFrameSize().Width - 1.0f,
 		srcY + _bitmap->GetFrameSize().Height - 1.0f);
 
-	Vector renderPos = _applyCamera ? Game::ConvertScreenPos(pos) : pos; //
-
 	// 화면에 렌더링할 위치와 크기 (대상 영역)
 	D2D1_RECT_F destRect;
 	if (_alignCenter)
 	{
 		destRect = D2D1::RectF(
-			roundf(renderPos.x - _size.Width * 0.5f),
-			roundf(renderPos.y - _size.Height * 0.5f),
-			roundf(renderPos.x + _size.Width * 0.5f),
-			roundf(renderPos.y + _size.Height * 0.5f));
+			roundf(pos.x - _size.Width * 0.5f),
+			roundf(pos.y - _size.Height * 0.5f),
+			roundf(pos.x + _size.Width * 0.5f),
+			roundf(pos.y + _size.Height * 0.5f));
 	}
 	else
 	{
 		destRect = D2D1::RectF(
-			roundf(renderPos.x),
-			roundf(renderPos.y),
-			roundf(renderPos.x + _size.Width),
-			roundf(renderPos.y + _size.Height));
+			roundf(pos.x),
+			roundf(pos.y),
+			roundf(pos.x + _size.Width),
+			roundf(pos.y + _size.Height));
 	}
 
 	// 기존 변환 상태 저장
@@ -57,7 +55,7 @@ void Sprite::Render(ID2D1RenderTarget* renderTarget, Vector pos)
 	D2D1::Matrix3x2F finalTransform = originalTransform;
 	D2D1::Matrix3x2F scaleTransform = D2D1::Matrix3x2F::Scale(
 		D2D1::SizeF(1.0f, 1.0f),
-		D2D1::Point2F(renderPos.x, renderPos.y) // 반전 기준점
+		D2D1::Point2F(pos.x, pos.y) // 반전 기준점
 	);
 	finalTransform = scaleTransform * finalTransform;
 
@@ -66,7 +64,7 @@ void Sprite::Render(ID2D1RenderTarget* renderTarget, Vector pos)
 	{
 		D2D1::Matrix3x2F flipTransform = D2D1::Matrix3x2F::Scale(
 			D2D1::SizeF(-1.0f, 1.0f), // X축 반전, Y축 그대로
-			D2D1::Point2F(renderPos.x, renderPos.y) // 반전 기준점
+			D2D1::Point2F(pos.x, pos.y) // 반전 기준점
 		);
 		finalTransform = flipTransform * finalTransform;
 	}
@@ -75,7 +73,7 @@ void Sprite::Render(ID2D1RenderTarget* renderTarget, Vector pos)
 	{
 		D2D1::Matrix3x2F rotate = D2D1::Matrix3x2F::Rotation(
 			_rotate,
-			D2D1::Point2F(renderPos.x, renderPos.y)
+			D2D1::Point2F(pos.x, pos.y)
 		);
 		finalTransform = rotate * finalTransform;
 	}

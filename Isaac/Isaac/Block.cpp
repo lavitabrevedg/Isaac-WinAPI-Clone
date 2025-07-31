@@ -17,6 +17,6 @@ void Block::Update(float deltatime)
 {
 }
 
-void Block::Render(HDC hdc)
+void Block::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
 }

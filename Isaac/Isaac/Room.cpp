@@ -15,7 +15,7 @@ void Room::Update(float deltatime)
 {
 }
 
-void Room::Render(HDC hdc)
+void Room::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
 }
 

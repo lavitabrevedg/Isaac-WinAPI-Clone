@@ -6,6 +6,10 @@ Actor::Actor(Vector pos) : _pos(pos)
 {
 }
 
+Actor::~Actor()
+{
+}
+
 void Actor::Init()
 {
 
@@ -18,6 +22,7 @@ void Actor::Destroy()
 		SAFE_DELETE(iter);
 	}
 	_components.clear();
+
 }
 
 void Actor::Update(float deltatime)
@@ -28,10 +33,10 @@ void Actor::Update(float deltatime)
 	}
 }
 
-void Actor::Render(HDC hdc)
+void Actor::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
 	for (auto iter : _components)
 	{
-		iter->RenderComponent(hdc,_pos);
+		iter->RenderComponent(_dxRenderTarget,_pos);
 	}
 }
