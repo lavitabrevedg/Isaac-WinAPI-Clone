@@ -1,14 +1,17 @@
 #pragma once
 #include "Scene.h"
 
-class Stage_Scene : public Scene
+class Stage_Scene//stage는 Room의 집합체 같은 느낌이라 Scene을 상속받는건 좀 아닌듯
 {
 	using Super = Scene;
 
 public:
-	virtual void Init() override;
-	virtual void Destroy() override;
-	virtual void Update(float deltatime) override;
-	virtual void Render(HDC hdc) override;
+	void Init();
+	void Destroy();
+	void Update(float deltatime);
+	void Render(HDC hdc);
+
+private:
+	vector<class Room*> _Rooms;
 };
 

@@ -5,6 +5,7 @@ class Tear : public Actor
 {
 	using Super = Actor;
 public:
+	Tear(Vector pos, DirType dir);
 	virtual void Destroy()override;
 	virtual void Init()override;
 

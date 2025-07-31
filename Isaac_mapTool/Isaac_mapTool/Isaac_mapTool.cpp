@@ -1,16 +1,13 @@
-﻿// Isaac.cpp : 애플리케이션에 대한 진입점을 정의합니다.
+﻿// Isaac_mapTool.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
-#include "pch.h"
+
 #include "framework.h"
-#include "Isaac.h"
-#include "Game.h"
-#include "InputManager.h"
+#include "Isaac_mapTool.h"
 
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
-HWND gHwnd;
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
@@ -28,13 +25,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-   //메모리 누수 감지 활성화
-#ifdef _DEBUG
-    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
+    // TODO: 여기에 코드를 입력합니다.
+
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_ISAAC, szWindowClass, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_ISAACMAPTOOL, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
     // 애플리케이션 초기화를 수행합니다:
@@ -43,45 +38,19 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_ISAAC));
+    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_ISAACMAPTOOL));
 
-    MSG msg = {};
-
-    Game* game = Game::GetInstance();
-    game->Init(gHwnd);
-
-    const float targetFrameTime = 1000.0f / 120.f;
-
-    LARGE_INTEGER frequency, now, prev;
-    QueryPerformanceFrequency(&frequency);
-    QueryPerformanceCounter(&prev);
-
+    MSG msg;
 
     // 기본 메시지 루프입니다:
-    while (msg.message != WM_QUIT)
+    while (GetMessage(&msg, nullptr, 0, 0))
     {
-        if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))
+        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-        else
-        {
-            QueryPerformanceCounter(&now);
-            float elapsed = (now.QuadPart - prev.QuadPart) / static_cast<float>(frequency.QuadPart) * 1000.0f;
-
-            if (elapsed >= targetFrameTime)
-            {
-                game->Update();
-                game->Render();
-
-                prev = now;
-            }
-        }
     }
-
-    game->Destroy();
-    game->DestroyInstance();
 
     return (int) msg.wParam;
 }
@@ -104,10 +73,10 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbClsExtra     = 0;
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ISAAC));
+    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ISAACMAPTOOL));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName = nullptr; //MAKEINTRESOURCEW(IDC_ISAAC);
+    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_ISAACMAPTOOL);
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -128,19 +97,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   RECT windowRect = { 0, 0, GWinSizeX,GWinSizeY };
-   ::AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, false);
-
-   gHwnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
-   if (!gHwnd)
+   if (!hWnd)
    {
       return FALSE;
    }
 
-   ShowWindow(gHwnd, nCmdShow);
-   UpdateWindow(gHwnd);
+   ShowWindow(hWnd, nCmdShow);
+   UpdateWindow(hWnd);
 
    return TRUE;
 }
@@ -159,11 +125,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-    case WM_MOUSEHWHEEL:
-    {
-        int delta = GET_WHEEL_DELTA_WPARAM(wParam);
-        break;
-    }
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);

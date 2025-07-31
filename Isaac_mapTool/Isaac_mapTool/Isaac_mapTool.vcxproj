@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{2589a62a-9ad1-4321-96e1-a17c6280ddda}</ProjectGuid>
-    <RootNamespace>Isaac</RootNamespace>
+    <ProjectGuid>{de84aa0f-34b9-441c-a749-088f87a66e1b}</ProjectGuid>
+    <RootNamespace>IsaacmapTool</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -102,9 +102,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,71 +123,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Actor.h" />
-    <ClInclude Include="BaseResource.h" />
-    <ClInclude Include="Block.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="Creature.h" />
-    <ClInclude Include="Defines.h" />
-    <ClInclude Include="DXBitmap.h" />
-    <ClInclude Include="EditorScene.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="ObjectPool.h" />
-    <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Room.h" />
-    <ClInclude Include="Sound.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="Stage_Scene.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="Isaac.h" />
-    <ClInclude Include="LobbyScene.h" />
-    <ClInclude Include="Monster.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="RectCollider.h" />
+    <ClInclude Include="Isaac_mapTool.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Singleton.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Tear.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Actor.cpp" />
-    <ClCompile Include="BaseResource.cpp" />
-    <ClCompile Include="Block.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="Creature.cpp" />
-    <ClCompile Include="Defines.cpp" />
-    <ClCompile Include="DXBitmap.cpp" />
-    <ClCompile Include="EditorScene.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Room.cpp" />
-    <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="Stage_Scene.cpp" />
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="Isaac.cpp" />
-    <ClCompile Include="LobbyScene.cpp" />
-    <ClCompile Include="Monster.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="RectCollider.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Tear.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="Isaac_mapTool.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Isaac.rc" />
+    <ResourceCompile Include="Isaac_mapTool.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Isaac.ico" />
+    <Image Include="Isaac_mapTool.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

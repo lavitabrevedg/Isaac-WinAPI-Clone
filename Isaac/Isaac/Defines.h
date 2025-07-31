@@ -25,8 +25,25 @@ bool IsInPoint(RECT rect, POINT pos);
 // 언리얼에서 가져옴.
 #define SMALL_NUMBER			(1.e-8f)
 
+const float PI = 3.1415926f;
 
-// 모든 텍스처의 Sprite 구분 식별자
+#define SAFE_RELEASE(p) if(p) { p->Release(); p = nullptr; }
+#define SAFE_DELETE(p) if(p) { delete p; p = nullptr; }
+
+enum BrushColor
+{
+	Red,
+	White,
+	Blue,
+};
+
+enum FontSize
+{
+	FONT_12 = 12,
+	FONT_16 = 16,
+	FONT_20 = 20,
+	FONT_30 = 30,
+};
 
 struct Rect
 {
@@ -35,6 +52,13 @@ struct Rect
 	float    right;
 	float    bottom;
 };
+
+struct Dimension
+{
+	int32 Width = 0;
+	int32 Height = 0;
+};
+
 
 struct AnimInfo
 {
@@ -213,6 +237,9 @@ struct Vector
 struct GridInfo
 {
 	set<class Actor*> _actorsInCell;
-	//Vector @TODO 그리드시스템 완성해야댐 ㅅㅄㅄㅄㅄㅂ 개어려워
-
 };
+
+//struct Cell
+//{
+//	
+//};

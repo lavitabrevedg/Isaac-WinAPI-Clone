@@ -7,6 +7,8 @@
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
+#include <stack>
+#include <queue>
 #include <string>
 #include <functional>	// std::function
 #include <algorithm>	// std::find_if, std::sort
@@ -27,11 +29,14 @@ namespace fs = std::filesystem;
 using namespace Gdiplus;
 
 
-// 사운드
-#include <MMSystem.h>
-#include <dsound.h>
-#pragma comment (lib, "winmm.lib")
-#pragma comment (lib, "dsound.lib")
+// Direct 2D
+#include <d2d1.h>
+#include <dwrite_1.h>
+#include <dwrite_3.h>
+#include <wincodec.h>
+#pragma comment(lib, "d2d1.lib")
+#pragma comment(lib, "dwrite.lib")
+#pragma comment(lib, "windowscodecs.lib")
 
 // Json
 #include "Json/nlohmann/json.hpp" // nlohmann/json 헤더 파일

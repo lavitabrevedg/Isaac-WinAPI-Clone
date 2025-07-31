@@ -1,45 +1,52 @@
 #pragma once
-
 #include "Singleton.h"
 
-class Texture;
+class PNGTexture;
+class UISliced3;
+class Sprite;
+class DXBitmap;
 
-enum class FontSize
-{
-	Font12 = 12,
-	Font18 = 18,
-	Font26 = 26,
-};
-
-// 리소스 개념이 게임에서 다양하게 등장.
-// 텍스처 / 메시 / 사운드 / 이펙트 등등..
-// 모든 리소스들을 관리하는 매니저
+// 리소스들을 관리하는 객체
 class ResourceManager : public Singleton<ResourceManager>
 {
-	friend Singleton<ResourceManager>;
-	ResourceManager() {}
 public:
 
-	void Init();
-	void Destroy();	// 리소스 정리
+	void Init(HWND hwnd, fs::path directory);
+	void Update(float deltaTime);
+	void Destroy() override;
 
-	Texture* GetTextureInfo(string meshName);
-	void LoadTexture(string key, string texturePath, int32 transparent, int32 xFrameCount = 1, int32 yFrameCount = 1);
+	DXBitmap* LoadDXBitmap(string key, wstring path, int32 countX = 1, int32 countY = 1);
+	DXBitmap* GetDXBitmap(string key);
 
-	HFONT GetFont(FontSize fontSize) 
-	{
-		auto iter = hFont.find(fontSize);
-		if (iter != hFont.end())
-			return iter->second;
+	const SpriteInfo* GetSpriteInfo(string key);
 
-		return nullptr; 
-	}
+	IDWriteTextFormat* GetFont(FontSize fontSize);
+	ID2D1SolidColorBrush* GetBrush(BrushColor color);
 
+
+public:
+	fs::path GetResourcePath() const { return _resourcePath; }
 
 private:
-	unordered_map<string, Texture*> _textures;
+	bool loadFont();
+	bool createBrushes();
+	void createSpriteNameInfo(string spriteName, int32 xCount, int32 totalCount, wstring bitmapKey);
 
-	// 사이즈별로 여러개 관리
-	unordered_map<FontSize, HFONT> hFont;
+public:
+	HWND _hwnd;
+	fs::path _resourcePath;
+
+	// key : path, 
+	unordered_map<string, DXBitmap*> _bitmap;
+
+	IDWriteFactory5* _dwriteFactory = nullptr;
+	IDWriteFontCollection1* _fontCollection = nullptr;
+	IDWriteFontFile* _fontFile = nullptr;
+	IDWriteFontSet* _fontSet = nullptr;
+	IDWriteFontSetBuilder1* _fontSetBuilder = nullptr;
+	unordered_map<FontSize, IDWriteTextFormat*> _fontCache;
+	unordered_map<BrushColor, ID2D1SolidColorBrush*> _brushCache;
+
+	unordered_map<string, SpriteInfo>		_spriteNames;
 };
 

@@ -2,43 +2,68 @@
 #include "Game.h"
 #include "InputManager.h"
 #include "TimeManager.h"
+#include "ResourceManager.h"
 
 #include "LobbyScene.h"
 #include "Stage_Scene.h"
 #include "EditorScene.h"
+#include "Room.h"
 
 void Game::Init(HWND hwnd)
 {
+	srand((uint32)time(0));
 	_hwnd = hwnd;
-	_hdc = ::GetDC(hwnd);
+	//_hdc = ::GetDC(hwnd);
 
 	GetClientRect(hwnd, &_rect);
 
-	_hdcBack = CreateCompatibleDC(_hdc);
-
+	/*_hdcBack = CreateCompatibleDC(_hdc);
 	_bmpBack = CreateCompatibleBitmap(_hdc, _rect.right, _rect.bottom);
-
 	HBITMAP prev = (HBITMAP)::SelectObject(_hdcBack, _bmpBack);
-	DeleteObject(prev);
+	DeleteObject(prev);*/
 
-	InputManager::GetInstance()->Init(hwnd);
+	D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &_dxFactory);
+
+	D2D1_SIZE_U size = D2D1::SizeU(_rect.right - _rect.left, _rect.bottom - _rect.top);
+
+	// Create a Direct2D render target.
+	_dxFactory->CreateHwndRenderTarget(
+		D2D1::RenderTargetProperties(),
+		D2D1::HwndRenderTargetProperties(hwnd, size),
+		&_dxRenderTarget);
+
+	// 이미지 로드 초기화
+	CoInitialize(NULL);
+	CoCreateInstance(CLSID_WICImagingFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&_wicFactory));
+
+	wchar_t buffer[MAX_PATH];
+	DWORD length = ::GetCurrentDirectory(MAX_PATH, buffer);
+	fs::path currentPath = fs::path(buffer) / L"../Resources/";
+	ResourceManager::GetInstance()->Init(hwnd, currentPath);
+	
 	TimeManager::GetInstance()->Init();
+	InputManager::GetInstance()->Init(hwnd);
 
 	_currScene = new LobbyScene();
 	_currScene->Init();
-
 }
 
 void Game::Destroy()
 {
 	InputManager::DestroyInstance();
 	TimeManager::DestroyInstance();
+	ResourceManager::DestroyInstance();
+
 
 	if (_currScene)
 	{
 		_currScene->Destroy();
+		SAFE_DELETE(_currScene);
 	}
-	SAFE_DELETE(_currScene);
+
+	SAFE_RELEASE(_dxFactory);
+	SAFE_RELEASE(_dxRenderTarget);
+	SAFE_RELEASE(_wicFactory);
 }
 
 void Game::Update()
@@ -69,26 +94,99 @@ void Game::Update()
 
 void Game::Render()
 {
+	_dxRenderTarget->BeginDraw();
+	_dxRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::Black));
+
+
+	if (_currScene)
+	{
+		_currScene->Render(_dxRenderTarget);
+	}
+
 	uint32 fps = TimeManager::GetInstance()->GetFps();
 	float deltatime = TimeManager::GetInstance()->GetDeltaTime();
+
+	auto brush = ResourceManager::GetInstance()->GetBrush(BrushColor::White);
+	auto font = ResourceManager::GetInstance()->GetFont(FontSize::FONT_12);
 
 	{
 		POINT mousePos = InputManager::GetInstance()->GetMousePos();
 		wstring str = std::format(L"Mouse({0}, {1})", mousePos.x, mousePos.y);
-		::TextOut(_hdcBack, 300, 10, str.c_str(), static_cast<int32>(str.size()));
+		_dxRenderTarget->DrawTextW(
+			str.c_str(),
+			(uint32)str.size(),
+			font,
+			D2D1::RectF(300, 10, 600, 200),
+			brush
+		);
 	}
 
 	{
 		wstring str = std::format(L"FPS({0}), DT({1})", fps, deltatime);
-		::TextOut(_hdcBack, 5, 10, str.c_str(), static_cast<int32>(str.size()));
+		_dxRenderTarget->DrawTextW(
+			str.c_str(),
+			(uint32)str.size(),
+			font,
+			D2D1::RectF(5, 10, 600, 200),
+			brush
+		);
 	}
 
-	if (_currScene)
+	_dxRenderTarget->EndDraw();
+}
+
+void Game::ChangeLobbyScene()
+{
+	if (_nextScene)
 	{
-		_currScene->Render(_hdcBack);
+		SAFE_DELETE(_nextScene);
+	}
+	
+	_nextScene = new LobbyScene;
+}
+
+void Game::ChangeRoomScene()
+{
+	if (_nextScene)
+	{
+		SAFE_DELETE(_nextScene);
 	}
 
-	BitBlt(_hdc, 0, 0, _rect.right, _rect.bottom, _hdcBack, 0, 0, SRCCOPY);
+	_nextScene = new Room;
+}
 
-	PatBlt(_hdcBack, 0, 0, _rect.right, _rect.bottom, WHITENESS);
+void Game::ChangeEditorScene()
+{
+	if (_nextScene)
+	{
+		SAFE_DELETE(_nextScene);
+	}
+
+	_nextScene = new EditorScene;
+}
+
+Vector Game::ConvertScreenPos(Vector worldPos)
+{
+	if (GetCurrScene())
+	{
+		Vector cameraPos = GetCurrScene()->GetCameraPos();
+		Vector pos;
+		pos.x = worldPos.x - (cameraPos.x - GWinSizeX / 2);
+		pos.y = worldPos.y - (cameraPos.y - GWinSizeY / 2);
+		return pos;
+	}
+	return worldPos;
+}
+
+Vector Game::ConvertWorldPos(Vector screenPos)
+{
+	if (GetCurrScene())
+	{
+		Vector cameraPos = GetCurrScene()->GetCameraPos();
+		Vector pos;
+		pos.x = screenPos.x + (cameraPos.x - GWinSizeX / 2);
+		pos.y = screenPos.y + (cameraPos.y - GWinSizeY / 2);
+		return pos;
+	}
+	return screenPos;
 }

@@ -5,12 +5,16 @@ class Player : public Creature
 {
 	using Super = Creature;
 public:
+	Player(Vector pos);
 	virtual void Destroy()override;
 	virtual void Init()override;
 
 	virtual void Update(float deltatime)override;
 	virtual void Render(HDC hdc)override;
 private:
-	float 
+
+	DirType HeadDir = DirType::DIR_MAX;
+	DirType BodyDir = DirType::DIR_MAX;
+	State currentState = State::S_IDLE;
 };
 

@@ -114,14 +114,20 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="ImageRenderer.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteRenderer.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Sound.h">
       <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseResource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="DXBitmap.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -188,14 +194,17 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="ImageRenderer.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Sound.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseResource.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="DXBitmap.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
