@@ -1,15 +1,17 @@
 #pragma once
+#include "Component.h"
 
 class DXBitmap;
 
-class BaseResource
+class BaseResource : public Component
 {
+
 public:
 	BaseResource(string key, int32 width, int32 height);
 	virtual ~BaseResource();
 
-	virtual void Update(float deltaTime) {}
-	virtual void Render(ID2D1RenderTarget* renderTarget, Vector pos) {}
+	virtual void UpdateComponent(float deltaTime) {}
+	virtual void RenderComponent(ID2D1RenderTarget* renderTarget, Vector pos) {}
 
 	Dimension GetSize() { return _size; }
 	void SetBitmapKey(string key, int32 width = 0, int32 height = 0);

@@ -5,9 +5,10 @@
 #include "ResourceManager.h"
 
 #include "LobbyScene.h"
-#include "Stage_Scene.h"
+#include "Stage.h"
 #include "EditorScene.h"
 #include "Room.h"
+#include "PlayScene.h"
 
 void Game::Init(HWND hwnd)
 {
@@ -89,7 +90,6 @@ void Game::Update()
 	if (_currScene)
 	{
 		_currScene->Update(TimeManager::GetInstance()->GetDeltaTime());
-		_currScene->PostUpdate(TimeManager::GetInstance()->GetDeltaTime());
 	}
 }
 
@@ -146,14 +146,14 @@ void Game::ChangeLobbyScene()
 	_nextScene = new LobbyScene;
 }
 
-void Game::ChangeRoomScene()
+void Game::ChangePlayScene()
 {
 	if (_nextScene)
 	{
 		SAFE_DELETE(_nextScene);
 	}
 
-	_nextScene = new Room;
+	_nextScene = new PlayScene;
 }
 
 void Game::ChangeEditorScene()

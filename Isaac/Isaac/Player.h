@@ -11,6 +11,8 @@ public:
 
 	virtual void Update(float deltatime)override;
 	virtual void Render(ID2D1RenderTarget* _dxRenderTarget)override;
+
+	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Player; }
 private:
 
 	DirType HeadDir = DirType::DIR_MAX;

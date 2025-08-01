@@ -25,10 +25,8 @@ public:
 
 public:
 	void ChangeLobbyScene();
-	void ChangeRoomScene();
+	void ChangePlayScene();
 	void ChangeEditorScene();
-
-	void LoadTexture(wstring path, int maxCountX, int maxCountY);
 
 private:
 	HWND	_hwnd;	// 윈도우 핸들

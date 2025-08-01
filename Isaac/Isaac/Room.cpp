@@ -21,5 +21,5 @@ void Room::Render(ID2D1RenderTarget* _dxRenderTarget)
 
 void Room::CreateTear(Vector pos, DirType dir)
 {
-	Tear* tear = new Tear(pos,dir);
+	//Tear* tear = new Tear(pos,dir);
 }

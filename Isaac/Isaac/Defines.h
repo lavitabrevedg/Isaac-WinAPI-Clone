@@ -45,7 +45,7 @@ enum FontSize
 	FONT_30 = 30,
 };
 
-struct Rect
+struct RectangleXY
 {
 	float    left;
 	float    top;
@@ -87,6 +87,7 @@ enum RenderLayer
 	RL_Enemy,
 	RL_Player,
 	RL_Effect,
+	RL_Tear,
 	RL_UI,	// UI 는 제일 마지막
 	RL_Count
 };

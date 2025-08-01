@@ -20,6 +20,11 @@ public:
 	void Save();
 	void Load();
 
+	virtual void loadResources() override;
+	virtual void createObjects() override;
+	virtual void createUI() override;
+	virtual void initTimer() override;
+
 protected:
 	enum class SELECT_MODE
 	{

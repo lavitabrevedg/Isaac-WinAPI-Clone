@@ -12,39 +12,16 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 
 	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory5), (IUnknown**)&_dwriteFactory);
 
+	
 	{
-		// UI-Item Icon
-		_spriteNames.emplace("UI_Meat1", SpriteInfo{2, 15, "Items", false});
-		_spriteNames.emplace("UI_Potion1", SpriteInfo{4, 19, "Items", false });
-		_spriteNames.emplace("UI_Sword1", SpriteInfo{2, 5, "Items", false });
-		_spriteNames.emplace("UI_Bow1", SpriteInfo{3, 6, "Items", false });
-		_spriteNames.emplace("UI_Armor1", SpriteInfo{5, 7, "Items", false });
+		_spriteNames.emplace("titlemenu", SpriteInfo(0, 0, "titlemenu", false));
+	}
 
-		// Actor-Item Icon
-		_spriteNames.emplace("Meat1", SpriteInfo{ 2, 15, "Items", true });
-		_spriteNames.emplace("Potion1", SpriteInfo{ 4, 19, "Items", true });
-		_spriteNames.emplace("Sword1", SpriteInfo{ 2, 5, "Items", true });
-		_spriteNames.emplace("Bow1", SpriteInfo{ 3, 6, "Items", true });
-		_spriteNames.emplace("Armor1", SpriteInfo{ 5, 7, "Items", true });
-
-		// Effect
-		_spriteNames.emplace("Explosion", SpriteInfo{ 0, 0, "Explosion", true});
-
-		// Map
-		_spriteNames.emplace("TileMap", SpriteInfo{ 0, 0, "TileMap", false });
-
-		// Player
-		_spriteNames.emplace("Warrior_Blue", SpriteInfo{ 0, 0, "Warrior_Blue", true });
-		_spriteNames.emplace("Bow_Blue", SpriteInfo{ 0, 0, "Bow_Blue", true });
-		_spriteNames.emplace("Arrow", SpriteInfo{ 0, 0, "Arrow", true });
-
-		// Enemy
-		_spriteNames.emplace("Torch_Red", SpriteInfo{ 0, 0, "Torch_Red", true });
-
-		// UI
-		_spriteNames.emplace("HUD_AttackIcon", SpriteInfo{ 1, 0, "HudIcons", false });
-		_spriteNames.emplace("HUD_DefenseIcon", SpriteInfo{ 0, 0, "HudIcons", false });
-		_spriteNames.emplace("HUD_Number", SpriteInfo{ 0, 0, "Numbers", false });
+	{
+		//player
+		_spriteNames.emplace("IssacHead", SpriteInfo(0, 0, "IssacHead", false));
+		_spriteNames.emplace("IsaacBodyLeftRight", SpriteInfo(0, 0, "IsaacBodyLeftRight", false));
+		_spriteNames.emplace("IsaacBodyUpDown", SpriteInfo(0, 0, "IsaacBodyUpDown", false));
 	}
 
 	// font

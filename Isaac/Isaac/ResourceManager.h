@@ -32,6 +32,7 @@ private:
 	bool createBrushes();
 	void createSpriteNameInfo(string spriteName, int32 xCount, int32 totalCount, wstring bitmapKey);
 
+
 public:
 	HWND _hwnd;
 	fs::path _resourcePath;

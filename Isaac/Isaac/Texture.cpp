@@ -12,7 +12,7 @@ Texture::~Texture()
 {
 }
 
-void Texture::Render(ID2D1RenderTarget* renderTarget, Vector pos)
+void Texture::RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
 {
     if (_bitmap->GetBitmap() == nullptr)
         return;
@@ -29,7 +29,7 @@ void Texture::Render(ID2D1RenderTarget* renderTarget, Vector pos)
         pos.x + static_cast<float>(_size.Width),
         pos.y + static_cast<float>(_size.Height)
     );
-    renderTarget->DrawBitmap(_bitmap->GetBitmap(), destLeft, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, &srcLeft);
+    _dxRenderTarget->DrawBitmap(_bitmap->GetBitmap(), destLeft, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, &srcLeft);
 }
 
 void Texture::Render(ID2D1RenderTarget* renderTarget, D2D1_RECT_F src, D2D1_RECT_F dest)

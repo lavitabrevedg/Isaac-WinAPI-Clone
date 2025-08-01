@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "RectCollider.h"
 #include "Actor.h"
-//#include "ResourceManager.h"
+#include "ResourceManager.h"
 
 RectCollider::RectCollider(Actor* actor, float width, float height)
 {
@@ -30,17 +30,7 @@ void RectCollider::RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector po
 {
 	return;
 
-	//// 충돌 영역을 그리기
-	//HPEN pen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
-	//HGDIOBJ oldPen = SelectObject(hdc, pen);
-
-	//HBRUSH brush = (HBRUSH)GetStockObject(NULL_BRUSH);
-	//HBRUSH oldbrush = (HBRUSH)::SelectObject(hdc, brush);
-
-	//Rectangle(hdc, (int)_collision.left, (int)_collision.top, (int)_collision.right, (int)_collision.bottom);
-	//
-	//SelectObject(hdc, oldPen);
-	//DeleteObject(pen);
-	//SelectObject(hdc, oldbrush);
-	//DeleteObject(brush);
+	// 충돌 영역을 그리기
+	const D2D1_RECT_F rc = { _collision.left, _collision.top, _collision.right, _collision.bottom };
+	_dxRenderTarget->DrawRectangle(rc, ResourceManager::GetInstance()->GetBrush(BrushColor::Red), 1.0, 0);
 }

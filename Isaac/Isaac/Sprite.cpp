@@ -14,7 +14,7 @@ Sprite::~Sprite()
 
 }
 
-void Sprite::Render(ID2D1RenderTarget* renderTarget, Vector pos)
+void Sprite::RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
 {
 	Dimension frameSize = _bitmap->GetFrameSize();
 
@@ -50,7 +50,7 @@ void Sprite::Render(ID2D1RenderTarget* renderTarget, Vector pos)
 
 	// 기존 변환 상태 저장
 	D2D1::Matrix3x2F originalTransform;
-	renderTarget->GetTransform(&originalTransform);
+	_dxRenderTarget->GetTransform(&originalTransform);
 
 	D2D1::Matrix3x2F finalTransform = originalTransform;
 	D2D1::Matrix3x2F scaleTransform = D2D1::Matrix3x2F::Scale(
@@ -79,13 +79,13 @@ void Sprite::Render(ID2D1RenderTarget* renderTarget, Vector pos)
 	}
 
 	// 최종 변환
-	renderTarget->SetTransform(finalTransform);
+	_dxRenderTarget->SetTransform(finalTransform);
 
 	// 비트맵 렌더링
-	renderTarget->DrawBitmap(_bitmap->GetBitmap(), destRect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, &srcRect);
+	_dxRenderTarget->DrawBitmap(_bitmap->GetBitmap(), destRect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, &srcRect);
 
 	// 원래 변환 상태 복원
-	renderTarget->SetTransform(originalTransform);
+	_dxRenderTarget->SetTransform(originalTransform);
 
 }
 //

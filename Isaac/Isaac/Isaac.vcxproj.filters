@@ -84,9 +84,6 @@
     <ClInclude Include="EditorScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Stage_Scene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="LobbyScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -129,6 +126,15 @@
     <ClInclude Include="ObjectPool.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="PlayScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Isaac.cpp">
@@ -162,9 +168,6 @@
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="EditorScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage_Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="LobbyScene.cpp">
@@ -205,6 +208,15 @@
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

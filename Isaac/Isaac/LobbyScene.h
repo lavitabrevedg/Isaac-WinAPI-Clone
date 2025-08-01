@@ -10,5 +10,10 @@ public:
 	virtual void Destroy() override;
 	virtual void Update(float deltatime) override;
 	virtual void Render(ID2D1RenderTarget* _dxRenderTarget) override;
+
+	virtual void loadResources() override;
+	virtual void createObjects() override;
+	virtual void createUI() override;
+	virtual void initTimer() override;
 };
 

@@ -30,3 +30,23 @@ void EditorScene::Load()
 {
 
 }
+
+void EditorScene::loadResources()
+{
+	
+}
+
+void EditorScene::createObjects()
+{
+
+}
+
+void EditorScene::createUI()
+{
+
+}
+
+void EditorScene::initTimer()
+{
+
+}

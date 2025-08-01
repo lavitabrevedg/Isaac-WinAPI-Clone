@@ -17,6 +17,7 @@ class Creature : public Actor
 public:
 	Creature(Vector pos);
 	virtual ~Creature();
+	virtual RenderLayer GetRenderLayer() abstract;
 
 protected:
 	int _hp;
