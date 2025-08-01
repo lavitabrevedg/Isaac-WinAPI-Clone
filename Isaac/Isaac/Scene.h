@@ -17,7 +17,7 @@ public:
 	virtual void createUI() abstract;
 	virtual void initTimer() abstract;
 
-private:
+protected:
 	unordered_set<class Actor*> _actors;
 	vector<class Actor*> _renderList[RenderLayer::RL_Count];
 

@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
+#include "Map.h"
 
 void LobbyScene::Init()
 {
@@ -30,12 +31,16 @@ void LobbyScene::Render(ID2D1RenderTarget* _dxRenderTarget)
 
 void LobbyScene::loadResources()
 {
-	ResourceManager::GetInstance()->LoadDXBitmap("titlemenu", L"Menu/titlemenu.png", 1, 2);
+	ResourceManager::GetInstance()->LoadDXBitmap("titlemenu", L"Menu/titlemenu.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("titlemenu2", L"Menu/titlemenu2.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("titlemenu3", L"Menu/titlemenu3.png", 1, 1);
 	
 }
 
 void LobbyScene::createObjects()
 {
+	Map* Mainmap = new Map(Vector{ 0,0 });
+	_actors.insert(Mainmap);
 }
 
 void LobbyScene::createUI()

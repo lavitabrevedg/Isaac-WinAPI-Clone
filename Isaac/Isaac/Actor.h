@@ -21,7 +21,7 @@ public:
 protected:
 	class Sprite* CreateSpriteComponent(string spriteName, int32 width, int32 height);
 	class Texture* CreateTextureComponent(string bitmapKey, int32 width, int32 height);
-
+	class RectCollider* CreateRectCollider(int32 width, int32 height);
 
 protected:
 	vector<Component*> _components;

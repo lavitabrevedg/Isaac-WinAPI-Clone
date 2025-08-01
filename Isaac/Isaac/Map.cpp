@@ -3,7 +3,7 @@
 
 Map::Map(Vector pos) : Super(pos)
 {
-	_selector = CreateTextureComponent("titlemenu",480,272);
+	_selector = CreateTextureComponent("titlemenu", GWinSizeX, GWinSizeY);
 }
 
 void Map::Init()

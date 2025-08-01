@@ -29,12 +29,15 @@ void PlayScene::Render(ID2D1RenderTarget* _dxRenderTarget)
 void PlayScene::loadResources()
 {
 	ResourceManager::GetInstance()->LoadDXBitmap("IssacHead", L"Player/IsaacHead.png", 8, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("IsaacBodyLeftRight", L"Player/IsaacBodyLeftRight.png", 10, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("IsaacBodyUpDown", L"Player/IsaacBodyUpDown.png", 10, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("IsaacBodySide", L"Player/IsaacBodySide.png", 10, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("IsaacBody", L"Player/IsaacBody.png", 10, 1);
 }
 
 void PlayScene::createObjects()
 {
+	Player* player = new Player(Vector(GWinSizeX / 2, GWinSizeY / 2));
+	player->Init();
+	_actors.insert(player);
 }
 
 void PlayScene::createUI()

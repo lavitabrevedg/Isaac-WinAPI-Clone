@@ -20,8 +20,6 @@ void Scene::Init()
 	// 타이머 추가
 	initTimer();
 
-	Map* Mainmap = new Map(Vector{ GWinSizeX / 2,GWinSizeY / 2 });
-	_actors.insert(Mainmap);
 }
 
 void Scene::Destroy()

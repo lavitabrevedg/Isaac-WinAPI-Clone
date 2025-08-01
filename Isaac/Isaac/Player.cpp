@@ -12,6 +12,10 @@ Player::Player(Vector pos) : Super(pos)
 	_hp = 3;
 	_atk = 3.5f;
 	_speed = 500.f;
+
+	_Head = CreateSpriteComponent("IssacHead", 39, 30);
+	//_Body = CreateSpriteComponent("IsaacBodySide", 39, 30);
+	//_SideBody = CreateSpriteComponent("IsaacBody", 39, 30);
 }
 
 void Player::Destroy()
@@ -29,15 +33,21 @@ void Player::Update(float deltatime)
 {
 	Super::Update(deltatime);
 
-	if (InputManager::GetInstance()->GetButtonPressed(KeyType::A)) { _pos.x -= _speed * deltatime; BodyDir = DIR_LEFT; }
-	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::D)) { _pos.x += _speed * deltatime; BodyDir = DIR_RIGHT;}
-	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::W)) { _pos.y -= _speed * deltatime; BodyDir = DIR_UP; }
-	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::S)) { _pos.y += _speed * deltatime; BodyDir = DIR_DOWN; }
+	float mess = 1.1f;
+	float moveForce = 500;
+	Vector acceleration = { 0,0 };
+
+	if (InputManager::GetInstance()->GetButtonPressed(KeyType::A)) { acceleration.x -= moveForce / mess; BodyDir = DIR_LEFT; }
+	if (InputManager::GetInstance()->GetButtonPressed(KeyType::D)) { acceleration.x += moveForce / mess; BodyDir = DIR_RIGHT;}
+	if (InputManager::GetInstance()->GetButtonPressed(KeyType::W)) { acceleration.y -= moveForce / mess; BodyDir = DIR_UP; }
+	if (InputManager::GetInstance()->GetButtonPressed(KeyType::S)) { acceleration.y += moveForce / mess; BodyDir = DIR_DOWN; }
 
 	if (InputManager::GetInstance()->GetButtonPressed(KeyType::Left)) { HeadDir = DIR_LEFT; }
-	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Right)) { HeadDir = DIR_RIGHT; }
-	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Up)) { HeadDir = DIR_UP; }
-	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Down)) { HeadDir = DIR_DOWN; }
+	if (InputManager::GetInstance()->GetButtonPressed(KeyType::Right)) { HeadDir = DIR_RIGHT; }
+	if (InputManager::GetInstance()->GetButtonPressed(KeyType::Up)) { HeadDir = DIR_UP; }
+	if (InputManager::GetInstance()->GetButtonPressed(KeyType::Down)) { HeadDir = DIR_DOWN; }
+
+	_pos += acceleration * deltatime;
 }
 
 void Player::Render(ID2D1RenderTarget* _dxRenderTarget)

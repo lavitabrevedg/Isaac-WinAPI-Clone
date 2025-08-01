@@ -67,3 +67,10 @@ Texture* Actor::CreateTextureComponent(string bitmapKey, int32 width, int32 heig
 	_components.emplace_back(sprite);
 	return sprite;
 }
+
+RectCollider* Actor::CreateRectCollider(int32 width, int32 height)
+{
+	RectCollider* collider = new RectCollider(this, width, height);
+	_components.emplace_back(collider);
+	return collider;
+}

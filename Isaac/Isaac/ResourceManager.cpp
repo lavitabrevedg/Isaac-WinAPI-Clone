@@ -11,17 +11,18 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 	_resourcePath = directory;
 
 	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory5), (IUnknown**)&_dwriteFactory);
-
 	
 	{
 		_spriteNames.emplace("titlemenu", SpriteInfo(0, 0, "titlemenu", false));
+		_spriteNames.emplace("titlemenu2", SpriteInfo(0, 0, "titlemenu2", false));
+		_spriteNames.emplace("titlemenu3", SpriteInfo(0, 0, "titlemenu3", false));
 	}
 
 	{
 		//player
 		_spriteNames.emplace("IssacHead", SpriteInfo(0, 0, "IssacHead", false));
-		_spriteNames.emplace("IsaacBodyLeftRight", SpriteInfo(0, 0, "IsaacBodyLeftRight", false));
-		_spriteNames.emplace("IsaacBodyUpDown", SpriteInfo(0, 0, "IsaacBodyUpDown", false));
+		_spriteNames.emplace("IsaacBodySide", SpriteInfo(0, 0, "IsaacBodySide", false));
+		_spriteNames.emplace("IsaacBody", SpriteInfo(0, 0, "IsaacBody", false));
 	}
 
 	// font

@@ -28,8 +28,6 @@ void RectCollider::UpdateComponent(float deltaTime)
 
 void RectCollider::RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
 {
-	return;
-
 	// 충돌 영역을 그리기
 	const D2D1_RECT_F rc = { _collision.left, _collision.top, _collision.right, _collision.bottom };
 	_dxRenderTarget->DrawRectangle(rc, ResourceManager::GetInstance()->GetBrush(BrushColor::Red), 1.0, 0);

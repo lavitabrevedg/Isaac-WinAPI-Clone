@@ -18,5 +18,10 @@ private:
 	DirType HeadDir = DirType::DIR_MAX;
 	DirType BodyDir = DirType::DIR_MAX;
 	State currentState = State::S_IDLE;
+
+	class Sprite* _Head = nullptr;
+	class Sprite* _SideBody = nullptr;
+	class Sprite* _Body = nullptr;
+	class Texture* _selector = nullptr;
 };
 
