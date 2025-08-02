@@ -1,5 +1,9 @@
 #include "pch.h"
 #include "EditorScene.h"
+#include "ResourceManager.h"
+#include "Player.h"
+#include "Monster.h"
+#include "Map.h"
 
 void EditorScene::Init()
 {
@@ -33,7 +37,7 @@ void EditorScene::Load()
 
 void EditorScene::loadResources()
 {
-	
+	ResourceManager::GetInstance()->LoadDXBitmap()
 }
 
 void EditorScene::createObjects()
