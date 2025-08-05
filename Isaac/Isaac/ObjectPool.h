@@ -1,11 +1,11 @@
 #pragma once
-#include <stack>
+#include "Actor.h"
 
 template <typename T>
-class Pool
+class ObjectPool
 {
-public: //@TODO Pool구현
-	Pool<T>(int size)
+public:
+	void Init(int size)
 	{
 		for (int i = 0; i < size; i++)
 		{
@@ -13,24 +13,39 @@ public: //@TODO Pool구현
 		}
 	}
 
-	~Pool()
+	void Clear()
 	{
-		for (auto& iter : _pool)
+		while (!_pool.empty())
 		{
-			delete iter;
-			iter = nullptr;
-			_pool
+			T* obj = _pool.top();
+			obj->Destroy();
+			SAFE_DELETE(obj);
+			_pool.pop();
 		}
 	}
 
-	T Pull()
+	T* Pull()
 	{
-		
+		if (_pool.empty())
+		{
+			for (int i = 0; i < 5; i++)
+			{
+				_pool.push(new T());
+			}
+		}
+
+		T* obj = static_cast<T*>(_pool.top());
+		_pool.pop();
+
+		return obj;
 	}
 
 	void RePush(T* obj)
 	{
+		if (obj == nullptr)
+			return;
 
+		_pool.push(obj);
 	}
 
 private:

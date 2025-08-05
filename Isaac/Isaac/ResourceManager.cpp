@@ -25,6 +25,11 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 		_spriteNames.emplace("IsaacBody", SpriteInfo(0, 0, "IsaacBody", false));
 	}
 
+	{
+		//Tear
+		_spriteNames.emplace("Tear", SpriteInfo(0, 0, "Tear", false));
+	}
+
 	// font
 	{
 		loadFont();

@@ -8,7 +8,7 @@
 #include "Sprite.h"
 #include "Texture.h"
 
-Actor::Actor(Vector pos) : _pos(pos)
+Actor::Actor()
 {
 }
 
@@ -16,9 +16,9 @@ Actor::~Actor()
 {
 }
 
-void Actor::Init()
+void Actor::Init(Vector pos)
 {
-
+	_pos = pos;
 }
 
 void Actor::Destroy()
@@ -72,5 +72,6 @@ RectCollider* Actor::CreateRectCollider(int32 width, int32 height)
 {
 	RectCollider* collider = new RectCollider(this, width, height);
 	_components.emplace_back(collider);
+	_collision = collider->GetCollisionRect();
 	return collider;
 }

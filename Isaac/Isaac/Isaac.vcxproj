@@ -129,6 +129,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="BaseResource.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="ChaseMonster.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Creature.h" />
     <ClInclude Include="Defines.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="BaseResource.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="ChaseMonster.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="Defines.cpp" />
@@ -170,6 +172,7 @@
     <ClCompile Include="EditorScene.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Room.cpp" />

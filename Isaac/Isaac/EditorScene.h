@@ -12,18 +12,21 @@ class EditorScene : public Scene
 	using Super = Scene;
 	
 public:
-	virtual void Init() override;
-	virtual void Destroy() override;
-	virtual void Update(float deltatime) override;
-	virtual void Render(ID2D1RenderTarget* _dxRenderTarget) override;
+	EditorScene();
+	~EditorScene();
+	
+	void Init() override;
+	void Destroy() override;
+	void Update(float deltatime) override;
+	void Render(ID2D1RenderTarget* _dxRenderTarget) override;
 
 	void Save();
 	void Load();
 
-	virtual void loadResources() override;
-	virtual void createObjects() override;
-	virtual void createUI() override;
-	virtual void initTimer() override;
+	void loadResources() override;
+	void createObjects() override;
+	void createUI() override;
+	void initTimer() override;
 
 protected:
 	enum class SELECT_MODE

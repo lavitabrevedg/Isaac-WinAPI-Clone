@@ -5,12 +5,17 @@ class Monster : public Creature
 {
 	using Super = Creature;
 public:
+	Monster();
+	virtual ~Monster();
 	virtual void Destroy()override;
-	virtual void Init()override;
+	virtual void Init(Vector pos)override;
 
 	virtual void Update(float deltatime)override;
 	virtual void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 
-	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Enemy; }
+	RenderLayer GetRenderLayer() override { return RenderLayer::RL_Monster; }
+
+private:
+	Actor* Target;
 };
 

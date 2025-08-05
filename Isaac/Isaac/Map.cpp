@@ -1,14 +1,15 @@
 #include "pch.h"
 #include "Map.h"
 
-Map::Map(Vector pos) : Super(pos)
+Map::Map()
 {
 	_selector = CreateTextureComponent("titlemenu", GWinSizeX, GWinSizeY);
 }
 
-void Map::Init()
+void Map::Init(Vector pos)
 {
-	Super::Init();
+	_pos = pos;
+	Super::Init(pos);
 }
 
 void Map::Destroy()

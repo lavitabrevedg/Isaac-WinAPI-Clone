@@ -84,7 +84,7 @@ enum RenderLayer
 	RL_Background,
 	RL_Item,
 	RL_Object,
-	RL_Enemy,
+	RL_Monster,
 	RL_Player,
 	RL_Effect,
 	RL_Tear,

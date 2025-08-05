@@ -5,6 +5,14 @@
 #include "ResourceManager.h"
 #include "Map.h"
 
+LobbyScene::LobbyScene()
+{
+}
+
+LobbyScene::~LobbyScene()
+{
+}
+
 void LobbyScene::Init()
 {
 	Super::Init();
@@ -39,7 +47,8 @@ void LobbyScene::loadResources()
 
 void LobbyScene::createObjects()
 {
-	Map* Mainmap = new Map(Vector{ 0,0 });
+	Map* Mainmap = new Map();
+	Mainmap->Init(Vector{ 0,0 });
 	_actors.insert(Mainmap);
 }
 

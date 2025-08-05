@@ -5,9 +5,9 @@ class Map : public Actor
 {
 	using Super = Actor;
 public:
-	Map(Vector pos);
+	Map();
 
-	virtual void Init();
+	virtual void Init(Vector pos);
 	virtual void Destroy();
 
 	virtual void Update(float deltatime);

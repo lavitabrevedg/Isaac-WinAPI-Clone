@@ -2,12 +2,20 @@
 class Component;
 class BaseResource;
 
+struct TearStat
+{
+	float damage;
+	float tears;
+	float range;
+	float shot_speed;
+};
+
 class Actor
 {
 public:
-	Actor(Vector pos);
+	Actor();
 	virtual ~Actor();
-	virtual void Init();
+	virtual void Init(Vector pos);
 	virtual void Destroy();
 
 	virtual void Update(float deltatime);
@@ -28,6 +36,6 @@ protected:
 	Vector _pos;
 	Vector _cellpos;
 	Sprite* _sprite = nullptr;
-	Rect _collision;
+	RECT* _collision;
 };
 

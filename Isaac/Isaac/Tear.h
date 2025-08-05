@@ -5,15 +5,34 @@ class Tear : public Actor
 {
 	using Super = Actor;
 public:
-	Tear(Vector pos, DirType dir);
+	Tear();
 	virtual void Destroy()override;
-	virtual void Init()override;
+	virtual void Init(Vector pos, DirType dir, TearStat stat, Vector playervelocity);
 
 	virtual void Update(float deltatime)override;
 	virtual void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 
 	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Tear; }
 
+
 private:
+	DirType _dirtype = DirType::DIR_MAX;
+	Vector _dir[DirType::DIR_MAX] =
+	{
+		Vector{-1,0},
+		Vector{1,0},
+		Vector{0,-1},
+		Vector{0,1}
+	};
+	TearStat _tearStat;
+	class Texture* _tear = nullptr;
+
+	float _z;
+	float _gravity;
+	float _zvelocity = {};
+	Vector _velocity = {};
+
+	float _distance;
+	bool falling;
 };
 

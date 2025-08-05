@@ -5,6 +5,14 @@
 #include "Monster.h"
 #include "Map.h"
 
+EditorScene::EditorScene()
+{
+}
+
+EditorScene::~EditorScene()
+{
+}
+
 void EditorScene::Init()
 {
 	Super::Init();
@@ -37,7 +45,7 @@ void EditorScene::Load()
 
 void EditorScene::loadResources()
 {
-	ResourceManager::GetInstance()->LoadDXBitmap()
+
 }
 
 void EditorScene::createObjects()
