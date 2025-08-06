@@ -30,6 +30,31 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 		_spriteNames.emplace("Tear", SpriteInfo(0, 0, "Tear", false));
 	}
 
+	{
+		//room
+		_spriteNames.emplace("Guid", SpriteInfo(0, 0, "Guid", false));
+		_spriteNames.emplace("Tile", SpriteInfo(0, 0, "Tile", false));
+		_spriteNames.emplace("Well", SpriteInfo(0, 0, "Well", false));
+	}
+
+	{
+		//monster
+		_spriteNames.emplace("Combat", SpriteInfo(1, 1, "Combat", true));
+		_spriteNames.emplace("Fly", SpriteInfo(1, 1, "Fly", true));
+		_spriteNames.emplace("Fly2", SpriteInfo(1, 1, "Fly2", true));
+		_spriteNames.emplace("Monstro", SpriteInfo(1, 1, "Monstro", true));
+	}
+
+	{
+		//Items
+		_spriteNames.emplace("Bomb", SpriteInfo(1, 1, "Bomb", false));
+		_spriteNames.emplace("Bomb Animat", SpriteInfo(1, 1, "Bomb Animat", true));
+		_spriteNames.emplace("Chest", SpriteInfo(1, 1, "Chest", true));
+		_spriteNames.emplace("Heart", SpriteInfo(1, 1, "Heart", false));
+		_spriteNames.emplace("Key", SpriteInfo(1, 1, "Key", false));
+		_spriteNames.emplace("Penny1", SpriteInfo(1, 1, "Penny1", true));
+	}
+
 	// font
 	{
 		loadFont();
