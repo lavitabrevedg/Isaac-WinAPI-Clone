@@ -32,8 +32,8 @@ protected:
 	enum class SELECT_MODE
 	{
 		ROOM,
-		Object,
-		Creature,
+		OBJECT,
+		CREATURE,
 		COUNT,
 	};
 
