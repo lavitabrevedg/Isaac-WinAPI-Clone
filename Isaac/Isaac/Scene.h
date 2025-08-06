@@ -26,7 +26,7 @@ public:
 
 	void ReserveRemove(Actor* actor);
 	void ReserveAdd(Actor* actor);
-	//@TODO 그리드시스템
+
 protected:
 	unordered_set<Actor*> _actors;
 	vector<class Actor*> _renderList[RenderLayer::RL_Count];

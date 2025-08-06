@@ -2,6 +2,13 @@
 
 #include "Monster.h"
 
+enum MonsterState
+{
+	MS_IDLE,
+	MS_CHASE,
+	MS_MAX
+};
+
 class ChaseMonster : public Monster
 {
 	using Super = Monster;
@@ -13,4 +20,7 @@ public:
 
 	virtual void Update(float deltatime)override;
 	virtual void Render(ID2D1RenderTarget* _dxRenderTarget)override;
+
+private:
+	class Texture* _monster;
 };

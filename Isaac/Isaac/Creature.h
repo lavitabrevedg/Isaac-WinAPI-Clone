@@ -1,16 +1,6 @@
 #pragma once
 #include "Actor.h"
 
-enum class State
-{
-	S_IDLE,
-	S_WALK,
-	S_ATTACK,
-	S_GETUSEITEM,
-	S_ONDAMAGE,
-	S_MAX
-};
-
 class Creature : public Actor
 {
 	using Super = Actor;
@@ -36,8 +26,4 @@ protected:
 	Vector _acceleration;
 	float _maxSpeed;
 	float _friction;
-
-	DirType _headDir = DirType::DIR_MAX;
-	DirType _bodyDir = DirType::DIR_MAX;
-	State _currentState = State::S_IDLE;
 };

@@ -14,6 +14,7 @@ public:
 	virtual void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 
 	RenderLayer GetRenderLayer() override { return RenderLayer::RL_Monster; }
+	Vector GetPlayerVelocity()override { return _velocity; };
 
 private:
 	Actor* Target;

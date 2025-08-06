@@ -20,15 +20,15 @@ void RectCollider::InitComponent()
 
 void RectCollider::UpdateComponent(float deltaTime)
 {
-	_collision.left = _owner->GetPos().x + _width * -0.5f;
-	_collision.right = _owner->GetPos().x + _width * 0.5f;
-	_collision.top = _owner->GetPos().y + _height * -0.5f;
-	_collision.bottom = _owner->GetPos().y + _height * 0.5f;
+	_collision.left = (LONG)(_owner->GetPos().x + _width * -0.5f);
+	_collision.right = (LONG)(_owner->GetPos().x + _width * 0.5f);
+	_collision.top = (LONG)(_owner->GetPos().y + _height * -0.5f);
+	_collision.bottom = (LONG)(_owner->GetPos().y + _height * 0.5f);
 }
 
 void RectCollider::RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
 {
 	// 충돌 영역을 그리기
-	const D2D1_RECT_F rc = { _collision.left, _collision.top, _collision.right, _collision.bottom };
+	const D2D1_RECT_F rc = { (float)_collision.left, (float)_collision.top, (float)_collision.right, (float)_collision.bottom };
 	_dxRenderTarget->DrawRectangle(rc, ResourceManager::GetInstance()->GetBrush(BrushColor::Red), 1.0, 0);
 }

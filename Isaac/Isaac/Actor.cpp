@@ -57,7 +57,6 @@ Sprite* Actor::CreateSpriteComponent(string spriteName, int32 width, int32 heigh
 	sprite->SetIndex(info->indexX, info->indexY);
 	sprite->SetApplyCamera(GetRenderLayer() != RenderLayer::RL_UI);
 
-	_components.emplace_back(sprite);
 	return sprite;
 }
 
@@ -74,4 +73,26 @@ RectCollider* Actor::CreateRectCollider(int32 width, int32 height)
 	_components.emplace_back(collider);
 	_collision = collider->GetCollisionRect();
 	return collider;
+}
+
+void AnimationController::SetAnim(const AnimInfo& newInfo)
+{
+	info = newInfo;
+	curFrame = 0;
+	timer = 0.f;
+	endAnim = false;
+}
+
+void AnimationController::Update(float deltatime, Sprite* sprite)
+{
+	timer += deltatime;
+	if (timer > info.durtaion)
+	{
+		timer -= info.durtaion;
+		curFrame = (curFrame + 1) % info.countX;
+		sprite->SetIndex(info.startX + curFrame, info.startY);
+		sprite->SetFlip(info.flipX);
+		if (curFrame == 0)
+			endAnim = true;
+	}
 }

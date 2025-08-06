@@ -10,7 +10,7 @@ public:
 
 	void InitComponent() override;
 	void UpdateComponent(float deltaTime) override;
-	void RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos) override;
+	void RenderComponent(ID2D1RenderTarget* _dxRenderTarget,Vector pos) override;
 
 	RECT* GetCollisionRect() { return &_collision; }
 

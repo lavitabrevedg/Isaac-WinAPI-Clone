@@ -1,9 +1,12 @@
 #include "pch.h"
 #include "ChaseMonster.h"
+#include "Sprite.h"
+#include "Texture.h"
 
 ChaseMonster::ChaseMonster()
 {
 	_hp = 3;
+
 }
 
 ChaseMonster::~ChaseMonster()

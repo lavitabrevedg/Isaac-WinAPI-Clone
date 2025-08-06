@@ -13,46 +13,45 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 	DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory5), (IUnknown**)&_dwriteFactory);
 	
 	{
-		_spriteNames.emplace("titlemenu", SpriteInfo(0, 0, "titlemenu", false));
-		_spriteNames.emplace("titlemenu2", SpriteInfo(0, 0, "titlemenu2", false));
-		_spriteNames.emplace("titlemenu3", SpriteInfo(0, 0, "titlemenu3", false));
+		_spriteNames.emplace("titlemenu", SpriteInfo(0, 0, "titlemenu", true));
+		_spriteNames.emplace("titlemenu2", SpriteInfo(0, 0, "titlemenu2", true));
+		_spriteNames.emplace("titlemenu3", SpriteInfo(0, 0, "titlemenu3", true));
 	}
 
 	{
 		//player
-		_spriteNames.emplace("IssacHead", SpriteInfo(0, 0, "IssacHead", false));
-		_spriteNames.emplace("IsaacBodySide", SpriteInfo(0, 0, "IsaacBodySide", false));
-		_spriteNames.emplace("IsaacBody", SpriteInfo(0, 0, "IsaacBody", false));
+		_spriteNames.emplace("IsaacHead", SpriteInfo(0, 0, "IsaacHead", true));
+		_spriteNames.emplace("IsaacBody", SpriteInfo(0, 0, "IsaacBody", true));
 	}
 
 	{
 		//Tear
-		_spriteNames.emplace("Tear", SpriteInfo(0, 0, "Tear", false));
+		_spriteNames.emplace("Tear", SpriteInfo(0, 0, "Tear", true));
 	}
 
 	{
 		//room
-		_spriteNames.emplace("Guid", SpriteInfo(0, 0, "Guid", false));
-		_spriteNames.emplace("Tile", SpriteInfo(0, 0, "Tile", false));
-		_spriteNames.emplace("Well", SpriteInfo(0, 0, "Well", false));
+		_spriteNames.emplace("Guid", SpriteInfo(0, 0, "Guid", true));
+		_spriteNames.emplace("Tile", SpriteInfo(0, 0, "Tile", true));
+		_spriteNames.emplace("Well", SpriteInfo(0, 0, "Well", true));
 	}
 
 	{
 		//monster
-		_spriteNames.emplace("Combat", SpriteInfo(1, 1, "Combat", true));
+		_spriteNames.emplace("Combat", SpriteInfo(0, 0, "Combat", true));
 		_spriteNames.emplace("Fly", SpriteInfo(1, 1, "Fly", true));
 		_spriteNames.emplace("Fly2", SpriteInfo(1, 1, "Fly2", true));
-		_spriteNames.emplace("Monstro", SpriteInfo(1, 1, "Monstro", true));
+		_spriteNames.emplace("Monstrobase", SpriteInfo(1, 1, "Monstrobase", true));
 	}
 
 	{
 		//Items
-		_spriteNames.emplace("Bomb", SpriteInfo(1, 1, "Bomb", false));
-		_spriteNames.emplace("Bomb Animat", SpriteInfo(1, 1, "Bomb Animat", true));
-		_spriteNames.emplace("Chest", SpriteInfo(1, 1, "Chest", true));
-		_spriteNames.emplace("Heart", SpriteInfo(1, 1, "Heart", false));
-		_spriteNames.emplace("Key", SpriteInfo(1, 1, "Key", false));
-		_spriteNames.emplace("Penny1", SpriteInfo(1, 1, "Penny1", true));
+		_spriteNames.emplace("Bomb", SpriteInfo(0, 0, "Bomb", true));
+		_spriteNames.emplace("Bomb Animat", SpriteInfo(0, 0, "Bomb Animat", true));
+		_spriteNames.emplace("Chest", SpriteInfo(0, 0, "Chest", true));
+		_spriteNames.emplace("Heart", SpriteInfo(0, 0, "Heart", true));
+		_spriteNames.emplace("Key", SpriteInfo(0, 0, "Key", true));
+		_spriteNames.emplace("Penny1", SpriteInfo(0, 0, "Penny1", true));
 	}
 
 	// font

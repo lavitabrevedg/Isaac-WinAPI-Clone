@@ -1,21 +1,23 @@
 #pragma once
 #include "Actor.h"
 
-class Map : public Actor
+class DropItem : public Actor
 {
 	using Super = Actor;
 public:
-	Map();
-
+	DropItem();
 	void Init(Vector pos)override;
 	void Destroy()override;
 
 	void Update(float deltatime)override;
 	void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 
-	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Background; }
+	RenderLayer GetRenderLayer()override { return RenderLayer::RL_Item; }
+
 private:
-	class Sprite* _tile = nullptr;
-	class Texture* _selector = nullptr;
+	class Sprite* _sprite;
+	Vector _pos;
+
+	AnimationController _Anim;
 };
 

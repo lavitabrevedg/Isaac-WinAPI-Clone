@@ -44,7 +44,7 @@ void Tear::Update(float deltatime)
 	else {
 		_zvelocity -= _gravity * deltatime;
 		_z += _zvelocity * deltatime;
-		_pos += _velocity * deltatime * 0.3f; //@TODO 구현 안된거같음
+		_pos += _velocity * deltatime * 0.3f;
 		if (_z <= 0) {
 			// 터짐/삭제
 			PlayScene::GetGameScene()->RemoveTear(this);
