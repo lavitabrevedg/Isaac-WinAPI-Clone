@@ -25,11 +25,8 @@ public:
 
 	const Vector& GetPos() { return _pos; }
 	const Vector& GetCellPos() { return _cellpos; }
-	void SetCellpos(float x, float y)
-	{
-		_cellpos.x = x;
-		_cellpos.y = y;
-	}
+
+	void SetPos(Vector newPos);
 
 protected:
 	class Sprite* CreateSpriteComponent(string spriteName, int32 width = 0, int32 height = 0);
@@ -41,7 +38,6 @@ protected:
 	Vector _pos;
 	Vector _cellpos;
 	RECT* _collision;
-
 };
 
 struct AnimationController
@@ -54,5 +50,6 @@ struct AnimationController
 	void SetAnim(const AnimInfo& newInfo);
 	void Update(float deltatime, Sprite* sprite);
 	bool IsEndAnim() { return endAnim; }
+
 };
 

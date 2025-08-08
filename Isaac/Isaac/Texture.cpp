@@ -12,7 +12,7 @@ Texture::~Texture()
 {
 }
 
-void Texture::RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
+void Texture::RenderImage(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
 {
     if (_bitmap->GetBitmap() == nullptr)
         return;

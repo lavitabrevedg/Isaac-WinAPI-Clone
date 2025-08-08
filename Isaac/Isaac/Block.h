@@ -11,7 +11,7 @@ class Block : public Actor
 {
 	using Super = Actor;
 public:
-	Block();
+	Block(string spriteName, int32 width, int32 height);
 
 	virtual void Init(Vector pos);
 	virtual void Destroy();

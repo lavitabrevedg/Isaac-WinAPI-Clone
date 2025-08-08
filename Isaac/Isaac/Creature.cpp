@@ -11,7 +11,6 @@ Creature::~Creature()
 
 void Creature::Init(Vector pos)
 {
-	_pos = pos;
 	Super::Init(pos);
 }
 
@@ -29,7 +28,8 @@ void Creature::Update(float deltatime)
         _velocity = _velocity.GetNormalize() * _maxSpeed;
 
     _velocity *= _friction;
-    _pos += _velocity * deltatime;
+    Vector pos = _pos + _velocity * deltatime;
+    SetPos(pos);
 
     _acceleration = Vector(0, 0);
 }

@@ -132,9 +132,6 @@
     <ClInclude Include="Stage.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectPool.h">
       <Filter>Object</Filter>
     </ClInclude>
@@ -147,8 +144,8 @@
     <ClInclude Include="DropItem.h">
       <Filter>Object\Items</Filter>
     </ClInclude>
-    <ClInclude Include="Grid.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="ImageActor.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,9 +224,6 @@
     <ClCompile Include="Stage.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectPool.cpp">
       <Filter>Object</Filter>
     </ClCompile>
@@ -242,8 +236,8 @@
     <ClCompile Include="DropItem.cpp">
       <Filter>Object\Items</Filter>
     </ClCompile>
-    <ClCompile Include="Grid.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="ImageActor.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

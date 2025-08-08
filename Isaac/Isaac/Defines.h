@@ -3,10 +3,7 @@
 //  우리가 정의하는 공용 선언들.
 constexpr int GWinSizeX = 1250;
 constexpr int GWinSizeY = 750;
-
-const int BLOCK_SIZE = 64;
-const int BALL_SIZE = 50;
-const int STAR_SIZE = 64;
+constexpr int GridSize = 50;
 
 // 엔씨에 있을때 사용하던 방식 & 언리얼도 이렇게 씁니다.
 using int8 = char;					// 정수 저장하는데 1bit 짜리
@@ -81,13 +78,14 @@ struct SpriteInfo
 
 enum RenderLayer
 {
-	RL_Background,
+	RL_Room,
 	RL_Item,
 	RL_Object,
-	RL_Monster,
+	RL_Monster, //@TODO 이거 좀 줄여야됨 너무 오래걸려
 	RL_Player,
 	RL_Effect,
 	RL_Tear,
+	RL_Image,
 	RL_UI,	// UI 는 제일 마지막
 	RL_Count
 };
@@ -240,7 +238,31 @@ struct GridInfo
 	set<class Actor*> _actorsInCell;
 };
 
-//struct Cell
-//{
-//	
-//};
+struct Cell
+{
+	int32 index_X;
+	int32 index_Y;
+
+	// 위치를 기준으로 셀의 인덱스 값을 계산하는 함수
+	static Cell ConvertToCell(Vector pos, int32 gridSize)
+	{
+		if (pos.x < 0 || pos.y < 0)
+			return Cell{ -1, -1 };	// 예외처리를 위한 Cell 인덱스값을 -1로 정의
+
+		return Cell{ (int32)(pos.x / gridSize), (int32)(pos.y / gridSize) };
+	}
+
+	// 편의를 위해서 == 비교 연산자
+	bool operator==(const Cell& other) const
+	{
+		return index_X == other.index_X && index_Y == other.index_Y;
+	}
+
+	// '<' 연산자 정의
+	bool operator<(const Cell& other) const
+	{
+		if (index_X != other.index_X)
+			return index_X < other.index_X;
+		return index_Y < other.index_Y;
+	}
+};

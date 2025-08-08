@@ -20,10 +20,10 @@ void RectCollider::InitComponent()
 
 void RectCollider::UpdateComponent(float deltaTime)
 {
-	_collision.left = (LONG)(_owner->GetPos().x + _width * -0.5f);
-	_collision.right = (LONG)(_owner->GetPos().x + _width * 0.5f);
-	_collision.top = (LONG)(_owner->GetPos().y + _height * -0.5f);
-	_collision.bottom = (LONG)(_owner->GetPos().y + _height * 0.5f);
+	_collision.left = (LONG)(_owner->GetPos().x + _width * -0.4f);
+	_collision.right = (LONG)(_owner->GetPos().x + _width * 0.4f);
+	_collision.top = (LONG)(_owner->GetPos().y + _height * -0.4f);
+	_collision.bottom = (LONG)(_owner->GetPos().y + _height * 0.4f);
 }
 
 void RectCollider::RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos)

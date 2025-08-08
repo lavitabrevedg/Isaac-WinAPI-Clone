@@ -3,15 +3,15 @@
 
 class DXBitmap;
 
-class BaseResource : public Component
+class BaseResource
 {
 
 public:
 	BaseResource(string key, int32 width, int32 height);
 	virtual ~BaseResource();
 
-	virtual void UpdateComponent(float deltaTime) {}
-	virtual void RenderComponent(ID2D1RenderTarget* renderTarget, Vector pos) {}
+	virtual void UpdateImage(float deltaTime) {}
+	virtual void RenderImage(ID2D1RenderTarget* renderTarget, Vector pos) {}
 
 	Dimension GetSize() { return _size; }
 	void SetBitmapKey(string key, int32 width = 0, int32 height = 0);

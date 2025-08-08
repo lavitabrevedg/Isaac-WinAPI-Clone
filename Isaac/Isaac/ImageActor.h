@@ -1,11 +1,11 @@
 #pragma once
 #include "Actor.h"
-
-class Map : public Actor
+class ImageActor : public Actor
 {
 	using Super = Actor;
+
 public:
-	Map();
+	ImageActor(string spriteName, int32 width, int32 height);
 
 	void Init(Vector pos)override;
 	void Destroy()override;
@@ -13,9 +13,8 @@ public:
 	void Update(float deltatime)override;
 	void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 
-	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Background; }
+	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Image; }
 private:
-	class Sprite* _tile = nullptr;
-	class Texture* _selector = nullptr;
+	Sprite* _sprite = nullptr;
 };
 

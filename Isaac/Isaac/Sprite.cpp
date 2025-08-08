@@ -14,13 +14,13 @@ Sprite::~Sprite()
 
 }
 
-void Sprite::UpdateComponent(float deltaTime)
+void Sprite::UpdateImage(float deltaTime)
 {
 
 }
 
 
-void Sprite::RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
+void Sprite::RenderImage(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
 {
 	Dimension frameSize = _bitmap->GetFrameSize();
 

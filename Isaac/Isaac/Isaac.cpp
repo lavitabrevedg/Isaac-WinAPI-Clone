@@ -132,7 +132,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ::AdjustWindowRect(&windowRect, WS_OVERLAPPEDWINDOW, false);
 
    gHwnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+       CW_USEDEFAULT, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, nullptr, nullptr, hInstance, nullptr);
 
    if (!gHwnd)
    {

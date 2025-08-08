@@ -2,6 +2,13 @@
 
 class Actor;
 
+struct Camera {
+	Vector pos{ 0,0 };
+	D2D1::Matrix3x2F View() const {
+		return D2D1::Matrix3x2F::Translation(-pos.x, -pos.y);
+	}
+};
+
 class Scene
 {
 public:
@@ -14,18 +21,26 @@ public:
 	virtual void Update(float deltatime);
 	virtual void Render(ID2D1RenderTarget* _dxRenderTarget);
 
-	Vector GetCameraPos() { return _camerapos; }
+	virtual bool useGrid() const { return false; }
 
 	virtual void loadResources() abstract;
 	virtual void createObjects() abstract;
 	virtual void createUI() abstract;
 	virtual void initTimer() abstract;
 
+	Vector GetCameraPos() { return _camera.pos; }
+	void SetCameraPos(Vector pos) { _camera.pos = pos; }
+
 	void RemoveActor(Actor* actor);
 	void AddActor(Actor* actor);
 
 	void ReserveRemove(Actor* actor);
 	void ReserveAdd(Actor* actor);
+
+	void CreateGrid();
+	void UpdateGrid(Actor* actor,Vector prevPos, Vector newPos);
+	void RenderGrid(ID2D1RenderTarget* _dxRenderTarget);
+
 
 protected:
 	unordered_set<Actor*> _actors;
@@ -34,6 +49,10 @@ protected:
 	unordered_set<Actor*> _reserveAdd;
 	unordered_set<Actor*> _reserveRemove;
 
-	Vector _camerapos;
+	map<Cell, GridInfo> _grid;
+	int32 _gridCountX;
+	int32 _gridCountY;
+
+	Camera _camera;
 };
 

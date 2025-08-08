@@ -54,7 +54,7 @@ void Player::Destroy()
 
 void Player::Init(Vector pos)
 {
-	_pos = pos;
+	Super::Init(pos);
 	_maxSpeed = 250.f;
 	_friction = 0.95f;
 	_velocity = { 0,0 };
@@ -71,7 +71,6 @@ void Player::Init(Vector pos)
 	_currbodyState = BodyState::B_IDEL;
 	_prevbodyState = BodyState::B_IDEL;
 
-	Super::Init(pos);
 }
 
 void Player::Update(float deltatime)
@@ -148,7 +147,7 @@ void Player::Update(float deltatime)
 
 void Player::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	_Body->RenderComponent(_dxRenderTarget, _pos + Vector{ 0,5 });
-	_Head->RenderComponent(_dxRenderTarget,_pos + Vector{0,-10});
+	_Body->RenderImage(_dxRenderTarget, _pos + Vector{ 0,5 });
+	_Head->RenderImage(_dxRenderTarget,_pos + Vector{0,-10});
 	Super::Render(_dxRenderTarget);
 }

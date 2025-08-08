@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Scene.h"
 #include "Actor.h"
-
-
+#include "ResourceManager.h"
+#include "Game.h"
 
 Scene::Scene()
 {
@@ -16,6 +16,9 @@ void Scene::Init()
 {
 	// 리소스 로드
 	loadResources();
+
+	//그리드 생성
+	if (useGrid()) CreateGrid();
 
 	// 오브젝트 생성
 	createObjects();
@@ -60,13 +63,18 @@ void Scene::Update(float deltatime)
 
 void Scene::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	for (auto list : _renderList)
-	{
-		for (auto iter : list)
-		{
-			iter->Render(_dxRenderTarget);
-		}
-	}
+	auto M = D2D1::Matrix3x2F::Translation(-_camera.pos.x, -_camera.pos.y);
+	_dxRenderTarget->SetTransform(M);  // 카메라 적용 (지금은 _camerapos = {0,0})
+
+	for (auto& list : _renderList)
+		for (auto* a : list)
+			a->Render(_dxRenderTarget); //@카메라 복붙하긴 했는데 좀 이상한거 같음 고쳐야돼 카메라 잠깐 뺴두고 나중에 추가해도 되고
+
+	if (useGrid()) RenderGrid(_dxRenderTarget);
+
+	_dxRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+
+	
 }
 
 void Scene::RemoveActor(Actor* actor)
@@ -76,6 +84,8 @@ void Scene::RemoveActor(Actor* actor)
 
 	if (actor->GetRenderLayer() < 0 || actor->GetRenderLayer() >= RenderLayer::RL_Count)
 		return;
+
+	UpdateGrid(actor, actor->GetPos(), Vector{ -1,-1 });
 
 	{
 		auto& list = _renderList[actor->GetRenderLayer()];
@@ -100,6 +110,7 @@ void Scene::AddActor(Actor* actor)
 {
 	if (actor == nullptr)
 		return;
+
 	if (actor->GetRenderLayer() < 0 || actor->GetRenderLayer() >= RenderLayer::RL_Count)
 		return;
 
@@ -127,4 +138,101 @@ void Scene::ReserveAdd(Actor* actor)
 		return;
 
 	_reserveAdd.emplace(actor);
+}
+
+void Scene::CreateGrid()
+{
+	_gridCountX = GWinSizeX / GridSize;
+	_gridCountY = GWinSizeY / GridSize;
+
+	for (int x = 0; x < _gridCountX; x++)
+	{
+		for (int y = 0; y < _gridCountY; y++)
+		{
+			Cell cell{ x,y };
+			GridInfo data;
+			_grid.emplace(std::make_pair(cell, data));
+		}
+	}
+}
+
+void Scene::UpdateGrid(Actor* actor, Vector prevPos, Vector newPos)
+{
+	Cell prevCell = Cell::ConvertToCell(prevPos, GridSize);
+	Cell currCell = Cell::ConvertToCell(newPos, GridSize);
+
+	if (prevCell == currCell)
+		return;
+
+	{
+		auto find = _grid.find(prevCell);
+
+		if (find != _grid.end())
+		{
+			auto& cellInfo = find->second;
+
+			auto findActor = cellInfo._actorsInCell.find(actor);
+			if (findActor != cellInfo._actorsInCell.end())
+			{
+				cellInfo._actorsInCell.erase(findActor);
+			}
+			else
+			{
+				OutputDebugString(L"Invalid Grid!!");
+			}
+		}
+	}
+
+	if (currCell.index_X < 0 || currCell.index_X >= _gridCountX || currCell.index_Y < 0 || currCell.index_Y >= _gridCountY)
+		return;
+
+	// 현재 셀에는 추가
+	
+		auto find = _grid.find(currCell);
+		if (find != _grid.end())
+		{
+			// 복사복이 아니라 원본을 수정할거라서 Refrence auto 만들었다
+			auto& cellInfo = find->second;	// Cell Info
+
+			// 셀이 관리하고 있는 N개의 액터중에 진짜로 현재 Actor가 있는지 검사
+			auto findActor = cellInfo._actorsInCell.find(actor);
+			if (findActor != cellInfo._actorsInCell.end())
+			{
+				OutputDebugString(L"Invalid Grid!!");
+			}
+			else
+			{
+				cellInfo._actorsInCell.insert(actor);
+			}
+		}
+}
+
+void Scene::RenderGrid(ID2D1RenderTarget* _dxRenderTarget)
+{
+	int32 width = _gridCountX * GridSize;
+	int32 height = _gridCountY * GridSize;
+
+	auto brush = ResourceManager::GetInstance()->GetBrush(BrushColor::Red);
+
+	// 가로선 그리기
+	for (int y = 0; y <= height; y += GridSize)
+	{
+		Vector renderPos1 =(Vector((float)0, (float)y));
+		Vector renderPos2 = (Vector((float)width, (float)y));
+
+		D2D1_POINT_2F start = D2D1::Point2F(renderPos1.x, renderPos1.y);
+		D2D1_POINT_2F end = D2D1::Point2F(renderPos2.x, renderPos2.y);
+		_dxRenderTarget->DrawLine(start, end, brush, 1.0f);
+	}
+
+	// 세로선 그리기
+	for (int x = 0; x <= width; x += GridSize)
+	{
+		Vector renderPos1 =(Vector((float)x, (float)0));
+		Vector renderPos2 = (Vector((float)x, (float)height));
+
+		D2D1_POINT_2F start = D2D1::Point2F(renderPos1.x, renderPos1.y);
+		D2D1_POINT_2F end = D2D1::Point2F(renderPos2.x, renderPos2.y);
+		_dxRenderTarget->DrawLine(start, end, brush, 1.0f);
+	}
 }

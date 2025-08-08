@@ -1,15 +1,27 @@
 #pragma once
 
-class Room
+#include "Actor.h"
+
+class Room : public Actor
 {
+	using Super = Actor;
 public:
-	void Init();
-	void Destroy();
-	void Update(float deltatime);
-	void Render(ID2D1RenderTarget* _dxRenderTarget);
+	Room();
+
+	void Init(Vector pos)override;
+	void Destroy()override;
+
+	void Update(float deltatime)override;
+	void Render(ID2D1RenderTarget* _dxRenderTarget)override;
+
+	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Room; } //Map이나 ROom도 Rect와 Pos가 있어야함 
+
+	const Vector& GetWorldPos() const { return worldPos; }
 
 	
+
 private:
-	//objectData, mapData
+	Vector worldPos;
+	class Texture* _texture = nullptr;
 };
 

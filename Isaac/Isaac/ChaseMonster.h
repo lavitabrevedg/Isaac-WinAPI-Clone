@@ -22,5 +22,5 @@ public:
 	virtual void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 
 private:
-	class Texture* _monster;
+	class Sprite* _sprite = nullptr;
 };

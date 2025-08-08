@@ -20,6 +20,8 @@ public:
 	void Update(float deltatime) override;
 	void Render(ID2D1RenderTarget* _dxRenderTarget) override;
 
+	bool useGrid() const override { return true; }
+
 	void Save();
 	void Load();
 

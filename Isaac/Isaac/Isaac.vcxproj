@@ -138,8 +138,7 @@
     <ClInclude Include="EditorScene.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Grid.h" />
-    <ClInclude Include="Map.h" />
+    <ClInclude Include="ImageActor.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -174,8 +173,7 @@
     <ClCompile Include="DXBitmap.cpp" />
     <ClCompile Include="EditorScene.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Grid.cpp" />
-    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="ImageActor.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

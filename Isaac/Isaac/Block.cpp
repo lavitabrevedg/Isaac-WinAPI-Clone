@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "Sprite.h"
 
-Block::Block()
+Block::Block(string spriteName, int32 width, int32 height)
 {
 	_rock = CreateTextureComponent("Rock", 40, 40);
 

@@ -18,7 +18,8 @@ Actor::~Actor()
 
 void Actor::Init(Vector pos)
 {
-	_pos = pos;
+	Game::GetInstance()->GetCurrScene()->UpdateGrid(this, Vector(-1, -1), pos);
+	SetPos(pos);
 }
 
 void Actor::Destroy()
@@ -63,7 +64,7 @@ Sprite* Actor::CreateSpriteComponent(string spriteName, int32 width, int32 heigh
 Texture* Actor::CreateTextureComponent(string bitmapKey, int32 width, int32 height)
 {
 	Texture* sprite = new Texture(bitmapKey, width, height);
-	_components.emplace_back(sprite);
+
 	return sprite;
 }
 
@@ -95,4 +96,14 @@ void AnimationController::Update(float deltatime, Sprite* sprite)
 		if (curFrame == 0)
 			endAnim = true;
 	}
+}
+
+void Actor::SetPos(Vector newPos)
+{
+	Vector prevPos = _pos;
+	_pos = newPos;
+
+	// 그리드를 업데이트
+	// Scene에 알려준다.
+	Game::GetInstance()->GetCurrScene()->UpdateGrid(this, prevPos, newPos);
 }

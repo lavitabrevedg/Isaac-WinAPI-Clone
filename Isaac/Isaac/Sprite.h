@@ -9,8 +9,8 @@ public:
 	Sprite(string key, int32 width, int32 height, bool alignCenter);
 	virtual ~Sprite();
 
-	void UpdateComponent(float deltaTime)override;
-	void RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos) override;
+	void UpdateImage(float deltaTime)override;
+	void RenderImage(ID2D1RenderTarget* _dxRenderTarget, Vector pos) override;
 
 	void SetIndex(int32 x, int32 y) { _indexX = x; _indexY = y; }
 	void GetIndex(int32& outX, int32& outY) { outX = _indexX; outY = _indexY; }
