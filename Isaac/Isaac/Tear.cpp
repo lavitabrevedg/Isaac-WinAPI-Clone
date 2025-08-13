@@ -6,8 +6,8 @@
 
 Tear::Tear()
 {
-	_tear = CreateTextureComponent("Tear", 30, 30);
-	CreateRectCollider(_tear->GetSize().Width, _tear->GetSize().Height);
+	_sprite = CreateSpriteComponent("Tear", 30, 30);
+	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height);
 }
 
 void Tear::Destroy()
@@ -56,5 +56,5 @@ void Tear::Update(float deltatime)
 void Tear::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
 	Super::Render(_dxRenderTarget);
-	_tear->RenderImage(_dxRenderTarget, _pos);
+	_sprite->RenderImage(_dxRenderTarget, _pos);
 }

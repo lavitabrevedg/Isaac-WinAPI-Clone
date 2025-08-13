@@ -13,7 +13,7 @@ public:
 	void Update(float deltatime) override;
 	void Render(ID2D1RenderTarget* _dxRenderTarget) override;
 
-	bool useGrid() const override { return false; } //@TODO 분명 false인데 왜자꾸 그리냐 
+	bool useGrid() const override { return false; } 
 
 	void loadResources() override;
 	void createObjects() override;

@@ -42,6 +42,9 @@ Player::Player()
 	base = _IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_DOWN];
 	_headAnimCtrl.SetAnim(base);
 
+	_sprites.push_back(_Head);
+	_sprites.push_back(_Body);
+
 	CreateRectCollider(_Head->GetSize().Width, _Head->GetSize().Height);
 }
 

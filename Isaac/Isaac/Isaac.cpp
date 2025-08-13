@@ -3,6 +3,9 @@
 #include "pch.h"
 #include "framework.h"
 #include "Isaac.h"
+#include <string>
+#include <windowsx.h>
+#include <format>
 #include "Game.h"
 #include "InputManager.h"
 
@@ -159,9 +162,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-    case WM_MOUSEHWHEEL:
+    case WM_MOUSEWHEEL:
     {
         int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+        InputManager::GetInstance()->OnEventMouseWheel(delta);
+
         break;
     }
     case WM_COMMAND:

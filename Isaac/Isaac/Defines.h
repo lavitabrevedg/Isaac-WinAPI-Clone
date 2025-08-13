@@ -1,9 +1,9 @@
 #pragma once
 
 //  우리가 정의하는 공용 선언들.
-constexpr int GWinSizeX = 1250;
-constexpr int GWinSizeY = 750;
-constexpr int GridSize = 50;
+constexpr int GWinSizeX = 972;
+constexpr int GWinSizeY = 540;
+constexpr int GridSize = 54;
 
 // 엔씨에 있을때 사용하던 방식 & 언리얼도 이렇게 씁니다.
 using int8 = char;					// 정수 저장하는데 1bit 짜리
@@ -81,12 +81,12 @@ enum RenderLayer
 	RL_Room,
 	RL_Item,
 	RL_Object,
-	RL_Monster, //@TODO 이거 좀 줄여야됨 너무 오래걸려
+	RL_Monster,
 	RL_Player,
 	RL_Effect,
 	RL_Tear,
-	RL_Image,
 	RL_UI,	// UI 는 제일 마지막
+	RL_Image,
 	RL_Count
 };
 
@@ -249,7 +249,18 @@ struct Cell
 		if (pos.x < 0 || pos.y < 0)
 			return Cell{ -1, -1 };	// 예외처리를 위한 Cell 인덱스값을 -1로 정의
 
+		if (pos.x > GWinSizeX || pos.y > GWinSizeY)
+			return Cell{ -1,-1 };
+
 		return Cell{ (int32)(pos.x / gridSize), (int32)(pos.y / gridSize) };
+	}
+
+	static Vector ConvertToWorld(Cell cell, int32 gridSize)
+	{
+		if (cell.index_X < 0 || cell.index_Y < 0)
+			return Vector{ -1,-1 };
+
+		return Vector{ (float)(cell.index_X * GridSize + (GridSize / 2)),(float)(cell.index_Y * GridSize + (GridSize / 2)) };
 	}
 
 	// 편의를 위해서 == 비교 연산자

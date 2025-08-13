@@ -7,6 +7,9 @@
 #include "ResourceManager.h"
 #include "Sprite.h"
 #include "Texture.h"
+#include <fstream>
+#include <iostream>
+#include <string>
 
 Actor::Actor()
 {
@@ -30,6 +33,11 @@ void Actor::Destroy()
 	}
 	_components.clear();
 
+	for (auto iter : _sprites)
+	{
+		SAFE_DELETE(iter);
+	}
+	_sprites.clear();
 }
 
 void Actor::Update(float deltatime)
@@ -57,6 +65,8 @@ Sprite* Actor::CreateSpriteComponent(string spriteName, int32 width, int32 heigh
 	Sprite* sprite = new Sprite(info->bitmapKey, width, height, info->alignCenter);
 	sprite->SetIndex(info->indexX, info->indexY);
 	sprite->SetApplyCamera(GetRenderLayer() != RenderLayer::RL_UI);
+	sprite->SetSpriteName(spriteName);
+	_sprites.push_back(sprite);
 
 	return sprite;
 }
@@ -70,7 +80,7 @@ Texture* Actor::CreateTextureComponent(string bitmapKey, int32 width, int32 heig
 
 RectCollider* Actor::CreateRectCollider(int32 width, int32 height)
 {
-	RectCollider* collider = new RectCollider(this, width, height);
+	RectCollider* collider = new RectCollider(this, (float)width, (float)height);
 	_components.emplace_back(collider);
 	_collision = collider->GetCollisionRect();
 	return collider;
@@ -106,4 +116,56 @@ void Actor::SetPos(Vector newPos)
 	// 그리드를 업데이트
 	// Scene에 알려준다.
 	Game::GetInstance()->GetCurrScene()->UpdateGrid(this, prevPos, newPos);
+}
+
+void Actor::SaveActor(std::wofstream& file)
+{
+	Sprite* sprite = GetSprite();
+	if (nullptr == sprite)
+		return;
+
+	int32 indexX = 0, indexY = 0;
+	sprite->GetIndex(indexX, indexY);
+
+	Vector pos = GetPos();
+	char comma = ','; // 데이터 끼리의 구분자 역할
+	// cout <<
+	// cin >> 
+	file << (int32)GetActorType() << comma;	// 1번째로 액터 타입 저장
+	//file << indexX << comma << indexY << comma;	// 2번째 Sprite
+	file << (int32)pos.x << comma << (int32)pos.y << comma; // 3번째 좌표
+	file << sprite->GetSize().Width << comma << sprite->GetSize().Height << comma;
+
+	// 마지막에 spriteName
+	file << sprite->GetSpriteName().c_str();
+	file << std::endl;
+}
+
+void Actor::LoadActor(std::wistringstream& steam)
+{
+	if (!_sprite)
+		return;
+
+	// 이미 액터가 생성되었다는건 해당 file stream 에서 actorType에 대한 값을 읽은 이후이다.
+	wchar_t comma = ',';
+	steam >> comma;	// GetActorType() 저장이후 구분자 읽기
+
+	int32 indexX = 0, indexY = 0;
+	//steam >> indexX >> comma >> indexY >> comma;
+
+	int32 x = 0, y = 0;
+	steam >> x >> comma >> y >> comma;
+
+	int32 w, h;
+	steam >> w >> comma >> h >> comma;
+
+	wstring wspriteName;
+	std::getline(steam, wspriteName);
+	
+	std::string spriteName;
+	spriteName.assign(wspriteName.begin(), wspriteName.end());
+
+	SetPos(Vector((float)x, (float)y));
+	_sprite->SetIndex(indexX, indexY);
+	_sprite->SetSpriteName(spriteName);
 }

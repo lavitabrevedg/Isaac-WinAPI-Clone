@@ -1,6 +1,16 @@
 #pragma once
 class Component;
 class BaseResource;
+class Sprite;
+
+enum ActorType : int8
+{
+	AT_Tile,
+	AT_Monster,
+	AT_Block,
+	AT_Door,
+	AT_Count,
+};
 
 struct TearStat
 {
@@ -22,11 +32,15 @@ public:
 	virtual void Render(ID2D1RenderTarget* _dxRenderTarget);
 
 	virtual RenderLayer GetRenderLayer() abstract;
+	virtual ActorType GetActorType() { return ActorType::AT_Count; }
 
 	const Vector& GetPos() { return _pos; }
-	const Vector& GetCellPos() { return _cellpos; }
+	Sprite* GetSprite() { return _sprite; }
 
 	void SetPos(Vector newPos);
+
+	virtual void SaveActor(std::wofstream& file);
+	virtual void LoadActor(std::wistringstream& steam);
 
 protected:
 	class Sprite* CreateSpriteComponent(string spriteName, int32 width = 0, int32 height = 0);
@@ -35,9 +49,11 @@ protected:
 
 protected:
 	vector<Component*> _components;
+	vector<Sprite*> _sprites;
 	Vector _pos;
-	Vector _cellpos;
 	RECT* _collision;
+
+	Sprite* _sprite;
 };
 
 struct AnimationController

@@ -36,10 +36,13 @@ public:
 
 	void ReserveRemove(Actor* actor);
 	void ReserveAdd(Actor* actor);
+	void RemoveAllActor();
 
 	void CreateGrid();
 	void UpdateGrid(Actor* actor,Vector prevPos, Vector newPos);
 	void RenderGrid(ID2D1RenderTarget* _dxRenderTarget);
+
+	//GridInfo GetCellinfo(Cell cell);
 
 
 protected:

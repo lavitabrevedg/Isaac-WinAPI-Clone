@@ -2,7 +2,7 @@
 
 #include "Actor.h"
 
-class Room : public Actor
+class Room : public Actor //Room이 actor가 맞나
 {
 	using Super = Actor;
 public:

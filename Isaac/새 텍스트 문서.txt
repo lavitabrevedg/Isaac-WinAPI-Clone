@@ -1,5 +1,12 @@
-playScene에서 여러개의 Stage를 관리하고 Stage에서 여러개의 Map이나 Room을 관리함
+playScene에서 여러개의 Stage를 관리하고 Stage에서 여러개의 Room을 관리함
 Room은 좌표와 객체처럼 이미지를 갖고있고 Stage에서 이중배열로 관리함
+
+
+
+//카메라가 필요할까..
 Room을 여러개 만들고 Camera로 한 방과 이어진 방만 렌더링해두고 play가 위치한 방만 카메라로 비춤
 방은 서로 이어져있고 위치는 내가 알아서 만들어 그리고 pos는 뭐 방 RECT만큼 더해서 바로 옆에있게 만들자
 그러므로 따로 player에게 camera포스는 필요하지않고 그 비추는 카메라로 grid를 그림
+
+Room 구성
+id, monsterCount, dir, object?(스폰할 상자 아이템등)

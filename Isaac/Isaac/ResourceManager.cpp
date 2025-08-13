@@ -34,6 +34,14 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 		_spriteNames.emplace("Guid", SpriteInfo(0, 0, "Guid", true));
 		_spriteNames.emplace("Tile", SpriteInfo(0, 0, "Tile", true));
 		_spriteNames.emplace("Well", SpriteInfo(0, 0, "Well", true));
+		_spriteNames.emplace("Well2", SpriteInfo(0, 0, "Well2", true));
+		_spriteNames.emplace("Well3", SpriteInfo(0, 0, "Well3", true));
+		_spriteNames.emplace("Well4", SpriteInfo(0, 0, "Well4", true));
+		_spriteNames.emplace("Well5", SpriteInfo(0, 0, "Well5", true));
+		_spriteNames.emplace("Well6", SpriteInfo(0, 0, "Well6", true));
+		_spriteNames.emplace("Well7", SpriteInfo(0, 0, "Well7", true));
+		_spriteNames.emplace("Well8", SpriteInfo(0, 0, "Well8", true));
+		_spriteNames.emplace("Well9", SpriteInfo(0, 0, "Well9", true));
 	}
 
 	{

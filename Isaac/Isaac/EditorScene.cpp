@@ -1,45 +1,164 @@
 #include "pch.h"
 #include "EditorScene.h"
 #include "ResourceManager.h"
+#include "Actor.h"
 #include "Player.h"
 #include "Monster.h"
+#include "Game.h"
+#include "StageLoader.h"
+#include "InputManager.h"
+#include "Room.h"
+#include "Sprite.h"
+#include "Tile.h"
 
-EditorScene::EditorScene()
-{
-}
-
-EditorScene::~EditorScene()
-{
-}
 
 void EditorScene::Init()
 {
 	Super::Init();
+
+	InputManager::GetInstance()->SetEventMouseWheel([this](int32 delta)
+		{
+			OnMouseWheel(delta);
+		});
+
+	{
+		SELECT_MODE mode = SELECT_MODE::ROOM;
+
+		Actor* well5 = new Tile("Well5",0,0);
+		well5->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well5);
+
+		Actor* well6 = new Tile("Well6",0,0);
+		well6->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well6);
+
+		Actor* well7 = new Tile("Well7",GridSize * 3,0);
+		well7->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well7);
+
+		Actor* well4 = new Tile("Well4",0, 0);
+		well4->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well4);
+		Actor* well2 = new Tile("Well2",0,0);
+		well2->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well2);
+		Actor* well3 = new Tile("Well3",0,0);
+		well3->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well3);
+		Actor* well8 = new Tile("Well8",0,0);
+		well8->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well8);
+		Actor* well9 = new Tile("Well9",0,0); //@TODO 방법 찾아야됨 
+		well9->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well9);
+
+		Actor* well = new Tile("Well", 0, 0);
+		well->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well);
+	}
 }
 
 void EditorScene::Destroy()
 {
+	InputManager::GetInstance()->SetEventMouseWheel(nullptr);
 	Super::Destroy();
+
+	for (auto info : _editActorInfo)
+	{
+		for (auto iter : info)
+		{
+			iter->Destroy();
+			SAFE_DELETE(iter);
+		}
+	}
 }
 
 void EditorScene::Update(float deltatime)
 {
 	Super::Update(deltatime);
+
+	if (InputManager::GetInstance()->GetButtonDown(KeyType::F1))
+	{
+		_Actorindex = 0;
+		_currMode = SELECT_MODE::ROOM;
+	}
+	else if (InputManager::GetInstance()->GetButtonDown(KeyType::F2))
+	{
+		_Actorindex = 0;
+		_currMode = SELECT_MODE::OBJECT;
+	}
+	else if (InputManager::GetInstance()->GetButtonDown(KeyType::F3))
+	{
+		_Actorindex = 0;
+		_currMode = SELECT_MODE::MONSTER;
+	}
+	else if (InputManager::GetInstance()->GetButtonDown(KeyType::LeftMouse))
+	{
+		POINT mousePos = InputManager::GetInstance()->GetMousePos();
+		float x = (float)mousePos.x;
+		float y = (float)mousePos.y;
+		
+		Actor* newActor = nullptr;
+		if (_currMode == SELECT_MODE::ROOM)
+		{
+			Cell mouseCellPos = Cell::ConvertToCell(Vector(x,y), GridSize);
+			Vector pos = mouseCellPos.ConvertToWorld(mouseCellPos,GridSize);
+
+			auto mouseActor = _editActorInfo[(int32)_currMode][_Actorindex];
+			Sprite* copy = mouseActor->GetSprite();
+			newActor = new Tile(copy);
+			newActor->Init(pos);
+		}
+		else if (_currMode == SELECT_MODE::OBJECT)
+		{
+			
+		}
+		else if (_currMode == SELECT_MODE::MONSTER)
+		{
+			newActor = new Monster();
+			newActor->Init(Vector{x,y});
+		}
+
+		ReserveAdd(newActor);
+	}
+	else if (InputManager::GetInstance()->GetButtonDown(KeyType::S))
+	{
+		Save();
+	}
+	else if (InputManager::GetInstance()->GetButtonDown(KeyType::L))
+	{
+		Load();
+	}
+	//else if (InputManager::GetInstance()->GetButtonDown(KeyType::RightMouse))
+	//{
+	//	POINT mousePos = InputManager::GetInstance()->GetMousePos();
+	//	float x = mousePos.x;
+	//	float y = mousePos.y;
+
+	//	Cell cell = Cell::ConvertToCell(Vector(x, y),GridSize);
+
+	//	if(cell == )
+	//}
+
 }
 
 void EditorScene::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
 	Super::Render(_dxRenderTarget);
-}
 
-void EditorScene::Save()
-{
+	POINT mousePos = InputManager::GetInstance()->GetMousePos();
 
-}
-
-void EditorScene::Load()
-{
-
+	_editActorInfo[(int32)_currMode][_Actorindex]->SetPos(Vector((float)mousePos.x, (float)mousePos.y));
+	_editActorInfo[(int32)_currMode][_Actorindex]->Render(_dxRenderTarget);
 }
 
 void EditorScene::loadResources()
@@ -47,6 +166,14 @@ void EditorScene::loadResources()
 	ResourceManager::GetInstance()->LoadDXBitmap("Guid", L"Room/Guid.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Tile", L"Room/Tile.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Well", L"Room/Well.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("Well2", L"Room/Well2.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("Well3", L"Room/Well3.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("Well4", L"Room/Well4.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("Well5", L"Room/Well5.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("Well6", L"Room/Well6.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("Well7", L"Room/Well7.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("Well8", L"Room/Well8.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("Well9", L"Room/Well9.png", 1, 1);
 
 	ResourceManager::GetInstance()->LoadDXBitmap("Combat", L"Monster/Combat.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Fly", L"Monster/Fly.png", 1, 1);
@@ -62,15 +189,89 @@ void EditorScene::loadResources()
 
 void EditorScene::createObjects()
 {
-
 }
 
 void EditorScene::createUI()
 {
-
 }
 
 void EditorScene::initTimer()
 {
+}
 
+void EditorScene::Save()
+{
+	OPENFILENAME ofn;
+	wchar_t szFileName[MAX_PATH] = L"";
+
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = Game::GetInstance()->GetHwnd();
+	ofn.lpstrFilter = L"JSON (*.json)\0*.json\0모든 파일 (*.*)\0*.*\0";
+	ofn.lpstrFile = szFileName;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
+	ofn.lpstrDefExt = L"room";
+
+	//// 파일 이름이 선택되었으면 저장
+	if (GetSaveFileName(&ofn))
+	{
+		std::wstring fileName = szFileName;
+
+		std::wofstream file(fileName);
+		if (file.is_open())
+		{
+			for (auto iter : _actors)
+			{
+				iter->SaveActor(file);
+			}
+
+			file.close();
+		}
+	}
+}
+
+void EditorScene::Load()
+{
+	// 파일 열기 윈도우창 생성
+	OPENFILENAME ofn;
+	wchar_t szFileName[MAX_PATH] = L"";
+
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = Game::GetInstance()->GetHwnd();
+	ofn.lpstrFilter = L"JSON (*.json)\0*.json\0모든 파일 (*.*)\0*.*\0";
+	ofn.lpstrFile = szFileName;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
+	ofn.lpstrDefExt = L"room";
+
+	if (GetOpenFileName(&ofn))
+	{
+		// 파일 이름이 선택되었으면 로드
+		std::wstring fileName = szFileName;
+
+		std::wifstream file(fileName);
+		if (file.is_open())
+		{
+			StageLoader loader;
+			loader.Load(this, file);
+
+			file.close();
+			MessageBox(Game::GetInstance()->GetHwnd(), L"맵이 로드되었습니다.", L"로드 완료", MB_OK | MB_ICONINFORMATION);
+		}
+		else {
+			MessageBox(Game::GetInstance()->GetHwnd(), L"파일을 로드할 수 없습니다.", L"오류", MB_OK | MB_ICONERROR);
+		}
+	}
+}
+
+void EditorScene::OnMouseWheel(int32 delta)
+{
+	_Actorindex++;
+	
+	if (_Actorindex == _editActorInfo[(int32)_currMode].size())
+	{
+		_Actorindex = 0;
+	}
 }

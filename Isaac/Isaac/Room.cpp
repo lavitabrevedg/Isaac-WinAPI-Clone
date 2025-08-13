@@ -5,7 +5,7 @@
 
 Room::Room()
 {
-	_texture = CreateTextureComponent("Tile", GWinSizeX, GWinSizeY);
+
 }
 
 void Room::Init(Vector pos)

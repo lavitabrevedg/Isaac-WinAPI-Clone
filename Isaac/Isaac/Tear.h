@@ -14,7 +14,6 @@ public:
 
 	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Tear; }
 
-
 private:
 	DirType _dirtype = DirType::DIR_MAX;
 	Vector _dir[DirType::DIR_MAX] =
@@ -25,7 +24,6 @@ private:
 		Vector{0,1}
 	};
 	TearStat _tearStat;
-	class Texture* _tear = nullptr;
 
 	float _z;
 	float _gravity;

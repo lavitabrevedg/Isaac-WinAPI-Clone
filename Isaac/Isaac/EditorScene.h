@@ -4,7 +4,6 @@
 struct EditorActorInfo
 {
 	class Actor* tempActor = nullptr;
-	int32 spriteIndex = 0;
 };
 
 class EditorScene : public Scene
@@ -12,9 +11,6 @@ class EditorScene : public Scene
 	using Super = Scene;
 	
 public:
-	EditorScene();
-	~EditorScene();
-	
 	void Init() override;
 	void Destroy() override;
 	void Update(float deltatime) override;
@@ -30,16 +26,19 @@ public:
 	void createUI() override;
 	void initTimer() override;
 
+	void OnMouseWheel(int32 delta);
+
 protected:
 	enum class SELECT_MODE
 	{
 		ROOM,
 		OBJECT,
-		CREATURE,
-		COUNT,
+		MONSTER,
+		COUNT
 	};
 
 	SELECT_MODE _currMode = SELECT_MODE::ROOM;
-	EditorActorInfo _editActorInfo[(int32)SELECT_MODE::COUNT];
+	vector<class Actor*> _editActorInfo[(int32)SELECT_MODE::COUNT];
+	int32 _Actorindex = 0;
 };
 

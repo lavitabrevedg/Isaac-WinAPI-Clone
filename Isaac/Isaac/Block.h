@@ -13,16 +13,16 @@ class Block : public Actor
 public:
 	Block(string spriteName, int32 width, int32 height);
 
-	virtual void Init(Vector pos);
-	virtual void Destroy();
+	void Init(Vector pos)override;
+	void Destroy()override;
 
-	virtual void Update(float deltatime);
-	virtual void Render(ID2D1RenderTarget* _dxRenderTarget);
+	void Update(float deltatime)override;
+	void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 
-	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Object; }
+	RenderLayer GetRenderLayer() override { return RenderLayer::RL_Object; }
+	ActorType GetActorType() override { return ActorType::AT_Block; }
 	
 	//BlockType _type[BT_MAX];
 
-	class Texture* _rock = nullptr;
 };
 

@@ -14,6 +14,7 @@ public:
 	virtual void Update(float deltatime)override;
 	virtual void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 	virtual RenderLayer GetRenderLayer() abstract;
+
 	virtual Vector GetPlayerVelocity() abstract;
 
 	virtual void TakeDamage(float amount);

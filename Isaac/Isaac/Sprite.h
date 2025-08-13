@@ -23,6 +23,8 @@ public:
 	Size GetFrameSize();
 	void GetFrameCount(int32& outX, int32& outY);
 
+	void SetSpriteName(string spriteName) { _spriteName = spriteName; }
+	string GetSpriteName() { return _spriteName; }
 
 protected:
 	int32 _indexX = 0;
@@ -31,4 +33,5 @@ protected:
 	bool _flip = false;
 	bool _alignCenter = true;
 	bool _applyCamera = true;
+	string _spriteName;
 };

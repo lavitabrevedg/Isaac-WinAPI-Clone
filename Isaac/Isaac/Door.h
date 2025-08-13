@@ -1,19 +1,18 @@
 #pragma once
 #include "Actor.h"
-class ImageActor : public Actor
+
+class Door : public Actor
 {
 	using Super = Actor;
-
 public:
-	ImageActor(string spriteName, int32 width, int32 height);
+	Door();
 
 	void Init(Vector pos)override;
 	void Destroy()override;
-
 	void Update(float deltatime)override;
 	void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 
-	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Image; }
-private:
+	RenderLayer GetRenderLayer() { return RenderLayer::RL_Room; }
+	ActorType GetActorType() { return ActorType::AT_Door; }
 };
 

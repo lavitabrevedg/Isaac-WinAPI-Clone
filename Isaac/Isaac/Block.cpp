@@ -5,9 +5,11 @@
 
 Block::Block(string spriteName, int32 width, int32 height)
 {
-	_rock = CreateTextureComponent("Rock", 40, 40);
+	_sprite = CreateSpriteComponent(spriteName, width, height);
 
-	CreateRectCollider(_rock->GetSize().Width, _rock->GetSize().Height);
+	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height);
+
+	_sprites.push_back(_sprite);
 }
 
 void Block::Init(Vector pos)

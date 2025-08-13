@@ -74,8 +74,8 @@ public:
 	// 마우스 좌표 얻어오기
 	POINT GetMousePos() { return _mousePos; }
 
-	/*void SetEventMouseWheel(std::function<void(int32)> event) { _onMouseWheel = event; }
-	void OnEventMouseWheel(int32 delta) { if (_onMouseWheel) _onMouseWheel(delta); }*/
+	void SetEventMouseWheel(std::function<void(int32)> event) { _onMouseWheel = event; }
+	void OnEventMouseWheel(int32 delta) { if (_onMouseWheel) _onMouseWheel(delta); }
 
 private:
 	KeyState GetState(KeyType key) { return _states[static_cast<uint8>(key)]; }
@@ -85,6 +85,6 @@ private:
 	vector<KeyState> _states;
 	POINT _mousePos = {};
 
-	/*std::function<void(int32)> _onMouseWheel;*/
+	std::function<void(int32)> _onMouseWheel;
 };
 

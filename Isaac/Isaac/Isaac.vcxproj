@@ -132,13 +132,19 @@
     <ClInclude Include="ChaseMonster.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Creature.h" />
+    <ClInclude Include="DataObject.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="DropItem.h" />
+    <ClInclude Include="DropItemData.h" />
     <ClInclude Include="DXBitmap.h" />
     <ClInclude Include="EditorScene.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ImageActor.h" />
+    <ClInclude Include="ItemData.h" />
+    <ClInclude Include="MapData.h" />
+    <ClInclude Include="MonsterData.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -156,9 +162,11 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Stage.h" />
+    <ClInclude Include="StageLoader.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Tear.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -168,12 +176,18 @@
     <ClCompile Include="ChaseMonster.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="DataObject.cpp" />
     <ClCompile Include="Defines.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="DropItem.cpp" />
+    <ClCompile Include="DropItemData.cpp" />
     <ClCompile Include="DXBitmap.cpp" />
     <ClCompile Include="EditorScene.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ImageActor.cpp" />
+    <ClCompile Include="ItemData.cpp" />
+    <ClCompile Include="MapData.cpp" />
+    <ClCompile Include="MonsterData.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -191,8 +205,10 @@
     <ClCompile Include="RectCollider.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StageLoader.cpp" />
     <ClCompile Include="Tear.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -140,6 +140,24 @@ void Scene::ReserveAdd(Actor* actor)
 	_reserveAdd.emplace(actor);
 }
 
+void Scene::RemoveAllActor()
+{
+	for (int32 i = 0; i < (int32)RenderLayer::RL_Count; ++i)
+	{
+		_renderList[i].clear();
+	}
+
+	_reserveAdd.clear();
+	_reserveRemove.clear();
+
+	for (auto iter : _actors)
+	{
+		delete iter;
+	}
+	_actors.clear();
+}
+
+
 void Scene::CreateGrid()
 {
 	_gridCountX = GWinSizeX / GridSize;
@@ -236,3 +254,10 @@ void Scene::RenderGrid(ID2D1RenderTarget* _dxRenderTarget)
 		_dxRenderTarget->DrawLine(start, end, brush, 1.0f);
 	}
 }
+
+//GridInfo Scene::GetCellinfo(Cell cell) //@TODO Cell안에 같은 액터가 있는지 editorscene 오른쪽 클릭 삭제
+//{
+//	if (_grid.find(cell)->second._actorsInCell. == _grid.end())
+//		return GridInfo
+//	return
+//}

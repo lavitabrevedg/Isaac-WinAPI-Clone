@@ -40,20 +40,20 @@ void LobbyScene::Render(ID2D1RenderTarget* _dxRenderTarget)
 void LobbyScene::loadResources()
 {
 	ResourceManager::GetInstance()->LoadDXBitmap("titlemenu", L"Menu/titlemenu.png", 1, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("titlemenu2", L"Menu/titlemenu2.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("titlemenu2", L"Menu/titlemenu2.png", 2, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("titlemenu3", L"Menu/titlemenu3.png", 1, 1);
 	
 }
 
 void LobbyScene::createObjects()
 {
-	ImageActor* titlemenu = new ImageActor("titlemenu", 300, 300);
+	ImageActor* titlemenu = new ImageActor("titlemenu", GWinSizeX, GWinSizeY);
 	ImageActor* titlemenu2 = new ImageActor("titlemenu2", 300, 300);
-	ImageActor* titlemenu3 = new ImageActor("titlemenu3", 300, 300);
+	ImageActor* titlemenu3 = new ImageActor("titlemenu3", 600, 300);
 
 	titlemenu->Init(Vector{ GWinSizeX / 2, GWinSizeY / 2 });
-	titlemenu2->Init(Vector{ GWinSizeX / 2, GWinSizeY / 2 });
-	titlemenu3->Init(Vector{ GWinSizeX / 2, GWinSizeY / 2 });
+	titlemenu2->Init(Vector{ GWinSizeX / 2, 550 });
+	titlemenu3->Init(Vector{ GWinSizeX / 2, 170 });
 
 	ReserveAdd(titlemenu);
 	ReserveAdd(titlemenu2);
