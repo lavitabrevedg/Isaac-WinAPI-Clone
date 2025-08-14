@@ -129,7 +129,7 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="BaseResource.h" />
     <ClInclude Include="Block.h" />
-    <ClInclude Include="ChaseMonster.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Creature.h" />
     <ClInclude Include="DataObject.h" />
@@ -173,7 +173,7 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="BaseResource.cpp" />
     <ClCompile Include="Block.cpp" />
-    <ClCompile Include="ChaseMonster.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="DataObject.cpp" />

@@ -30,6 +30,10 @@ void LobbyScene::Update(float deltatime)
 	{
 		Game::GetInstance()->ChangeEditorScene();
 	}
+	if (InputManager::GetInstance()->GetButtonDown(KeyType::SpaceBar))
+	{
+		Game::GetInstance()->ChangePlayScene();
+	}
 }
 
 void LobbyScene::Render(ID2D1RenderTarget* _dxRenderTarget)
@@ -49,11 +53,11 @@ void LobbyScene::createObjects()
 {
 	ImageActor* titlemenu = new ImageActor("titlemenu", GWinSizeX, GWinSizeY);
 	ImageActor* titlemenu2 = new ImageActor("titlemenu2", 300, 300);
-	ImageActor* titlemenu3 = new ImageActor("titlemenu3", 600, 300);
+	ImageActor* titlemenu3 = new ImageActor("titlemenu3", 500, 300);
 
 	titlemenu->Init(Vector{ GWinSizeX / 2, GWinSizeY / 2 });
-	titlemenu2->Init(Vector{ GWinSizeX / 2, 550 });
-	titlemenu3->Init(Vector{ GWinSizeX / 2, 170 });
+	titlemenu2->Init(Vector{ GWinSizeX / 2, 360 });
+	titlemenu3->Init(Vector{ GWinSizeX / 2, 130 });
 
 	ReserveAdd(titlemenu);
 	ReserveAdd(titlemenu2);

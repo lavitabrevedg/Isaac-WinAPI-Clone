@@ -65,6 +65,15 @@ void EditorScene::Init()
 
 		_editActorInfo[(int32)mode].push_back(well);
 	}
+
+	{
+		SELECT_MODE mode = SELECT_MODE::MONSTER;
+
+		Actor* gaper = new Monster();
+		gaper->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(gaper);
+	}
 }
 
 void EditorScene::Destroy()
@@ -124,6 +133,8 @@ void EditorScene::Update(float deltatime)
 		}
 		else if (_currMode == SELECT_MODE::MONSTER)
 		{
+			auto mouseActor = _editActorInfo[(int32)_currMode][_Actorindex];
+			Sprite* copy = mouseActor->GetSprite();
 			newActor = new Monster();
 			newActor->Init(Vector{x,y});
 		}
@@ -179,6 +190,8 @@ void EditorScene::loadResources()
 	ResourceManager::GetInstance()->LoadDXBitmap("Fly", L"Monster/Fly.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Fly2", L"Monster/Fly2.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Monstro", L"Monster/Monstro.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("gaperHead", L"Monster/gaperHead.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("gaperBody", L"Monster/gaperBody.png", 10, 2);
 
 	ResourceManager::GetInstance()->LoadDXBitmap("Bomb", L"Items/Bomb.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Chest", L"Items/Chest.png", 1, 1);

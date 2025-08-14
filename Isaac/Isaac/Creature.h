@@ -1,6 +1,26 @@
 #pragma once
 #include "Actor.h"
 
+enum HeadState
+{
+	H_IDEL,
+	H_ATTACK,
+	H_MAX
+};
+
+enum BodyState
+{
+	B_IDEL,
+	B_WALK,
+	B_MAX
+};
+
+struct HeadAndBody
+{
+	AnimInfo _headAnim[HeadState::H_MAX][DirType::DIR_MAX];
+	AnimInfo _bodyAnim[BodyState::B_MAX][DirType::DIR_MAX];
+};
+
 class Creature : public Actor
 {
 	using Super = Actor;
@@ -15,10 +35,10 @@ public:
 	virtual void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 	virtual RenderLayer GetRenderLayer() abstract;
 
-	virtual Vector GetPlayerVelocity() abstract;
+	virtual Vector GetVelocity() abstract;
 
-	virtual void TakeDamage(float amount);
-	virtual void Die();
+	virtual void OnDamage(float amount) abstract;
+	virtual void Die() abstract;
 
 protected:
 	float _hp;

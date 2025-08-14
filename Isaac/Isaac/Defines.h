@@ -233,7 +233,7 @@ struct Vector
 	}
 };
 
-struct GridInfo
+struct CellInfo
 {
 	set<class Actor*> _actorsInCell;
 };

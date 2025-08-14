@@ -91,7 +91,7 @@ void AnimationController::SetAnim(const AnimInfo& newInfo)
 	info = newInfo;
 	curFrame = 0;
 	timer = 0.f;
-	endAnim = false;
+	_isEnd = false;
 }
 
 void AnimationController::Update(float deltatime, Sprite* sprite)
@@ -104,7 +104,7 @@ void AnimationController::Update(float deltatime, Sprite* sprite)
 		sprite->SetIndex(info.startX + curFrame, info.startY);
 		sprite->SetFlip(info.flipX);
 		if (curFrame == 0)
-			endAnim = true;
+			_isEnd = true;
 	}
 }
 

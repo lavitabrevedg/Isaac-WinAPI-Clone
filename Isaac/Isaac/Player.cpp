@@ -34,16 +34,13 @@ Player::Player()
 	_IsaacAnim._bodyAnim[BodyState::B_WALK][DirType::DIR_RIGHT] = AnimInfo{ 0,1,10,1,true,0.1f };
 	_IsaacAnim._bodyAnim[BodyState::B_WALK][DirType::DIR_LEFT] = AnimInfo{ 0,1,10,1,true,0.1f,true};
 
-	_Head = CreateSpriteComponent("IsaacHead");
-	_Body = CreateSpriteComponent("IsaacBody");
+	_Head = CreateSpriteComponent("IsaacHead",60,60);
+	_Body = CreateSpriteComponent("IsaacBody",50,50);
 
 	AnimInfo base = _IsaacAnim._bodyAnim[BodyState::B_IDEL][DirType::DIR_DOWN];
 	_bodyAnimCtrl.SetAnim(base);
 	base = _IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_DOWN];
 	_headAnimCtrl.SetAnim(base);
-
-	_sprites.push_back(_Head);
-	_sprites.push_back(_Body);
 
 	CreateRectCollider(_Head->GetSize().Width, _Head->GetSize().Height);
 }
@@ -51,8 +48,6 @@ Player::Player()
 void Player::Destroy()
 {
 	Super::Destroy();
-	SAFE_DELETE(_Body);
-	SAFE_DELETE(_Head);
 }
 
 void Player::Init(Vector pos)
@@ -150,7 +145,21 @@ void Player::Update(float deltatime)
 
 void Player::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	_Body->RenderImage(_dxRenderTarget, _pos + Vector{ 0,5 });
-	_Head->RenderImage(_dxRenderTarget,_pos + Vector{0,-10});
+	_Body->RenderImage(_dxRenderTarget, _pos + Vector{ 0,14 });
+	_Head->RenderImage(_dxRenderTarget,_pos + Vector{0,-14});
 	Super::Render(_dxRenderTarget);
+}
+
+void Player::OnDamage(float amount)
+{
+	_hp -= amount;
+	if (_hp <= 0)
+	{
+		Die();
+	}
+}
+
+void Player::Die()
+{
+	Game::GetInstance()->GetCurrScene()->ReserveRemove(this);
 }

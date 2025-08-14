@@ -45,7 +45,7 @@ void Game::Init(HWND hwnd)
 	TimeManager::GetInstance()->Init();
 	InputManager::GetInstance()->Init(hwnd);
 
-	_currScene = new EditorScene();
+	_currScene = new LobbyScene();
 	_currScene->Init();
 }
 

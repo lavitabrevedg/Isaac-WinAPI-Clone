@@ -29,16 +29,25 @@ public:
     void RemoveTear(class Tear* tear);
 
     bool AABBIntersect(const RECT& a, const RECT& b);
+    bool ComputeMTVAndDir(const RECT& a, const RECT& b, Vector& outMTV, Vector& outDir);
+
+    void Collide_PlayerVsMonsters(float dt);
+    void Collide_PlayerTears(float dt);
+
+    void CreateStage(int32 stage);
 
 
 private:
-    std::vector<Stage*> stages; // 여러 스테이지
-    Stage* currentStage = nullptr;
-    Room* currentRoom = nullptr;
+    int32 _currStage = 0;
+    int32 _currRoom = 0;
 
     ObjectPool<class Tear> _tearPool;
     vector<class Tear*> _reserveTear;
 
     class Player* _player = nullptr;
+
+    int32 _stage = 1;	// 현재 진행중인 스테이지 
+    int32 _maxMonsterCount = 0;	// 먹어야하는 별이 몇개인지
+    int32 _curMonsterCount = 0;
 };
 

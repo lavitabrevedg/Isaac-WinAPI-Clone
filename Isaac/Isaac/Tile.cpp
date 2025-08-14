@@ -21,7 +21,7 @@ Tile::Tile(Sprite* sprite)
 
 void Tile::Init(Vector pos)
 {
-	Super::Init(pos);
+	pos = _pos;
 }
 
 void Tile::Destroy()

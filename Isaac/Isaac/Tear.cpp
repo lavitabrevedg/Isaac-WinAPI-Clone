@@ -48,7 +48,7 @@ void Tear::Update(float deltatime)
 		SetPos(pos);
 		if (_z <= 0) {
 			// 터짐/삭제
-			PlayScene::GetGameScene()->RemoveTear(this);
+			PlayScene::GetGameScene()->RemoveTear(this); //@TODO 충돌처리 및 삭제 예외 처리 해줘야됨
 		}
 	}
 }

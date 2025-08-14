@@ -12,6 +12,7 @@ public:
 	void Update(float deltatime)override;
 	void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 
+
 	RenderLayer GetRenderLayer() { return RenderLayer::RL_Room; }
 	ActorType GetActorType() { return ActorType::AT_Door; }
 };

@@ -14,6 +14,7 @@ public:
 
 	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Tear; }
 
+	const TearStat& GetTearstat() { return _tearStat; }
 private:
 	DirType _dirtype = DirType::DIR_MAX;
 	Vector _dir[DirType::DIR_MAX] =

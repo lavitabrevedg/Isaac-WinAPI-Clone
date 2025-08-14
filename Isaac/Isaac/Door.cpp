@@ -24,3 +24,8 @@ void Door::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
 	Super::Render(_dxRenderTarget);
 }
+
+void OnEnterCollision(RectCollider* other)
+{
+
+}

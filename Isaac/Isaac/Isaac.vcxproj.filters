@@ -135,9 +135,6 @@
     <ClInclude Include="Monster.h">
       <Filter>Object\Monster</Filter>
     </ClInclude>
-    <ClInclude Include="ChaseMonster.h">
-      <Filter>Object\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="DropItem.h">
       <Filter>Object\Items</Filter>
     </ClInclude>
@@ -176,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="DataObject.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -251,9 +251,6 @@
     <ClCompile Include="Monster.cpp">
       <Filter>Object\Monster</Filter>
     </ClCompile>
-    <ClCompile Include="ChaseMonster.cpp">
-      <Filter>Object\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="DropItem.cpp">
       <Filter>Object\Items</Filter>
     </ClCompile>
@@ -292,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="DataObject.cpp">
       <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

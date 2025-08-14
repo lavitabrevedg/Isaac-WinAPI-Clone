@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Creature.h"
+#include "Monster.h"
 
 Creature::Creature()
 {
@@ -37,18 +38,4 @@ void Creature::Update(float deltatime)
 void Creature::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
 	Super::Render(_dxRenderTarget);
-}
-
-void Creature::TakeDamage(float amount)
-{
-    _hp--;
-    if (_hp <= 0)
-    {
-        Die();
-    }
-}
-
-void Creature::Die()
-{
-    _hp++;
 }

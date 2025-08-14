@@ -36,6 +36,7 @@ public:
 
 	const Vector& GetPos() { return _pos; }
 	Sprite* GetSprite() { return _sprite; }
+	const RECT* GetCollisionRect() const { return _collision; }
 
 	void SetPos(Vector newPos);
 
@@ -61,11 +62,11 @@ struct AnimationController
 	int curFrame = 0;
 	float timer = 0.f;
 	AnimInfo info;
-	bool endAnim = true;
+	bool _isEnd = true;
 
 	void SetAnim(const AnimInfo& newInfo);
 	void Update(float deltatime, Sprite* sprite);
-	bool IsEndAnim() { return endAnim; }
+	bool IsEndAnim() { return _isEnd; }
 
 };
 

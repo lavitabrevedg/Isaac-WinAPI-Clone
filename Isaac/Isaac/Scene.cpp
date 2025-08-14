@@ -168,7 +168,7 @@ void Scene::CreateGrid()
 		for (int y = 0; y < _gridCountY; y++)
 		{
 			Cell cell{ x,y };
-			GridInfo data;
+			CellInfo data;
 			_grid.emplace(std::make_pair(cell, data));
 		}
 	}
@@ -216,7 +216,7 @@ void Scene::UpdateGrid(Actor* actor, Vector prevPos, Vector newPos)
 			auto findActor = cellInfo._actorsInCell.find(actor);
 			if (findActor != cellInfo._actorsInCell.end())
 			{
-				OutputDebugString(L"Invalid Grid!!");
+				OutputDebugString(L"Invalid Grid!!"); //@TODO 경고음 고쳐야 됨 계속 뜸 setPos떄문인지
 			}
 			else
 			{
@@ -255,9 +255,10 @@ void Scene::RenderGrid(ID2D1RenderTarget* _dxRenderTarget)
 	}
 }
 
-//GridInfo Scene::GetCellinfo(Cell cell) //@TODO Cell안에 같은 액터가 있는지 editorscene 오른쪽 클릭 삭제
-//{
-//	if (_grid.find(cell)->second._actorsInCell. == _grid.end())
-//		return GridInfo
-//	return
-//}
+CellInfo Scene::GetCellinfo(Cell cell)
+{
+	if (_grid.find(cell) != _grid.end())
+	{
+		return _grid.find(cell)->second;
+	}
+}

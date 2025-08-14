@@ -42,7 +42,7 @@ public:
 	void UpdateGrid(Actor* actor,Vector prevPos, Vector newPos);
 	void RenderGrid(ID2D1RenderTarget* _dxRenderTarget);
 
-	//GridInfo GetCellinfo(Cell cell);
+	CellInfo GetCellinfo(Cell cell);
 
 
 protected:
@@ -52,7 +52,7 @@ protected:
 	unordered_set<Actor*> _reserveAdd;
 	unordered_set<Actor*> _reserveRemove;
 
-	map<Cell, GridInfo> _grid;
+	map<Cell, CellInfo> _grid;
 	int32 _gridCountX;
 	int32 _gridCountY;
 

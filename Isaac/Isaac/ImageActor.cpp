@@ -15,7 +15,7 @@ void ImageActor::Init(Vector pos)
 
 void ImageActor::Destroy()
 {
-
+	Super::Destroy();
 }
 
 void ImageActor::Update(float deltatime)
