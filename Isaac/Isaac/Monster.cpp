@@ -54,6 +54,45 @@ void Monster::Init(Vector pos)
 
 void Monster::Update(float deltatime)
 {
+
+	_currCount += deltatime;
+
+	//if (_checkCount < _currCount)
+	{
+		Cell start = Cell::ConvertToCell(this->GetPos(), GridSize);
+		Vector player = PlayScene::GetGameScene()->GetPlayerPos();
+		Cell end = Cell::ConvertToCell(player, GridSize);
+
+		PlayScene::GetGameScene()->FindPath(start,end,_path);
+
+		if (!_path.empty() && _path.front().index_X == start.index_X &&
+			_path.front().index_Y == start.index_Y)
+			_pathIdx = 1;
+
+		_currCount = 0;
+	}
+
+	float moveForce = 200.f;
+	bool moving = false;
+
+	if (_pathIdx < (int)_path.size())
+	{
+		Vector target = Cell::ConvertToWorld(_path[_pathIdx], GridSize);
+		Vector toT = target - _pos;
+		float dist = toT.LengthSquared();
+
+		if (dist <= _arrive * _arrive)
+		{
+			++_pathIdx;
+		}
+		else
+		{
+			Vector dir = toT.GetNormalize();
+			_acceleration += dir * moveForce;
+			moving = true;
+		}
+	}
+
 	Super::Update(deltatime);
 
 	if (_currbodyState != _prevbodyState || _currbodyDir != _prevbodyDir) {

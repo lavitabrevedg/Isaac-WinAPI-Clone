@@ -42,5 +42,17 @@ private:
 	BodyState _prevbodyState;
 
 	Actor* Target;
+
+	vector<Cell> _path;
+	int8 _checkCount = 100;
+	int8 _currCount = 0;
+	int _pathIdx = 0;
+	float _arrive = 4.0f;
+
+	void UpdateFacingFromDir(const Vector& dir) {
+		if (fabs(dir.x) > fabs(dir.y)) _currbodyDir = (dir.x >= 0) ? DirType::DIR_RIGHT : DirType::DIR_LEFT;
+		else                            _currbodyDir = (dir.y >= 0) ? DirType::DIR_DOWN : DirType::DIR_UP;
+		_currbodyState = BodyState::B_WALK;
+	}
 };
 

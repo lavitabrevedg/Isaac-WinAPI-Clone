@@ -45,6 +45,7 @@ protected:
 	float _maxhp;
 	Vector _velocity;
 	Vector _acceleration;
+	float _moveforce;
 	float _maxSpeed;
 	float _friction;
 };

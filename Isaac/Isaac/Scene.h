@@ -42,10 +42,11 @@ public:
 	void UpdateGrid(Actor* actor,Vector prevPos, Vector newPos);
 	void RenderGrid(ID2D1RenderTarget* _dxRenderTarget);
 
-	CellInfo GetCellinfo(Cell cell);
+	const CellInfo& GetCellinfo(Cell cell);
 
 
 protected:
+	bool _gridOn = true;
 	unordered_set<Actor*> _actors;
 	vector<class Actor*> _renderList[RenderLayer::RL_Count];
 

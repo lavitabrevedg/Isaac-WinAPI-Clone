@@ -236,6 +236,7 @@ struct Vector
 struct CellInfo
 {
 	set<class Actor*> _actorsInCell;
+	bool canMoveCell = true;
 };
 
 struct Cell
@@ -260,7 +261,7 @@ struct Cell
 		if (cell.index_X < 0 || cell.index_Y < 0)
 			return Vector{ -1,-1 };
 
-		return Vector{ (float)(cell.index_X * GridSize + (GridSize / 2)),(float)(cell.index_Y * GridSize + (GridSize / 2)) };
+		return Vector{ (float)(cell.index_X * GridSize - (GridSize / 2)),(float)(cell.index_Y * GridSize - (GridSize / 2)) };
 	}
 
 	// 편의를 위해서 == 비교 연산자

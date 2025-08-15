@@ -1,9 +1,7 @@
 #include "pch.h"
 #include "Tile.h"
 #include "Sprite.h"
-#include <fstream>
-#include <iostream>
-#include <string>
+
 
 Tile::Tile()
 {

@@ -23,6 +23,13 @@ public:
 	Size GetFrameSize();
 	void GetFrameCount(int32& outX, int32& outY);
 
+	void SetFrameOffset(int fx, int fy, Vector offset);
+
+private:
+	Vector _getFrameOffset(const Sprite* s);
+
+public:
+
 	void SetSpriteName(string spriteName) { _spriteName = spriteName; }
 	string GetSpriteName() { return _spriteName; }
 
@@ -34,4 +41,6 @@ protected:
 	bool _alignCenter = true;
 	bool _applyCamera = true;
 	string _spriteName;
+
+	unordered_map<int, Vector> _frameOffsets;
 };

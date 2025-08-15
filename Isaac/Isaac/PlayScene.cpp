@@ -39,6 +39,10 @@ void PlayScene::Update(float deltatime)
 	//{
 	//	_camera.pos = currentRoom->GetPos();
 	//}
+	if (InputManager::GetInstance()->GetButtonDown(KeyType::F7))
+	{
+		_gridOn = !_gridOn;
+	}
 
 	Super::Update(deltatime);
 
@@ -104,6 +108,8 @@ void PlayScene::createObjects()
 	ReserveAdd(_player);
 
 	_tearPool.Init(100);
+
+	_gridOn = false;
 }
 
 void PlayScene::createUI()
@@ -112,6 +118,16 @@ void PlayScene::createUI()
 
 void PlayScene::initTimer()
 {
+}
+
+bool PlayScene::CanMove(Cell cell)
+{
+	auto find = _grid.find(cell);
+	if (find != _grid.end())
+	{
+		return find->second.canMoveCell;
+	}
+	return false;
 }
 
 void PlayScene::CreateTear(DirType dir, Vector pos, TearStat stat, Vector playervelocity)
@@ -180,12 +196,13 @@ void PlayScene::Collide_PlayerVsMonsters(float dt)
 		{
 			Cell checkCell{ cell.index_X + dx , cell.index_Y + dy };
 
-			if (checkCell.index_X < 0 || checkCell.index_Y < 0)
+			if (checkCell.index_X < 0 || checkCell.index_X >= _gridCountX ||
+				checkCell.index_Y < 0 || checkCell.index_Y >= _gridCountY)
 				continue;
 
-			CellInfo info = GetCellinfo(checkCell);
+			const CellInfo& info = GetCellinfo(checkCell);
 
-			for (const auto& otherActor : info._actorsInCell) //@TODO 오류 왜뜨는거야 ㅅㅂㅅㅂㅅㅂ
+			for (const auto& otherActor : info._actorsInCell) 
 			{
 				if (otherActor == _player)
 					continue;
@@ -230,10 +247,11 @@ void PlayScene::Collide_PlayerTears(float dt)
 			{
 				Cell checkCell{ cell.index_X + dx , cell.index_Y + dy };
 
-				if (checkCell.index_X < 0 || checkCell.index_Y < 0)
+				if (checkCell.index_X < 0 || checkCell.index_X >= _gridCountX ||
+					checkCell.index_Y < 0 || checkCell.index_Y >= _gridCountY)
 					continue;
 
-				CellInfo info = GetCellinfo(checkCell);
+				const CellInfo& info = GetCellinfo(checkCell);
 
 				for (const auto& otherActor : info._actorsInCell)
 				{
@@ -251,7 +269,7 @@ void PlayScene::Collide_PlayerTears(float dt)
 					{
 						Monster* monster = dynamic_cast<Monster*>(otherActor);
 						Tear* casttear = dynamic_cast<Tear*>(tear);
-						int32 damage = casttear->GetTearstat().damage;
+						float damage = casttear->GetTearstat().damage;
 
 						monster->OnDamage(damage);
 
@@ -271,7 +289,7 @@ void PlayScene::CreateStage(int32 stage)
 	fs::path fullPath = fs::current_path() / L"../Resources/" / fileName;
 
 	std::wifstream file(fullPath);
-	if (file.is_open());
+	if (file.is_open())
 	{
 		StageLoader loader;
 		_maxMonsterCount = loader.Load(this, file);
@@ -279,4 +297,133 @@ void PlayScene::CreateStage(int32 stage)
 
 		file.close();
 	}
+}
+
+Vector PlayScene::GetPlayerPos()
+{
+	return _player->GetPos();
+}
+
+bool PlayScene::FindPath(Cell start, Cell end, vector<Cell>& findPath, int32 maxDepth)
+{
+	findPath.clear();
+
+	Heuristic(start, end);
+	struct AStarNode
+	{
+		int g;
+		int h;
+		Cell data;
+
+		bool operator>(const AStarNode& other) const
+		{
+			int f = g + h;
+			int otherF = other.g + other.h;
+
+			if (f == otherF)
+				return g > other.g;
+
+			return f > otherF;
+		}
+	};
+	Cell delta[] =
+	{
+		Cell(-1, 0), // Left
+		Cell(1, 0), // Right
+		Cell(0, -1), // Up
+		Cell(0, 1), // Down
+		Cell(-1, 1), // Left-Down
+		Cell(1, 1), // Right-Down
+		Cell(-1, -1), // Left-Up
+		Cell(1, -1), // Right-Up
+	};
+
+	int cost[] =
+	{
+		10,
+		10,
+		10,
+		10,
+		14,
+		14,
+		14,
+		14
+	};
+	int gridx = _gridCountX + 1;
+	int gridy = _gridCountY + 1;
+
+	vector<vector<int>> best(gridy, vector<int>(gridx, INT32_MAX));
+	vector<vector<bool>> closed(gridy, vector<bool>(gridx, false));
+	vector<vector<Cell>> parent(gridy, vector<Cell>(gridx, Cell(-1, -1)));
+	priority_queue<AStarNode, vector<AStarNode>, greater<AStarNode>> pq;
+
+	{
+		int g = 0;
+		int h = Heuristic(start, end);
+		int f = g + h;
+		pq.push(AStarNode{g, h, start});
+		best[start.index_Y][start.index_X] = f;
+		parent[start.index_Y][start.index_X] = start;
+	}
+
+	int count = 0;
+	while (pq.empty() == false)
+	{
+		AStarNode node = pq.top();
+		pq.pop();
+
+		++count;
+
+		if (closed[node.data.index_Y][node.data.index_X])
+			continue;
+
+		if (best[node.data.index_Y][node.data.index_X] < node.g + node.h)
+		{
+			continue;
+		}
+
+		closed[node.data.index_Y][node.data.index_X] = true;
+
+		if (node.data == end)
+			break;
+
+		for (int i = 0; i < 8; i++)
+		{
+			Cell nextCell;
+			nextCell.index_X = node.data.index_X + delta[i].index_X;
+			nextCell.index_Y = node.data.index_Y + delta[i].index_Y;
+
+			if (CanMove(nextCell) == false)
+				continue;
+
+			if (closed[nextCell.index_Y][nextCell.index_X])
+				continue;
+
+			int g = node.g + cost[i];
+			int h = Heuristic(nextCell, end);
+			int f = g + h;
+
+			if (best[nextCell.index_Y][nextCell.index_X] <= f)
+				continue;
+
+			best[nextCell.index_Y][nextCell.index_X] = f;
+			pq.push(AStarNode{ g,h,nextCell });
+			parent[nextCell.index_Y][nextCell.index_X] = node.data;
+		}
+	}
+
+	while (true)
+	{
+		findPath.push_back(end);
+
+		if (end == parent[end.index_Y][end.index_X])
+		{
+			break;
+		}
+
+		end = parent[end.index_Y][end.index_X];
+	}
+
+	reverse(findPath.begin(), findPath.end());
+	return false;
 }

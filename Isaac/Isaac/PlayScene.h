@@ -25,6 +25,8 @@ public:
 
     bool useGrid() const override { return true; }
 
+    bool CanMove(Cell cell);
+
     void CreateTear(DirType dir, Vector pos,TearStat stat, Vector playervelocity);
     void RemoveTear(class Tear* tear);
 
@@ -36,6 +38,13 @@ public:
 
     void CreateStage(int32 stage);
 
+    Vector GetPlayerPos();
+
+    int Heuristic(Cell curr, Cell end)
+    {
+        return (abs(end.index_X - curr.index_X) + abs(end.index_Y - curr.index_Y)) * 10;
+    }
+    bool FindPath(Cell start, Cell end, vector<Cell>& findPath, int32 maxDepth = 10);
 
 private:
     int32 _currStage = 0;

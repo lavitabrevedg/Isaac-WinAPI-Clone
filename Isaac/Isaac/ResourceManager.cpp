@@ -15,7 +15,7 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 	{
 		_spriteNames.emplace("titlemenu", SpriteInfo(0, 0, "titlemenu", true));
 		_spriteNames.emplace("titlemenu2", SpriteInfo(0, 0, "titlemenu2", true));
-		_spriteNames.emplace("titlemenu3", SpriteInfo(0, 0, "titlemenu3", true)); //@TODO 리소스 이상한거 고쳐야됨
+		_spriteNames.emplace("titlemenu3", SpriteInfo(0, 0, "titlemenu3", true));
 	}
 
 	{

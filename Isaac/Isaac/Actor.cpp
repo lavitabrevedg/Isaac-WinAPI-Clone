@@ -165,7 +165,7 @@ void Actor::LoadActor(std::wistringstream& steam)
 	std::string spriteName;
 	spriteName.assign(wspriteName.begin(), wspriteName.end());
 
-	SetPos(Vector((float)x, (float)y));
+	Init(Vector((float)x, (float)y));
 	_sprite->SetIndex(indexX, indexY);
 	_sprite->SetSpriteName(spriteName);
 }

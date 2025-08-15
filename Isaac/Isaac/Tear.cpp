@@ -25,7 +25,9 @@ void Tear::Init(Vector pos, DirType dir,TearStat stat, Vector playervelocity)
 	_distance = 0;
 	falling = false;
 
-	Super::Init(pos);
+	Vector plus = { 30,-30 };
+
+	Super::Init(pos + plus);
 }
 
 void Tear::Update(float deltatime)

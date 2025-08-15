@@ -168,6 +168,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="_PathFind.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
@@ -210,6 +211,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="_PathFind.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Isaac.rc" />

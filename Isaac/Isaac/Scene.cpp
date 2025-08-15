@@ -70,11 +70,10 @@ void Scene::Render(ID2D1RenderTarget* _dxRenderTarget)
 		for (auto* a : list)
 			a->Render(_dxRenderTarget); //@카메라 복붙하긴 했는데 좀 이상한거 같음 고쳐야돼 카메라 잠깐 뺴두고 나중에 추가해도 되고
 
-	if (useGrid()) RenderGrid(_dxRenderTarget);
+	if (useGrid() && _gridOn) RenderGrid(_dxRenderTarget);
 
 	_dxRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 
-	
 }
 
 void Scene::RemoveActor(Actor* actor)
@@ -101,6 +100,7 @@ void Scene::RemoveActor(Actor* actor)
 		if (iter != _actors.end())
 		{
 			_actors.erase(iter);
+			actor->Destroy();
 			delete actor;
 		}
 	}
@@ -176,6 +176,8 @@ void Scene::CreateGrid()
 
 void Scene::UpdateGrid(Actor* actor, Vector prevPos, Vector newPos)
 {
+	if (!useGrid() || _grid.empty()) return;
+
 	Cell prevCell = Cell::ConvertToCell(prevPos, GridSize);
 	Cell currCell = Cell::ConvertToCell(newPos, GridSize);
 
@@ -255,10 +257,13 @@ void Scene::RenderGrid(ID2D1RenderTarget* _dxRenderTarget)
 	}
 }
 
-CellInfo Scene::GetCellinfo(Cell cell)
+const CellInfo& Scene::GetCellinfo(Cell cell)
 {
-	if (_grid.find(cell) != _grid.end())
+	auto it = _grid.find(cell);
+
+	if ( it != _grid.end())
 	{
-		return _grid.find(cell)->second;
+		return it->second;
 	}
+	return CellInfo{};
 }
