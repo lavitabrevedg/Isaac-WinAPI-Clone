@@ -174,11 +174,11 @@
     <ClInclude Include="DataObject.h">
       <Filter>Data</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="_PathFind.h">
       <Filter>Object\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -293,11 +293,11 @@
     <ClCompile Include="DataObject.cpp">
       <Filter>Data</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="_PathFind.cpp">
       <Filter>Object\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

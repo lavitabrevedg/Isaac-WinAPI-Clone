@@ -13,10 +13,10 @@ Player::Player()
 	_maxhp = 3;
 	_hp = _maxhp;
 
-	_IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_DOWN] = AnimInfo{ 0,0,1,1,false,0.2f };
-	_IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_RIGHT] = AnimInfo{ 2,0,1,1,false,0.2f };
-	_IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_UP] = AnimInfo{ 4,0,1,1,false, 0.2f };
-	_IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_LEFT] = AnimInfo{ 6,0,1,1,false,0.2f };
+	_IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_DOWN] = AnimInfo{ 0,0,1,1,false,0.1f };
+	_IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_RIGHT] = AnimInfo{ 2,0,1,1,false,0.1f };
+	_IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_UP] = AnimInfo{ 4,0,1,1,false, 0.1f };
+	_IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_LEFT] = AnimInfo{ 6,0,1,1,false,0.1f };
 
 	_IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_DOWN] = AnimInfo{ 0,0,2,1,false,0.2f };
 	_IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_RIGHT] = AnimInfo{ 2,0,2,1,false,0.2f };
@@ -26,33 +26,37 @@ Player::Player()
 	_IsaacAnim._bodyAnim[BodyState::B_IDEL][DirType::DIR_DOWN] = AnimInfo{ 0,0,1,1,true,0.1f };
 	_IsaacAnim._bodyAnim[BodyState::B_IDEL][DirType::DIR_UP] = AnimInfo{ 0,0,1,1,true,0.1f };
 	_IsaacAnim._bodyAnim[BodyState::B_IDEL][DirType::DIR_RIGHT] = AnimInfo{ 0,1,1,1,true,0.1f };
-	_IsaacAnim._bodyAnim[BodyState::B_IDEL][DirType::DIR_LEFT] = AnimInfo{ 0,1,1,1,true,0.1f,true };
+	_IsaacAnim._bodyAnim[BodyState::B_IDEL][DirType::DIR_LEFT] = AnimInfo{ 0,1,1,1,true,0.1f };
 
 	_IsaacAnim._bodyAnim[BodyState::B_WALK][DirType::DIR_DOWN] = AnimInfo{ 1,0,9,1,true,0.1f };
 	_IsaacAnim._bodyAnim[BodyState::B_WALK][DirType::DIR_UP] = AnimInfo{ 1,0,9,1,true,0.1f };
 	_IsaacAnim._bodyAnim[BodyState::B_WALK][DirType::DIR_RIGHT] = AnimInfo{ 1,1,9,1,true,0.1f };
 	_IsaacAnim._bodyAnim[BodyState::B_WALK][DirType::DIR_LEFT] = AnimInfo{ 1,1,9,1,true,0.1f,true };
 
-	_Head = CreateSpriteComponent("IsaacHead", 70, 50);
-	_Body = CreateSpriteComponent("IsaacBody", 50, 50);
+	_Head = CreateSpriteComponent("IsaacHead", 72, 50);
+	_Body = CreateSpriteComponent("IsaacBody", 50, 35);
 
 
-	_Head->SetFrameOffset(0, 0, { 10, 0 });
-	_Head->SetFrameOffset(1, 0, { 10, 0 });
+	_Head->SetFrameOffset(0, 0, { 5, 0 });
+	_Head->SetFrameOffset(1, 0, { 5, 0 });
+	_Head->SetFrameOffset(4, 0, { -3,0 });
+	_Head->SetFrameOffset(5, 0, { -3,0 });
+	_Head->SetFrameOffset(6, 0, { -5,0 });
+	_Head->SetFrameOffset(7, 0, { -5,0 });
 
 
-	_Body->SetFrameOffset(0, 0, { 13, 0 });  
-	_Body->SetFrameOffset(1, 0, { 7, 0 });  
+	_Body->SetFrameOffset(0, 0, { 9, 0 });  
+	_Body->SetFrameOffset(1, 0, { 7, 0 });
 	_Body->SetFrameOffset(2, 0, { 6, 0 });  
 	_Body->SetFrameOffset(3, 0, { 5, 0 });  
 	_Body->SetFrameOffset(4, 0, { 4, 0 });  
-	_Body->SetFrameOffset(5, 0, { -2, 0 });  
-	_Body->SetFrameOffset(6, 0, { -3, 0 });  
-	_Body->SetFrameOffset(7, 0, { -4, 0 });  
-	_Body->SetFrameOffset(8, 0, { -5, 0 });  
-	_Body->SetFrameOffset(9, 0, { -6, 0 });  
+	_Body->SetFrameOffset(5, 0, { -3, 0 });  
+	_Body->SetFrameOffset(6, 0, { -4, 0 });  
+	_Body->SetFrameOffset(7, 0, { -5, 0 });  
+	_Body->SetFrameOffset(8, 0, { -6, 0 });  
+	_Body->SetFrameOffset(9, 0, { -7, 0 });  
 
-	_Body->SetFrameOffset(0, 1, { 13, 0 });
+	_Body->SetFrameOffset(0, 1, { 9, 0 });
 	_Body->SetFrameOffset(1, 1, { 8, 0 });
 	_Body->SetFrameOffset(2, 1, { 7, 0 });
 	_Body->SetFrameOffset(3, 1, { 6, 0 });
@@ -69,7 +73,7 @@ Player::Player()
 	base = _IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_DOWN];
 	_headAnimCtrl.SetAnim(base);
 
-	CreateRectCollider(_Head->GetSize().Width, _Head->GetSize().Height);
+	CreateRectCollider(_Head->GetSize().Width, _Head->GetSize().Height + _Body->GetSize().Height);
 }
 
 void Player::Destroy()
@@ -88,7 +92,7 @@ void Player::Init(Vector pos)
 	_playerTearStat.damage = 3.5f;
 	_playerTearStat.tears = 2.7f;
 	_playerTearStat.range = 500.f;
-	_playerTearStat.shot_speed = 200.f;
+	_playerTearStat.shot_speed = 400.f;
 
 	_currbodyDir = DirType::DIR_DOWN;
 	_prevbodyDir = DirType::DIR_DOWN;
@@ -101,8 +105,6 @@ void Player::Init(Vector pos)
 void Player::Update(float deltatime)
 {
 	Super::Update(deltatime);
-
-	_headDir = _currbodyDir;
 
 	float moveForce = 1000.f;
 	bool moving = false;
@@ -126,7 +128,10 @@ void Player::Update(float deltatime)
 	}
 	else {
 		_currbodyState = B_IDEL;
+		_currbodyDir = DIR_DOWN;
 	}
+
+	_currheadDir = _currbodyDir;
 
 	// Attack/Head
 	if (InputManager::GetInstance()->GetButtonDown(KeyType::Left))
@@ -156,8 +161,16 @@ void Player::Update(float deltatime)
 
 	if (_headAnimCtrl.IsEndAnim())
 	{
-		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_DOWN];
-		_headAnimCtrl.SetAnim(headInfo);
+		if (moving)
+		{
+			AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_IDEL][_currheadDir];
+			_headAnimCtrl.SetAnim(headInfo);
+		}
+		else
+		{
+			AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_DOWN];
+			_headAnimCtrl.SetAnim(headInfo);
+		}
 	}
 
 	if (_currbodyState != _prevbodyState || _currbodyDir != _prevbodyDir) {
@@ -173,8 +186,8 @@ void Player::Update(float deltatime)
 
 void Player::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	_Body->RenderImage(_dxRenderTarget, _pos + Vector{ 0,14 });
-	_Head->RenderImage(_dxRenderTarget, _pos + Vector{ 0,-14 });
+	_Body->RenderImage(_dxRenderTarget, _pos + Vector{ 0,13 });
+	_Head->RenderImage(_dxRenderTarget, _pos + Vector{ 0,-13 });
 	Super::Render(_dxRenderTarget);
 }
 

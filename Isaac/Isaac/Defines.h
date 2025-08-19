@@ -64,7 +64,7 @@ struct AnimInfo
 	int32 countX = 0;
 	int32 countY = 0;
 	bool loop = false;
-	float durtaion = 0.2f;
+	float duration = 0.2f;
 	bool flipX = false;
 };
 
@@ -261,7 +261,7 @@ struct Cell
 		if (cell.index_X < 0 || cell.index_Y < 0)
 			return Vector{ -1,-1 };
 
-		return Vector{ (float)(cell.index_X * GridSize - (GridSize / 2)),(float)(cell.index_Y * GridSize - (GridSize / 2)) };
+		return Vector{ (float)(cell.index_X * GridSize + (GridSize * 0.5f)),(float)(cell.index_Y * GridSize + (GridSize * 0.5f)) };
 	}
 
 	// 편의를 위해서 == 비교 연산자

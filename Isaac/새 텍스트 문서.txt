@@ -13,5 +13,6 @@ Room을 여러개 만들고 Camera로 한 방과 이어진 방만 렌더링해�
 Room 구성 -> json파일화
 id, monsterCount, dir, object?(스폰할 상자 아이템등)
 Monster -> json파일화
+MonsterID type, variant, subtype, hp, speed 등
 Item -> json파일화
 충돌체크 -> 비트마스크

@@ -129,7 +129,6 @@
     <ClInclude Include="Actor.h" />
     <ClInclude Include="BaseResource.h" />
     <ClInclude Include="Block.h" />
-    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Creature.h" />
     <ClInclude Include="DataObject.h" />
@@ -139,6 +138,7 @@
     <ClInclude Include="DropItemData.h" />
     <ClInclude Include="DXBitmap.h" />
     <ClInclude Include="EditorScene.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ImageActor.h" />
@@ -174,7 +174,6 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="BaseResource.cpp" />
     <ClCompile Include="Block.cpp" />
-    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="DataObject.cpp" />
@@ -184,6 +183,7 @@
     <ClCompile Include="DropItemData.cpp" />
     <ClCompile Include="DXBitmap.cpp" />
     <ClCompile Include="EditorScene.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ImageActor.cpp" />
     <ClCompile Include="ItemData.cpp" />

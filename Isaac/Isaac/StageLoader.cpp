@@ -31,11 +31,14 @@ int32 StageLoader::Load(Scene* scene, std::wifstream& file)
             actor = new Monster();
             maxMonster++;
             break;
+        case ActorType::AT_Block:
+            actor = new Block();
+            break;
         }
 
         if (actor)
         {
-            scene->ReserveAdd(actor);
+            scene->AddActor(actor);
             actor->LoadActor(iss);
         }
     }

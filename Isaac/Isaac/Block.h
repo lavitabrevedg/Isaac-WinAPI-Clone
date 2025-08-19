@@ -11,7 +11,9 @@ class Block : public Actor
 {
 	using Super = Actor;
 public:
-	Block(string spriteName, int32 width, int32 height);
+	Block();
+	Block(Sprite* sprite);
+	Block(string spriteName, int32 width = 54, int32 height = 54);
 
 	void Init(Vector pos)override;
 	void Destroy()override;
@@ -22,7 +24,7 @@ public:
 	RenderLayer GetRenderLayer() override { return RenderLayer::RL_Object; }
 	ActorType GetActorType() override { return ActorType::AT_Block; }
 	
-	//BlockType _type[BT_MAX];
+	void LoadActor(std::wistringstream& steam)override;
 
 };
 

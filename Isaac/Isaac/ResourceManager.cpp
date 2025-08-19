@@ -62,6 +62,13 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 		_spriteNames.emplace("Heart", SpriteInfo(0, 0, "Heart", true));
 		_spriteNames.emplace("Key", SpriteInfo(0, 0, "Key", true));
 		_spriteNames.emplace("Penny1", SpriteInfo(0, 0, "Penny1", true));
+
+		//object
+		_spriteNames.emplace("rock", SpriteInfo(0, 0, "rock", true));
+		_spriteNames.emplace("rocks", SpriteInfo(0, 0, "rocks", false));
+
+		//effect
+		_spriteNames.emplace("TearPop", SpriteInfo(1, 1, "TearPop", true));
 	}
 
 	// font

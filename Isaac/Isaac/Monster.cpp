@@ -10,22 +10,41 @@ Monster::Monster()
 	_hp = _maxhp;
 
 	_bodyAnim[BodyState::B_IDEL][DirType::DIR_DOWN] = AnimInfo{ 0,0,1,1,true,0.1f };
-	_bodyAnim[BodyState::B_IDEL][DirType::DIR_UP] = AnimInfo{ 0,0,1,1,true,0.1f };
-	_bodyAnim[BodyState::B_IDEL][DirType::DIR_RIGHT] = AnimInfo{ 0,1,1,1,true,0.1f };
-	_bodyAnim[BodyState::B_IDEL][DirType::DIR_LEFT] = AnimInfo{ 0,1,1,1,true,0.1f,true };
 
 	_bodyAnim[BodyState::B_WALK][DirType::DIR_DOWN] = AnimInfo{ 0,0,10,1,true,0.1f };
 	_bodyAnim[BodyState::B_WALK][DirType::DIR_UP] = AnimInfo{ 0,0,10,1,true,0.1f };
 	_bodyAnim[BodyState::B_WALK][DirType::DIR_RIGHT] = AnimInfo{ 0,1,10,1,true,0.1f };
 	_bodyAnim[BodyState::B_WALK][DirType::DIR_LEFT] = AnimInfo{ 0,1,10,1,true,0.1f,true };
 
-	_sprite = CreateSpriteComponent("gaperHead",60,60);
-	_Body = CreateSpriteComponent("gaperBody",50,50);
+	_sprite = CreateSpriteComponent("gaperHead", 55, 60);
+	_Body = CreateSpriteComponent("gaperBody", 50, 35);
+
+	_Body->SetFrameOffset(0, 0, { 9, 0 });
+	_Body->SetFrameOffset(1, 0, { 7, 0 });
+	_Body->SetFrameOffset(2, 0, { 6, 0 });
+	_Body->SetFrameOffset(3, 0, { 5, 0 });
+	_Body->SetFrameOffset(4, 0, { 4, 0 });
+	_Body->SetFrameOffset(5, 0, { -3, 0 });
+	_Body->SetFrameOffset(6, 0, { -4, 0 });
+	_Body->SetFrameOffset(7, 0, { -5, 0 });
+	_Body->SetFrameOffset(8, 0, { -6, 0 });
+	_Body->SetFrameOffset(9, 0, { -7, 0 });
+
+	_Body->SetFrameOffset(0, 1, { 9, 0 });
+	_Body->SetFrameOffset(1, 1, { 8, 0 });
+	_Body->SetFrameOffset(2, 1, { 7, 0 });
+	_Body->SetFrameOffset(3, 1, { 6, 0 });
+	_Body->SetFrameOffset(4, 1, { 5, 0 });
+	_Body->SetFrameOffset(5, 1, { -2, 0 });
+	_Body->SetFrameOffset(6, 1, { -3, 0 });
+	_Body->SetFrameOffset(7, 1, { -4, 0 });
+	_Body->SetFrameOffset(8, 1, { -5, 0 });
+	_Body->SetFrameOffset(9, 1, { -6, 0 });
 
 	AnimInfo base = _bodyAnim[BodyState::B_IDEL][DirType::DIR_DOWN];
 	_bodyAnimCtrl.SetAnim(base);
 
-	CreateRectCollider(_sprite->GetSize().Width + _Body->GetSize().Width, _sprite->GetSize().Height + _Body->GetSize().Height);
+	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height + _Body->GetSize().Height);
 }
 
 Monster::~Monster()
@@ -46,24 +65,22 @@ void Monster::Init(Vector pos)
 	_acceleration = { 0,0 };
 
 	_currbodyDir = DirType::DIR_DOWN;
-	_prevbodyDir = DirType::DIR_DOWN;
-
-	_currbodyState = BodyState::B_IDEL;
-	_prevbodyState = BodyState::B_IDEL;
 }
 
 void Monster::Update(float deltatime)
 {
+	_currCount++;
 
-	_currCount += deltatime;
-
-	//if (_checkCount < _currCount)
+	if (_checkCount < _currCount)
 	{
+		if (this == nullptr)
+			return;
+
 		Cell start = Cell::ConvertToCell(this->GetPos(), GridSize);
 		Vector player = PlayScene::GetGameScene()->GetPlayerPos();
 		Cell end = Cell::ConvertToCell(player, GridSize);
 
-		PlayScene::GetGameScene()->FindPath(start,end,_path);
+		PlayScene::GetGameScene()->FindPath(start, end, _path);
 
 		if (!_path.empty() && _path.front().index_X == start.index_X &&
 			_path.front().index_Y == start.index_Y)
@@ -84,21 +101,22 @@ void Monster::Update(float deltatime)
 		if (dist <= _arrive * _arrive)
 		{
 			++_pathIdx;
+			/*target = Cell::ConvertToWorld(_path[_pathIdx], GridSize);
+			toT = target - _pos;*/
 		}
-		else
-		{
-			Vector dir = toT.GetNormalize();
-			_acceleration += dir * moveForce;
-			moving = true;
-		}
+
+		Vector dir = toT.GetNormalize();
+		_acceleration += dir * moveForce;
+		moving = true;
+
+		UpdateFacingFromDir(dir);
 	}
 
 	Super::Update(deltatime);
 
-	if (_currbodyState != _prevbodyState || _currbodyDir != _prevbodyDir) {
-		AnimInfo bodyInfo = _bodyAnim[_currbodyState][_currbodyDir];
+	if (_currbodyDir != _prevbodyDir) {
+		AnimInfo bodyInfo = _bodyAnim[B_WALK][_currbodyDir];
 		_bodyAnimCtrl.SetAnim(bodyInfo);
-		_prevbodyState = _currbodyState;
 		_prevbodyDir = _currbodyDir;
 	}
 
@@ -107,8 +125,8 @@ void Monster::Update(float deltatime)
 
 void Monster::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	_Body->RenderImage(_dxRenderTarget, _pos + Vector{ 0,14 });
-	_sprite->RenderImage(_dxRenderTarget, _pos + Vector{ 0,-14 });
+	_Body->RenderImage(_dxRenderTarget, _pos + Vector{ 0,13 });
+	_sprite->RenderImage(_dxRenderTarget, _pos + Vector{ 0,-13 });
 	Super::Render(_dxRenderTarget);
 }
 

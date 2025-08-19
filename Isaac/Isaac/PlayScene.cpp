@@ -9,8 +9,10 @@
 #include "Stage.h"
 #include "Room.h"
 #include "InputManager.h"
+#include "Sprite.h"
 #include "MapData.h"
 #include "StageLoader.h"
+#include "Effect.h"
 
 PlayScene::PlayScene()
 {
@@ -87,24 +89,29 @@ void PlayScene::loadResources()
 
 	ResourceManager::GetInstance()->LoadDXBitmap("Penny1", L"Items/Penny1.png", 6, 1);
 
-	ResourceManager::GetInstance()->LoadDXBitmap("Guid", L"Room/Guid.png", 1, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("Tile", L"Room/Tile.png", 1, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("Well", L"Room/Well.png", 1, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("Well2", L"Room/Well2.png", 1, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("Well3", L"Room/Well3.png", 1, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("Well4", L"Room/Well4.png", 1, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("Well5", L"Room/Well5.png", 1, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("Well6", L"Room/Well6.png", 1, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("Well7", L"Room/Well7.png", 1, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("Well8", L"Room/Well8.png", 1, 1);
-	ResourceManager::GetInstance()->LoadDXBitmap("Well9", L"Room/Well9.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("Guid", L"Room/Guid.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Tile", L"Room/Tile.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Well", L"Room/Well.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Well2", L"Room/Well2.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Well3", L"Room/Well3.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Well4", L"Room/Well4.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Well5", L"Room/Well5.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Well6", L"Room/Well6.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Well7", L"Room/Well7.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Well8", L"Room/Well8.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Well9", L"Room/Well9.png");
+
+	ResourceManager::GetInstance()->LoadDXBitmap("rock", L"Object/rock.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("rocks", L"Object/rocks.png");
+
+	ResourceManager::GetInstance()->LoadDXBitmap("TearPop", L"Effect/TearPop.png", 4, 3);
 }
 
 void PlayScene::createObjects()
 {
 	CreateStage(1);
 	_player = new Player();
-	_player->Init(Vector(GWinSizeX / 2, GWinSizeY / 2));
+	_player->Init(Vector(200, GWinSizeY / 2));
 	ReserveAdd(_player);
 
 	_tearPool.Init(100);
@@ -154,7 +161,7 @@ bool PlayScene::ComputeMTVAndDir(const RECT& a, const RECT& b, Vector& outMTV, V
 {
 	if (!AABBIntersect(a, b)) return false;
 
-	Vector aCenter{ (a.left + a.right) * 0.5f, (a.top + a.bottom) * 0.5f };
+	Vector aCenter{ (a.left + a.right) * 0.5f, (a.top + a.bottom) * 0.5f }; //monster가 tear한테 맞은 방향 + AABB 이걸로 넉백효과 적용
 	Vector bCenter{ (b.left + b.right) * 0.5f, (b.top + b.bottom) * 0.5f };
 	outDir = (aCenter - bCenter);
 	float len2 = outDir.LengthSquared();
@@ -207,7 +214,7 @@ void PlayScene::Collide_PlayerVsMonsters(float dt)
 				if (otherActor == _player)
 					continue;
 
-				if (otherActor->GetActorType() != ActorType::AT_Monster)
+				if (otherActor->GetActorType() != ActorType::AT_Monster) //@TODO 이제 블럭이면 못가게 막혀야함
 					continue;
 
 				const RECT* MonsterRC = otherActor->GetCollisionRect();
@@ -275,6 +282,8 @@ void PlayScene::Collide_PlayerTears(float dt)
 
 						OutputDebugString(L"takeDamage Enemy");
 
+						Sprite* sprite = casttear->GetSprite();
+						SpawnEffect(casttear->GetPos(), "TearPop", sprite->GetSize().Width, sprite->GetSize().Height,EffectAnim::tearEffect);
 						RemoveTear(casttear);
 					}
 				}
@@ -414,6 +423,9 @@ bool PlayScene::FindPath(Cell start, Cell end, vector<Cell>& findPath, int32 max
 
 	while (true)
 	{
+		if (end == Cell(-1, -1))
+			break;
+
 		findPath.push_back(end);
 
 		if (end == parent[end.index_Y][end.index_X])
@@ -426,4 +438,11 @@ bool PlayScene::FindPath(Cell start, Cell end, vector<Cell>& findPath, int32 max
 
 	reverse(findPath.begin(), findPath.end());
 	return false;
+}
+
+void PlayScene::SpawnEffect(Vector pos, string sprite, int32 width, int32 heigh, AnimInfo info)
+{
+	Effect* effect = new Effect(sprite, width, heigh);
+	effect->Init(pos, info);
+	ReserveAdd(effect);
 }

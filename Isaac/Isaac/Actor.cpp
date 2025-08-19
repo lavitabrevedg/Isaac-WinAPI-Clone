@@ -89,7 +89,8 @@ RectCollider* Actor::CreateRectCollider(int32 width, int32 height)
 void AnimationController::SetAnim(const AnimInfo& newInfo)
 {
 	info = newInfo;
-	curFrame = 0;
+	curFrameX = info.startX;
+	curFrameY = info.startY;
 	timer = 0.f;
 	_isEnd = false;
 }
@@ -97,14 +98,22 @@ void AnimationController::SetAnim(const AnimInfo& newInfo)
 void AnimationController::Update(float deltatime, Sprite* sprite)
 {
 	timer += deltatime;
-	if (timer > info.durtaion)
+	if (timer > info.duration && !_isEnd)
 	{
-		timer -= info.durtaion;
-		curFrame = (curFrame + 1) % info.countX;
-		sprite->SetIndex(info.startX + curFrame, info.startY);
+		timer -= info.duration;
+		curFrameX = (curFrameX + 1) % info.countX;
+
+		sprite->SetIndex(info.startX + curFrameX, curFrameY);
 		sprite->SetFlip(info.flipX);
-		if (curFrame == 0)
-			_isEnd = true;
+		if (curFrameX == 0)
+		{
+			if (info.countY != 0) { curFrameY++;}
+			if (curFrameY = info.countY)
+			{
+				if (info.loop == true) { curFrameX = info.startX; curFrameY = info.startY; }
+				else { _isEnd = true; }
+			}
+		}
 	}
 }
 

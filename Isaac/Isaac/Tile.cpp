@@ -2,7 +2,6 @@
 #include "Tile.h"
 #include "Sprite.h"
 
-
 Tile::Tile()
 {
 }
@@ -19,7 +18,7 @@ Tile::Tile(Sprite* sprite)
 
 void Tile::Init(Vector pos)
 {
-	pos = _pos;
+	_pos = pos;
 }
 
 void Tile::Destroy()

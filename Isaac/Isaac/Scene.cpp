@@ -56,7 +56,7 @@ void Scene::Update(float deltatime)
 
 	for (auto iter : _reserveAdd)
 	{
-		AddActor(iter);
+ 		AddActor(iter);
 	}
 	_reserveAdd.clear();
 }

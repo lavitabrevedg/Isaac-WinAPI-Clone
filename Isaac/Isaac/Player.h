@@ -34,6 +34,6 @@ private:
 	BodyState _currbodyState;
 	BodyState _prevbodyState;
 
-	DirType _headDir;
+	DirType _currheadDir;
 };
 

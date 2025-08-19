@@ -59,14 +59,16 @@ protected:
 
 struct AnimationController
 {
-	int curFrame = 0;
-	float timer = 0.f;
+private:
+	int curFrameX;
+	int curFrameY;
+	float timer;
 	AnimInfo info;
-	bool _isEnd = true;
+	bool _isEnd;
 
+public:
 	void SetAnim(const AnimInfo& newInfo);
 	void Update(float deltatime, Sprite* sprite);
 	bool IsEndAnim() { return _isEnd; }
-
 };
 

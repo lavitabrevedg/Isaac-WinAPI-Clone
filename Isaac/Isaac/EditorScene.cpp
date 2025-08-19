@@ -10,6 +10,7 @@
 #include "Room.h"
 #include "Sprite.h"
 #include "Tile.h"
+#include "Block.h"
 
 
 void EditorScene::Init()
@@ -67,6 +68,20 @@ void EditorScene::Init()
 	}
 
 	{
+		SELECT_MODE mode = SELECT_MODE::OBJECT;
+
+		Actor* rock = new Block("rock",54,54);
+		rock->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(rock);
+
+		Actor* rocks = new Block("rocks", 108, 108);
+		rock->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(rocks);
+	}
+
+	{
 		SELECT_MODE mode = SELECT_MODE::MONSTER;
 
 		Actor* gaper = new Monster();
@@ -93,8 +108,6 @@ void EditorScene::Destroy()
 
 void EditorScene::Update(float deltatime)
 {
-	Super::Update(deltatime);
-
 	if (InputManager::GetInstance()->GetButtonDown(KeyType::F1))
 	{
 		_Actorindex = 0;
@@ -122,24 +135,30 @@ void EditorScene::Update(float deltatime)
 			Cell mouseCellPos = Cell::ConvertToCell(Vector(x,y), GridSize);
 			Vector pos = mouseCellPos.ConvertToWorld(mouseCellPos,GridSize);
 
-			auto mouseActor = _editActorInfo[(int32)_currMode][_Actorindex];
+			Actor* mouseActor = _editActorInfo[(int32)_currMode][_Actorindex];
 			Sprite* copy = mouseActor->GetSprite();
 			newActor = new Tile(copy);
 			newActor->Init(pos);
 		}
 		else if (_currMode == SELECT_MODE::OBJECT)
 		{
-			
+			Cell mouseCellPos = Cell::ConvertToCell(Vector(x, y), GridSize);
+			Vector pos = mouseCellPos.ConvertToWorld(mouseCellPos, GridSize);
+
+			Actor* mouseActor = _editActorInfo[(int32)_currMode][_Actorindex];
+			Sprite* copy = mouseActor->GetSprite();
+			newActor = new Block(copy);
+			newActor->Init(pos);
 		}
 		else if (_currMode == SELECT_MODE::MONSTER)
 		{
-			auto mouseActor = _editActorInfo[(int32)_currMode][_Actorindex];
+			Actor* mouseActor = _editActorInfo[(int32)_currMode][_Actorindex];
 			Sprite* copy = mouseActor->GetSprite();
 			newActor = new Monster();
 			newActor->Init(Vector{x,y});
 		}
 
-		ReserveAdd(newActor);
+		AddActor(newActor);
 	}
 	else if (InputManager::GetInstance()->GetButtonDown(KeyType::S))
 	{
@@ -198,6 +217,9 @@ void EditorScene::loadResources()
 	ResourceManager::GetInstance()->LoadDXBitmap("Heart", L"Items/Heart.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Key", L"Items/Key.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Penny1", L"Items/Penny1.png", 1, 1);
+
+	ResourceManager::GetInstance()->LoadDXBitmap("rock", L"Object/rock.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("rocks", L"Object/rocks.png", 1, 1);
 }
 
 void EditorScene::createObjects()

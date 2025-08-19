@@ -6,8 +6,7 @@
 
 Tear::Tear()
 {
-	_sprite = CreateSpriteComponent("Tear", 30, 30);
-	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height);
+	
 }
 
 void Tear::Destroy()
@@ -19,14 +18,19 @@ void Tear::Init(Vector pos, DirType dir,TearStat stat, Vector playervelocity)
 {
 	_tearStat = stat;
 	_gravity = 980.f;
+	float limitVel = 70.0f;
+
 	_velocity = _dir[dir] * _tearStat.shot_speed + playervelocity * 0.91f;
 
 	_zvelocity = 0;
+	_z = 50;
 	_distance = 0;
 	falling = false;
 
-	Vector plus = { 30,-30 };
+	_sprite = CreateSpriteComponent("Tear", (int)_tearStat.damage * 7, (int)_tearStat.damage * 7);
+	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height);
 
+	Vector plus = { 20,-20 };
 	Super::Init(pos + plus);
 }
 
@@ -47,9 +51,12 @@ void Tear::Update(float deltatime)
 		_zvelocity -= _gravity * deltatime;
 		_z += _zvelocity * deltatime;
 		Vector pos = _pos + _velocity * deltatime * 0.3f;
+		pos.y += 1.f;
 		SetPos(pos);
 		if (_z <= 0) {
 			// 터짐/삭제
+			AnimInfo anim = { 0,0,4,3,false,0.1f };
+			PlayScene::GetGameScene()->SpawnEffect(_pos, "TearPop", _sprite->GetSize().Width, _sprite->GetSize().Height, anim);
 			PlayScene::GetGameScene()->RemoveTear(this); //@TODO 충돌처리 및 삭제 예외 처리 해줘야됨
 		}
 	}
