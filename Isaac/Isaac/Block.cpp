@@ -6,7 +6,7 @@
 Block::Block(string spriteName, int32 width, int32 height)
 {
 	_sprite = CreateSpriteComponent(spriteName, width, height);
-	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height);
+	CreateRectCollider(GridSize, GridSize);
 }
 
 Block::Block()
@@ -36,8 +36,8 @@ void Block::Update(float deltatime)
 
 void Block::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
+	_sprite->RenderImage(_dxRenderTarget,_pos);
 	Super::Render(_dxRenderTarget);
-	_sprite->RenderImage(_dxRenderTarget,_pos); //@TODO 왜 표시가 안되는걸까
 }
 
 void Block::LoadActor(std::wistringstream& steam)

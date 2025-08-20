@@ -130,7 +130,16 @@ void Monster::Render(ID2D1RenderTarget* _dxRenderTarget)
 	Super::Render(_dxRenderTarget);
 }
 
-void Monster::OnDamage(float amount)
+void Monster::OnDamage()
+{
+}
+
+void Monster::Die()
+{
+	Game::GetInstance()->GetCurrScene()->ReserveRemove(this);
+}
+
+void Monster::TakeDamage(float amount)
 {
 	_hp -= amount;
 	if (_hp <= 0)
@@ -139,7 +148,12 @@ void Monster::OnDamage(float amount)
 	}
 }
 
-void Monster::Die()
+void Monster::TakeDamage(float amount, DirType dir)
 {
-	Game::GetInstance()->GetCurrScene()->ReserveRemove(this);
+	_hp -= amount;
+	OnDamage();
+	if (_hp <= 0)
+	{
+		Die();
+	}
 }

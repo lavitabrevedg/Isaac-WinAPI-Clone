@@ -25,7 +25,9 @@ public:
 	virtual ActorType GetActorType() override { return ActorType::AT_Monster; }
 	Vector GetVelocity()override { return _velocity; };
 
-	virtual void OnDamage(float amount)override;
+	virtual void OnDamage()override;
+	virtual void TakeDamage(float amount)override;
+	virtual void TakeDamage(float amount, DirType dir)override;
 	virtual void Die()override;
 
 private:

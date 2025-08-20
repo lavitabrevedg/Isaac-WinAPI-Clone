@@ -73,7 +73,7 @@ Player::Player()
 	base = _IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_DOWN];
 	_headAnimCtrl.SetAnim(base);
 
-	CreateRectCollider(_Head->GetSize().Width, _Head->GetSize().Height + _Body->GetSize().Height);
+	CreateRectCollider(_Head->GetSize().Width - 10, _Head->GetSize().Height + _Body->GetSize().Height - 10);
 }
 
 void Player::Destroy()
@@ -134,25 +134,25 @@ void Player::Update(float deltatime)
 	_currheadDir = _currbodyDir;
 
 	// Attack/Head
-	if (InputManager::GetInstance()->GetButtonDown(KeyType::Left))
+	if (InputManager::GetInstance()->GetButtonPressed(KeyType::Left))
 	{
 		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_LEFT];
 		_headAnimCtrl.SetAnim(headInfo);
 		PlayScene::GetGameScene()->CreateTear(DIR_LEFT, _pos, _playerTearStat, _velocity);
 	}
-	else if (InputManager::GetInstance()->GetButtonDown(KeyType::Right))
+	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Right))
 	{
 		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_RIGHT];
 		_headAnimCtrl.SetAnim(headInfo);
 		PlayScene::GetGameScene()->CreateTear(DIR_RIGHT, _pos, _playerTearStat, _velocity);
 	}
-	else if (InputManager::GetInstance()->GetButtonDown(KeyType::Up))
+	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Up))
 	{
 		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_UP];
 		_headAnimCtrl.SetAnim(headInfo);
 		PlayScene::GetGameScene()->CreateTear(DIR_UP, _pos, _playerTearStat, _velocity);
 	}
-	else if (InputManager::GetInstance()->GetButtonDown(KeyType::Down))
+	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Down))
 	{
 		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_DOWN];
 		_headAnimCtrl.SetAnim(headInfo);
@@ -191,16 +191,21 @@ void Player::Render(ID2D1RenderTarget* _dxRenderTarget)
 	Super::Render(_dxRenderTarget);
 }
 
-void Player::OnDamage(float amount)
+void Player::OnDamage()
 {
-	_hp -= amount;
-	if (_hp <= 0)
-	{
-		Die();
-	}
 }
 
 void Player::Die()
 {
 	Game::GetInstance()->GetCurrScene()->ReserveRemove(this);
+}
+
+void Player::TakeDamage(float amount)
+{
+	_hp -= amount;
+	OnDamage();
+	if (_hp <= 0)
+	{
+		Die();
+	}
 }

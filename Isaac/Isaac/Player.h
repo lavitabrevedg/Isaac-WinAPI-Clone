@@ -15,7 +15,8 @@ public:
 	RenderLayer GetRenderLayer() override { return RenderLayer::RL_Player; }
 	Vector GetVelocity()override { return _velocity; }
 
-	void OnDamage(float amount)override;
+	virtual void OnDamage()override;
+	virtual void TakeDamage(float amount)override;
 	void Die()override;
 
 private:

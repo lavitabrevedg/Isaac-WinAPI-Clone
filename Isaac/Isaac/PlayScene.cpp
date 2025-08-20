@@ -63,7 +63,7 @@ void PlayScene::Update(float deltatime)
 	_reserveTear.clear();
 
 	Collide_PlayerTears(deltatime);
-	Collide_PlayerVsMonsters(deltatime);
+	Collide_Player(deltatime);
 }
 
 void PlayScene::Render(ID2D1RenderTarget* _dxRenderTarget)
@@ -127,9 +127,9 @@ void PlayScene::initTimer()
 {
 }
 
-bool PlayScene::CanMove(Cell cell)
+bool PlayScene::CanMove(const Cell* cell)
 {
-	auto find = _grid.find(cell);
+	auto find = _grid.find(*cell);
 	if (find != _grid.end())
 	{
 		return find->second.canMoveCell;
@@ -146,6 +146,8 @@ void PlayScene::CreateTear(DirType dir, Vector pos, TearStat stat, Vector player
 
 void PlayScene::RemoveTear(Tear* tear)
 {
+	Sprite* sprite = tear->GetSprite();
+	SpawnEffect(tear->GetPos(), "TearPop", sprite->GetSize().Width, sprite->GetSize().Height, EffectAnim::tearEffect);
 	_reserveTear.push_back(tear);
 }
 
@@ -187,12 +189,12 @@ bool PlayScene::ComputeMTVAndDir(const RECT& a, const RECT& b, Vector& outMTV, V
 	return true;
 }
 
-void PlayScene::Collide_PlayerVsMonsters(float dt)
+void PlayScene::Collide_Player(float dt)
 {
 	if (_player == nullptr)
 		return;
-	const RECT* PlayerRC = _player->GetCollisionRect();
-	if (PlayerRC == nullptr)
+	const RECT* playerRC = _player->GetCollisionRect();
+	if (playerRC == nullptr)
 		return;
 
 	Cell cell = Cell::ConvertToCell(_player->GetPos(), GridSize);
@@ -214,22 +216,56 @@ void PlayScene::Collide_PlayerVsMonsters(float dt)
 				if (otherActor == _player)
 					continue;
 
-				if (otherActor->GetActorType() != ActorType::AT_Monster) //@TODO 이제 블럭이면 못가게 막혀야함
+				const RECT* targetRC = otherActor->GetCollisionRect();
+				if (targetRC == nullptr)
 					continue;
 
-				const RECT* MonsterRC = otherActor->GetCollisionRect();
-				if (MonsterRC == nullptr)
-					continue;
-
-				if (AABBIntersect(*PlayerRC, *MonsterRC))
+				if (AABBIntersect(*playerRC, *targetRC))
 				{
-					_player->OnDamage(1);
-					
-					OutputDebugString(L"takeDamage Player");
-					/*if (otherActor->GetRenderLayer() == RenderLayer::RL_Tear)
+					if (otherActor->GetActorType() == ActorType::AT_Monster)
 					{
-						RemoveTear(otherActor);
-					}*/
+						_player->TakeDamage(1);
+					}
+					else if (otherActor->GetActorType() == ActorType::AT_Block)
+					{
+						float playerwid = playerRC->right - playerRC->left;
+						float playerhei = playerRC->bottom - playerRC->top;
+						float targetwid = targetRC->right - targetRC->left;
+						float targethei = targetRC->bottom - targetRC->top;
+
+						Vector playerpos = _player->GetPos();
+						Vector targetpos = otherActor->GetPos();
+
+						float xOverlap = min(_player->GetPos().x + playerwid, otherActor->GetPos().x + targetwid) - max(_player->GetPos().x, otherActor->GetPos().x);
+						float yOverlap = min(_player->GetPos().y + playerhei, otherActor->GetPos().y + targethei) - max(_player->GetPos().y, otherActor->GetPos().y);
+
+						if (xOverlap < yOverlap)
+						{
+							if (playerpos.x < targetpos.x)
+							{
+								Vector pos = Vector(playerpos.x - xOverlap,playerpos.y);
+								_player->SetPos(pos);
+							}
+							else
+							{
+								Vector pos = Vector(playerpos.x + xOverlap, playerpos.y);
+								_player->SetPos(pos);
+							}
+						}
+						else
+						{
+							if (playerpos.y < targetpos.y)
+							{
+								Vector pos = Vector(playerpos.x, playerpos.y - yOverlap);
+								_player->SetPos(pos);
+							}
+							else
+							{
+								Vector pos = Vector(playerpos.x, playerpos.y + yOverlap);
+								_player->SetPos(pos);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -264,27 +300,29 @@ void PlayScene::Collide_PlayerTears(float dt)
 				{
 					if (otherActor == _player)
 						continue;
-
-					if (otherActor->GetActorType() != ActorType::AT_Monster)
+					
+					const RECT* TargetRC = otherActor->GetCollisionRect();
+					if (TargetRC == nullptr)
 						continue;
 
-					const RECT* MonsterRC = otherActor->GetCollisionRect();
-					if (MonsterRC == nullptr)
-						continue;
-
-					if (AABBIntersect(*TearRC, *MonsterRC))
+					if (AABBIntersect(*TearRC, *TargetRC))
 					{
-						Monster* monster = dynamic_cast<Monster*>(otherActor);
-						Tear* casttear = dynamic_cast<Tear*>(tear);
-						float damage = casttear->GetTearstat().damage;
+						if (otherActor->GetActorType() == ActorType::AT_Monster)
+						{
+							Tear* casttear = dynamic_cast<Tear*>(tear);
+							//Monster* monster = dynamic_cast<Monster*>(otherActor);
+							float damage = casttear->GetTearstat().damage;
+							otherActor->TakeDamage(damage);
+							OutputDebugString(L"takeDamage Enemy");
 
-						monster->OnDamage(damage);
+							RemoveTear(casttear);
+						}
+						else if (otherActor->GetActorType() == ActorType::AT_Block)
+						{
+							Tear* casttear = dynamic_cast<Tear*>(tear);
 
-						OutputDebugString(L"takeDamage Enemy");
-
-						Sprite* sprite = casttear->GetSprite();
-						SpawnEffect(casttear->GetPos(), "TearPop", sprite->GetSize().Width, sprite->GetSize().Height,EffectAnim::tearEffect);
-						RemoveTear(casttear);
+							RemoveTear(casttear);
+						}
 					}
 				}
 			}
@@ -402,7 +440,7 @@ bool PlayScene::FindPath(Cell start, Cell end, vector<Cell>& findPath, int32 max
 			nextCell.index_X = node.data.index_X + delta[i].index_X;
 			nextCell.index_Y = node.data.index_Y + delta[i].index_Y;
 
-			if (CanMove(nextCell) == false)
+			if (CanMove(&nextCell) == false)
 				continue;
 
 			if (closed[nextCell.index_Y][nextCell.index_X])

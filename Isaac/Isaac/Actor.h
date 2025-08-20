@@ -43,6 +43,9 @@ public:
 	virtual void SaveActor(std::wofstream& file);
 	virtual void LoadActor(std::wistringstream& steam);
 
+	virtual void OnDamage() {};
+	virtual void TakeDamage(float amount) {};
+	virtual void TakeDamage(float amount,DirType dir) {};
 protected:
 	class Sprite* CreateSpriteComponent(string spriteName, int32 width = 0, int32 height = 0);
 	class Texture* CreateTextureComponent(string bitmapKey, int32 width = 0, int32 height = 0);

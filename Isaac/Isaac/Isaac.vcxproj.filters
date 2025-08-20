@@ -174,9 +174,6 @@
     <ClInclude Include="DataObject.h">
       <Filter>Data</Filter>
     </ClInclude>
-    <ClInclude Include="_PathFind.h">
-      <Filter>Object\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Effect.h">
       <Filter>Object</Filter>
     </ClInclude>
@@ -292,9 +289,6 @@
     </ClCompile>
     <ClCompile Include="DataObject.cpp">
       <Filter>Data</Filter>
-    </ClCompile>
-    <ClCompile Include="_PathFind.cpp">
-      <Filter>Object\Components</Filter>
     </ClCompile>
     <ClCompile Include="Effect.cpp">
       <Filter>Object</Filter>

@@ -37,7 +37,6 @@ public:
 
 	virtual Vector GetVelocity() abstract;
 
-	virtual void OnDamage(float amount) abstract;
 	virtual void Die() abstract;
 
 protected:

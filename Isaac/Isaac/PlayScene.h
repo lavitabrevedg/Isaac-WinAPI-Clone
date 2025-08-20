@@ -30,7 +30,7 @@ public:
 
     bool useGrid() const override { return true; }
 
-    bool CanMove(Cell cell);
+    bool CanMove(const Cell* cell);
 
     void CreateTear(DirType dir, Vector pos,TearStat stat, Vector playervelocity);
     void RemoveTear(class Tear* tear);
@@ -38,7 +38,7 @@ public:
     bool AABBIntersect(const RECT& a, const RECT& b);
     bool ComputeMTVAndDir(const RECT& a, const RECT& b, Vector& outMTV, Vector& outDir);
 
-    void Collide_PlayerVsMonsters(float dt);
+    void Collide_Player(float dt);
     void Collide_PlayerTears(float dt);
 
     void CreateStage(int32 stage);
