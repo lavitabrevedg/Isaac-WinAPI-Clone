@@ -184,6 +184,10 @@ void Scene::UpdateGrid(Actor* actor, Vector prevPos, Vector newPos)
 	if (prevCell == currCell)
 		return;
 
+	bool Block = false;
+	if (actor->GetActorType() == ActorType::AT_Block)
+		Block = true;
+
 	{
 		auto find = _grid.find(prevCell);
 
@@ -195,6 +199,9 @@ void Scene::UpdateGrid(Actor* actor, Vector prevPos, Vector newPos)
 			if (findActor != cellInfo._actorsInCell.end())
 			{
 				cellInfo._actorsInCell.erase(findActor);
+
+				if (Block)
+					cellInfo.canMoveCell = true;
 			}
 			else
 			{
@@ -223,6 +230,8 @@ void Scene::UpdateGrid(Actor* actor, Vector prevPos, Vector newPos)
 			else
 			{
 				cellInfo._actorsInCell.insert(actor);
+				if (Block)
+					cellInfo.canMoveCell = false;
 			}
 		}
 }

@@ -17,6 +17,21 @@ public:
 	const TearStat& GetTearstat() { return _tearStat; }
 
 	const DirType GetDir() { return _dirtype; }
+
+	void CleanTear()
+	{
+		TearStat clean = { 0,0,0,0 };
+		_dirtype = DIR_MAX;
+		_pos = Vector(-1,-1);
+		_tearStat = clean;
+
+		_z = 0.f;
+		_zvelocity = 0.f;               // 필요하면 초기 발사 Z속도 설정
+		_gravity = 0.f;          // 0이 아니라 기본 중력값
+		_distance = 0.f;
+		falling = false;
+	}
+	
 private:
 	DirType _dirtype = DirType::DIR_MAX;
 	Vector _dir[DirType::DIR_MAX] =

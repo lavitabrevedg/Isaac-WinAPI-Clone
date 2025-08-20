@@ -44,7 +44,7 @@ Monster::Monster()
 	AnimInfo base = _bodyAnim[BodyState::B_IDEL][DirType::DIR_DOWN];
 	_bodyAnimCtrl.SetAnim(base);
 
-	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height + _Body->GetSize().Height);
+	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height + _Body->GetSize().Height - 30);
 }
 
 Monster::~Monster()

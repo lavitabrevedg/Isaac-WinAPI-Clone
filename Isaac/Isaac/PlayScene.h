@@ -3,7 +3,6 @@
 #include "ObjectPool.h"
 
 class Stage;
-class Room;
 
 namespace EffectAnim
 {
@@ -35,8 +34,7 @@ public:
     void CreateTear(DirType dir, Vector pos,TearStat stat, Vector playervelocity);
     void RemoveTear(class Tear* tear);
 
-    bool AABBIntersect(const RECT& a, const RECT& b);
-    bool ComputeMTVAndDir(const RECT& a, const RECT& b, Vector& outMTV, Vector& outDir);
+    Vector AABBOverlapLength(const RECT& a, const RECT& b);
 
     void Collide_Player(float dt);
     void Collide_PlayerTears(float dt);
@@ -53,17 +51,20 @@ public:
 
     void SpawnEffect(Vector pos, string sprite, int32 width, int32 heigh, AnimInfo info);
 
-private:
-    int32 _currStage = 0;
-    int32 _currRoom = 0;
+    void Clear_Stage();
 
+    bool IsRenderGrid() { return _gridOn; }
+
+private:
     ObjectPool<class Tear> _tearPool;
     vector<class Tear*> _reserveTear;
 
     class Player* _player = nullptr;
 
     int32 _stage = 1;	// 현재 진행중인 스테이지 
-    int32 _maxMonsterCount = 0;	// 먹어야하는 별이 몇개인지
+    int32 _maxMonsterCount = 0;
     int32 _curMonsterCount = 0;
+
+    //Stage _stage;
 };
 

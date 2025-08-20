@@ -2,6 +2,7 @@
 #include "RectCollider.h"
 #include "Actor.h"
 #include "ResourceManager.h"
+#include "PlayScene.h"
 
 RectCollider::RectCollider(Actor* actor, float width, float height)
 {
@@ -29,6 +30,9 @@ void RectCollider::UpdateComponent(float deltaTime)
 void RectCollider::RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
 {
 	// 충돌 영역을 그리기
-	const D2D1_RECT_F rc = { (float)_collision.left, (float)_collision.top, (float)_collision.right, (float)_collision.bottom };
-	_dxRenderTarget->DrawRectangle(rc, ResourceManager::GetInstance()->GetBrush(BrushColor::Red), 1.0, 0);
+	if (PlayScene::GetGameScene()->IsRenderGrid())
+	{
+		const D2D1_RECT_F rc = { (float)_collision.left, (float)_collision.top, (float)_collision.right, (float)_collision.bottom };
+		_dxRenderTarget->DrawRectangle(rc, ResourceManager::GetInstance()->GetBrush(BrushColor::Red), 1.0, 0);
+	}
 }

@@ -7,7 +7,6 @@
 #include "Game.h"
 #include "StageLoader.h"
 #include "InputManager.h"
-#include "Room.h"
 #include "Sprite.h"
 #include "Tile.h"
 #include "Block.h"
@@ -25,46 +24,14 @@ void EditorScene::Init()
 	{
 		SELECT_MODE mode = SELECT_MODE::ROOM;
 
-		Actor* well5 = new Tile("Well5",0,0);
-		well5->Init(Vector(0, 0));
-
-		_editActorInfo[(int32)mode].push_back(well5);
-
-		Actor* well6 = new Tile("Well6",0,0);
-		well6->Init(Vector(0, 0));
-
-		_editActorInfo[(int32)mode].push_back(well6);
-
-		Actor* well7 = new Tile("Well7",GridSize * 3,0);
+		Actor* well7 = new Tile("Well7",GridSize * 7,GridSize * 3);
 		well7->Init(Vector(0, 0));
 
 		_editActorInfo[(int32)mode].push_back(well7);
+		Actor* guid = new Tile("Guid",0,0);
+		guid->Init(Vector(0, 0));
 
-		Actor* well4 = new Tile("Well4",0, 0);
-		well4->Init(Vector(0, 0));
-
-		_editActorInfo[(int32)mode].push_back(well4);
-		Actor* well2 = new Tile("Well2",0,0);
-		well2->Init(Vector(0, 0));
-
-		_editActorInfo[(int32)mode].push_back(well2);
-		Actor* well3 = new Tile("Well3",0,0);
-		well3->Init(Vector(0, 0));
-
-		_editActorInfo[(int32)mode].push_back(well3);
-		Actor* well8 = new Tile("Well8",0,0);
-		well8->Init(Vector(0, 0));
-
-		_editActorInfo[(int32)mode].push_back(well8);
-		Actor* well9 = new Tile("Well9",0,0); //@TODO 방법 찾아야됨 
-		well9->Init(Vector(0, 0));
-
-		_editActorInfo[(int32)mode].push_back(well9);
-
-		Actor* well = new Tile("Well", 0, 0);
-		well->Init(Vector(0, 0));
-
-		_editActorInfo[(int32)mode].push_back(well);
+		_editActorInfo[(int32)mode].push_back(guid);
 	}
 
 	{
@@ -74,11 +41,41 @@ void EditorScene::Init()
 		rock->Init(Vector(0, 0));
 
 		_editActorInfo[(int32)mode].push_back(rock);
+		Actor* well4 = new Block("Well4", 0, 0);
+		well4->Init(Vector(0, 0));
 
-		Actor* rocks = new Block("rocks", 108, 108);
-		rock->Init(Vector(0, 0));
+		_editActorInfo[(int32)mode].push_back(well4);
+		Actor* well2 = new Block("Well2", 0, 0);
+		well2->Init(Vector(0, 0));
 
-		_editActorInfo[(int32)mode].push_back(rocks);
+		_editActorInfo[(int32)mode].push_back(well2);
+		Actor* well3 = new Block("Well3", 0, 0);
+		well3->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well3);
+		Actor* well8 = new Block("Well8", 0, 0);
+		well8->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well8);
+		Actor* well9 = new Block("Well9", 0, 0);
+		well9->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well9);
+
+		Actor* well = new Block("Well", 0, 0);
+		well->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well);
+
+		Actor* well5 = new Block("Well5", 0, 0);
+		well5->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well5);
+
+		Actor* well6 = new Block("Well6", 0, 0);
+		well6->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(well6);
 	}
 
 	{

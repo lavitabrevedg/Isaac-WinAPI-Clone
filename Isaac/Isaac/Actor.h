@@ -38,7 +38,7 @@ public:
 	Sprite* GetSprite() { return _sprite; }
 	const RECT* GetCollisionRect() const { return _collision; }
 
-	void SetPos(Vector newPos);
+	virtual void SetPos(Vector newPos);
 
 	virtual void SaveActor(std::wofstream& file);
 	virtual void LoadActor(std::wistringstream& steam);

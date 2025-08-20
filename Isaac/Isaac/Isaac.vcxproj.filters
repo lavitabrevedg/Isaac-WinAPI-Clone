@@ -102,9 +102,6 @@
     <ClInclude Include="Tear.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="Room.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Creature.h">
       <Filter>Object</Filter>
     </ClInclude>
@@ -217,9 +214,6 @@
     </ClCompile>
     <ClCompile Include="Tear.cpp">
       <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Room.cpp">
-      <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Creature.cpp">
       <Filter>Object</Filter>

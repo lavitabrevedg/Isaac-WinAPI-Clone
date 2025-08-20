@@ -18,6 +18,7 @@ public:
 		while (!_pool.empty())
 		{
 			T* obj = _pool.top();
+			if (obj == nullptr) { _pool.pop(); continue; }
 			obj->Destroy();
 			SAFE_DELETE(obj);
 			_pool.pop();

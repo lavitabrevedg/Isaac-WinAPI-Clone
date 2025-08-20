@@ -23,7 +23,7 @@ void Creature::Destroy()
 void Creature::Update(float deltatime)
 {
 	Super::Update(deltatime);
-    _velocity += _acceleration * deltatime; //속도 = 가속도 * 크기
+    _velocity += _acceleration * deltatime; //속도 = 가속도 * 크기  //@TODO 이동 바꿔야함 그냥 pos이동같아
 
     if (_velocity.Length() > _maxSpeed)
         _velocity = _velocity.GetNormalize() * _maxSpeed;

@@ -38,3 +38,11 @@ bool IsInPoint(RECT rect, POINT pos)
 		return false;
 	return true;
 }
+
+bool AABBIntersect(const RECT& a, const RECT& b)
+{
+	return (a.right > b.left) &&
+		(a.left < b.right) &&
+		(a.bottom > b.top) &&
+		(a.top < b.bottom);
+}

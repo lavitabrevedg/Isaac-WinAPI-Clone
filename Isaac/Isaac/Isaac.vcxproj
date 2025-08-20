@@ -148,7 +148,6 @@
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Room.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="InputManager.h" />
@@ -191,7 +190,6 @@
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Room.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="InputManager.cpp" />

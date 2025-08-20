@@ -1,0 +1,26 @@
+{
+"list":[
+    {
+        "id" : 100,
+        "MapPath" : "State1.tilemap",
+        "monsterCount": 10,
+        "startX": 5,
+        "startY": 5,
+        "doors": 
+        {
+          "up" : 101, "right" : 102
+        }
+    },
+    {
+        "id" : 101,
+        "MapPath" : "State2.tilemap",
+        "monsterCount": 10,
+        "startX": 5,
+        "startY": 5,
+        "doors": 
+        {
+          "up" : 101, "right" : 102
+        }
+    }
+    ]
+}

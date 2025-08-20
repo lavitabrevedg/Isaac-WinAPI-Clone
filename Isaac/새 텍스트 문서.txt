@@ -7,8 +7,6 @@ Room을 여러개 만들고 Camera로 한 방과 이어진 방만 렌더링해�
 그러므로 따로 player에게 camera포스는 필요하지않고 그 비추는 카메라로 grid를 그림
 
 
-타일은 그냥 까는걸로 ㅌ만들고 벽은 Block로 만들어서 못가게 바꿀까 ? 
-
 리팩토링 목록
 Room 구성 -> json파일화
 id, monsterCount, dir, object?(스폰할 상자 아이템등)
@@ -16,3 +14,8 @@ Monster -> json파일화
 MonsterID type, variant, subtype, hp, speed 등
 Item -> json파일화
 충돌체크 -> 비트마스크
+
+canmoveCell을 gridupdate에서 해주는게 맞나 싶다.
+캐릭터 콜리젼도 동그랗게 그리고 블록과에 바디와 헤드를 콜리젼을 나눠서 바디만
+
+Room은 사실 필요없지 Stage가 로드 받아서 사용하면 되니까 근데 방을 넘어갈때 문에 들어가면 Room이 바뀌어야한다..

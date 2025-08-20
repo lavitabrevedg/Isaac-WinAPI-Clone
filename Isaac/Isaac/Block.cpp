@@ -64,5 +64,5 @@ void Block::LoadActor(std::wistringstream& steam)
 	Vector pos = Vector(x, y);
 	SetPos(pos);
 	_sprite = CreateSpriteComponent(spriteName, w, h);
-	CreateRectCollider(GridSize,GridSize);
+	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height);
 }

@@ -7,7 +7,6 @@
 #include "Monster.h"
 #include "DropItem.h"
 #include "Stage.h"
-#include "Room.h"
 #include "InputManager.h"
 #include "Sprite.h"
 #include "MapData.h"
@@ -57,6 +56,7 @@ void PlayScene::Update(float deltatime)
 		if (iter != list.end())
 			list.erase(iter);
 
+		tear->CleanTear();
 		_tearPool.RePush(tear);
 	}
 
@@ -109,7 +109,7 @@ void PlayScene::loadResources()
 
 void PlayScene::createObjects()
 {
-	CreateStage(1);
+	CreateStage(999);
 	_player = new Player();
 	_player->Init(Vector(200, GWinSizeY / 2));
 	ReserveAdd(_player);
@@ -151,42 +151,14 @@ void PlayScene::RemoveTear(Tear* tear)
 	_reserveTear.push_back(tear);
 }
 
-bool PlayScene::AABBIntersect(const RECT& a, const RECT& b)
+Vector PlayScene::AABBOverlapLength(const RECT& a, const RECT& b)
 {
-	return (a.right > b.left) &&
-		(a.left < b.right) &&
-		(a.bottom > b.top) &&
-		(a.top < b.bottom);
-}
+	Vector overlap = {0,0};
 
-bool PlayScene::ComputeMTVAndDir(const RECT& a, const RECT& b, Vector& outMTV, Vector& outDir)
-{
-	if (!AABBIntersect(a, b)) return false;
+	overlap.x = min(a.right, b.right) - max(a.left, b.left);
+	overlap.y = min(a.bottom, b.bottom) - max(a.top, b.top);
 
-	Vector aCenter{ (a.left + a.right) * 0.5f, (a.top + a.bottom) * 0.5f }; //monster가 tear한테 맞은 방향 + AABB 이걸로 넉백효과 적용
-	Vector bCenter{ (b.left + b.right) * 0.5f, (b.top + b.bottom) * 0.5f };
-	outDir = (aCenter - bCenter);
-	float len2 = outDir.LengthSquared();
-	if (len2 > 0.0001f)
-	{
-		float invLen = 1.0f / sqrtf(len2);
-		outDir.x *= invLen; outDir.y *= invLen;
-	}
-	else
-	{
-		outDir = Vector{ 0,-1 };
-	}
-
-	float dx1 = (float)b.right - (float)a.left;
-	float dx2 = (float)a.right - (float)b.left;
-	float mx = (dx1 < dx2) ? dx1 : -dx2;
-
-	float dy1 = (float)b.bottom - (float)a.top;
-	float dy2 = (float)a.bottom - (float)b.top;
-	float my = (dy1 < dy2) ? dy1 : -dy2;
-
-	outMTV = (fabsf(mx) < fabsf(my)) ? Vector{ mx,0 } : Vector{ 0,my };
-	return true;
+	return overlap;
 }
 
 void PlayScene::Collide_Player(float dt)
@@ -211,7 +183,7 @@ void PlayScene::Collide_Player(float dt)
 
 			const CellInfo& info = GetCellinfo(checkCell);
 
-			for (const auto& otherActor : info._actorsInCell) 
+			for (const auto& otherActor : info._actorsInCell)
 			{
 				if (otherActor == _player)
 					continue;
@@ -228,43 +200,23 @@ void PlayScene::Collide_Player(float dt)
 					}
 					else if (otherActor->GetActorType() == ActorType::AT_Block)
 					{
-						float playerwid = playerRC->right - playerRC->left;
-						float playerhei = playerRC->bottom - playerRC->top;
-						float targetwid = targetRC->right - targetRC->left;
-						float targethei = targetRC->bottom - targetRC->top;
+						Vector overlap = AABBOverlapLength(*playerRC, *targetRC);
 
+						Vector pos;
 						Vector playerpos = _player->GetPos();
 						Vector targetpos = otherActor->GetPos();
 
-						float xOverlap = min(_player->GetPos().x + playerwid, otherActor->GetPos().x + targetwid) - max(_player->GetPos().x, otherActor->GetPos().x);
-						float yOverlap = min(_player->GetPos().y + playerhei, otherActor->GetPos().y + targethei) - max(_player->GetPos().y, otherActor->GetPos().y);
-
-						if (xOverlap < yOverlap)
+						if (overlap.x < overlap.y)
 						{
-							if (playerpos.x < targetpos.x)
-							{
-								Vector pos = Vector(playerpos.x - xOverlap,playerpos.y);
-								_player->SetPos(pos);
-							}
-							else
-							{
-								Vector pos = Vector(playerpos.x + xOverlap, playerpos.y);
-								_player->SetPos(pos);
-							}
+							pos = { playerpos.x >= targetpos.x ? overlap.x + 1: -overlap.x - 1, 0 };
 						}
 						else
 						{
-							if (playerpos.y < targetpos.y)
-							{
-								Vector pos = Vector(playerpos.x, playerpos.y - yOverlap);
-								_player->SetPos(pos);
-							}
-							else
-							{
-								Vector pos = Vector(playerpos.x, playerpos.y + yOverlap);
-								_player->SetPos(pos);
-							}
+							pos = { 0,playerpos.y >= targetpos.y ? overlap.y : -overlap.y };
 						}
+
+						Vector setpos = playerpos + pos;
+						_player->SetPos(setpos);
 					}
 				}
 			}
@@ -300,7 +252,7 @@ void PlayScene::Collide_PlayerTears(float dt)
 				{
 					if (otherActor == _player)
 						continue;
-					
+
 					const RECT* TargetRC = otherActor->GetCollisionRect();
 					if (TargetRC == nullptr)
 						continue;
@@ -330,9 +282,15 @@ void PlayScene::Collide_PlayerTears(float dt)
 	}
 }
 
+void PlayScene::Clear_Stage()
+{
+	//CreateStage()
+}
+
 void PlayScene::CreateStage(int32 stage)
 {
-	wstring fileName = std::format(L"Room_{0}.json", stage);
+
+	wstring fileName = std::format(L"Room_{}.json", stage);
 	fs::path fullPath = fs::current_path() / L"../Resources/" / fileName;
 
 	std::wifstream file(fullPath);
@@ -408,7 +366,7 @@ bool PlayScene::FindPath(Cell start, Cell end, vector<Cell>& findPath, int32 max
 		int g = 0;
 		int h = Heuristic(start, end);
 		int f = g + h;
-		pq.push(AStarNode{g, h, start});
+		pq.push(AStarNode{ g, h, start });
 		best[start.index_Y][start.index_X] = f;
 		parent[start.index_Y][start.index_X] = start;
 	}

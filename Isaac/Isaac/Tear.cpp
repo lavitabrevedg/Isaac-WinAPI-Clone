@@ -68,3 +68,4 @@ void Tear::Render(ID2D1RenderTarget* _dxRenderTarget)
 	Super::Render(_dxRenderTarget);
 	_sprite->RenderImage(_dxRenderTarget, _pos);
 }
+

@@ -18,6 +18,7 @@ using uint64 = unsigned long long;
 float RadianToDegree(float radian);
 float DegreeToRadian(float degree);
 bool IsInPoint(RECT rect, POINT pos);
+bool AABBIntersect(const RECT& a, const RECT& b);
 
 // 언리얼에서 가져옴.
 #define SMALL_NUMBER			(1.e-8f)
