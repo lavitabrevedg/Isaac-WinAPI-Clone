@@ -4,9 +4,9 @@
 #include "TimeManager.h"
 #include "ResourceManager.h"
 #include "LobbyScene.h"
-#include "Stage.h"
 #include "EditorScene.h"
 #include "PlayScene.h"
+#include "DataManager.h"
 
 void Game::Init(HWND hwnd)
 {
@@ -42,6 +42,7 @@ void Game::Init(HWND hwnd)
 	
 	TimeManager::GetInstance()->Init();
 	InputManager::GetInstance()->Init(hwnd);
+	DataManager::GetInstance()->Init();
 
 	_currScene = new LobbyScene();
 	_currScene->Init();

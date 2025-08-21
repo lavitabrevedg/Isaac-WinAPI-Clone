@@ -34,13 +34,6 @@ public:
 	
 private:
 	DirType _dirtype = DirType::DIR_MAX;
-	Vector _dir[DirType::DIR_MAX] =
-	{
-		Vector{-1,0},
-		Vector{1,0},
-		Vector{0,-1},
-		Vector{0,1}
-	};
 	TearStat _tearStat;
 
 	float _z;

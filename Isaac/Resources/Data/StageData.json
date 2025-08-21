@@ -1,26 +1,67 @@
 {
-"list":[
+  "stages" : [
     {
-        "id" : 100,
-        "MapPath" : "State1.tilemap",
-        "monsterCount": 10,
-        "startX": 5,
-        "startY": 5,
-        "doors": 
+      "id" : 1,
+      "startRoom" : 101,
+      "bossRoom" : 105,
+      "itemRoom" : 103,
+      "rooms" : [
+    {
+        "id" : 101,
+        "MapPath" : "Room_101",
+        "monsterCount": 0,
+        "neighbor": 
         {
-          "up" : 101, "right" : 102
+          "left" : -1, "right" : 102, "up" : -1, "down" : -1
         }
     },
     {
-        "id" : 101,
-        "MapPath" : "State2.tilemap",
+        "id" : 102,
+        "MapPath" : "Room_102",
         "monsterCount": 10,
-        "startX": 5,
-        "startY": 5,
-        "doors": 
+        "neighbor": 
         {
-          "up" : 101, "right" : 102
+          "left" : 101, "right" : -1, "up" : 103, "down" : -1
+        }
+    },
+    {
+        "id" : 103,
+        "MapPath" : "Room_103",
+        "monsterCount": 10,
+        "neighbor": 
+        {
+          "left" : 104, "right" : 1, "up" : -1, "down" : 102
+        }
+    },
+    {
+        "id" : 104,
+        "MapPath" : "Room_104",
+        "monsterCount": 10,
+        "neighbor": 
+        {
+          "left" : -1, "right" : 103, "up" : 105, "down" : -1
+        }
+    },
+    {
+        "id" : 105,
+        "MapPath" : "Room_105",
+        "monsterCount": 10,
+        "neighbor": 
+        {
+          "left" : -1, "right" : -1, "up" : -1, "down" : 104
         }
     }
     ]
+    },
+    {
+      "id" : 2,
+      "startRoom" : 201,
+      "bossRoom" : 209,
+      "rooms" : [
+        {
+
+        }
+      ]
+    }
+  ]
 }

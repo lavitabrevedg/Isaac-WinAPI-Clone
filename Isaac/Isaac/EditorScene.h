@@ -9,7 +9,7 @@ struct EditorActorInfo
 class EditorScene : public Scene
 {
 	using Super = Scene;
-	
+
 public:
 	void Init() override;
 	void Destroy() override;
@@ -40,5 +40,14 @@ protected:
 	SELECT_MODE _currMode = SELECT_MODE::ROOM;
 	vector<class Actor*> _editActorInfo[(int32)SELECT_MODE::COUNT];
 	int32 _Actorindex = 0;
+
+	int32 _dir[DirType::DIR_MAX] =
+	{
+		0,
+		90,
+		180,
+		270
+	};
+	int32 _rotateIndex = 0;
 };
 

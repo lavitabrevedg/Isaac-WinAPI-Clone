@@ -21,7 +21,9 @@ void Tear::Init(Vector pos, DirType dir,TearStat stat, Vector playervelocity)
 	//float limitVel = 70.0f;
 	_dirtype = dir;
 
-	_velocity = _dir[_dirtype] * _tearStat.shot_speed + playervelocity * 0.91f;
+	Vector dirvalue = dirValue[_dirtype];
+
+	_velocity = dirvalue * _tearStat.shot_speed + playervelocity * 0.91f;
 
 	_zvelocity = 0;
 	_z = 50;

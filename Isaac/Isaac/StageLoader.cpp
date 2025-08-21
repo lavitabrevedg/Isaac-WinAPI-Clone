@@ -6,7 +6,7 @@
 #include "Monster.h"
 #include "Tile.h"
 
-int32 StageLoader::Load(Scene* scene, std::wifstream& file)
+bool StageLoader::Load(Scene* scene, std::wifstream& file)
 {
     int32 maxMonster = 0;
 
@@ -29,7 +29,6 @@ int32 StageLoader::Load(Scene* scene, std::wifstream& file)
             break;
         case ActorType::AT_Monster:
             actor = new Monster();
-            maxMonster++;
             break;
         case ActorType::AT_Block:
             actor = new Block();
@@ -43,5 +42,5 @@ int32 StageLoader::Load(Scene* scene, std::wifstream& file)
         }
     }
 
-    return maxMonster;
+    return true;
 }

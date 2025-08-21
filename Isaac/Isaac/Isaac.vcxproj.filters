@@ -126,9 +126,6 @@
     <ClInclude Include="PlayScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Monster.h">
       <Filter>Object\Monster</Filter>
     </ClInclude>
@@ -173,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="Effect.h">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,9 +239,6 @@
     <ClCompile Include="PlayScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>Object\Monster</Filter>
     </ClCompile>
@@ -286,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="Effect.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
 class RectCollider : public Component
 {
 public:
-	RectCollider(class Actor* owner, float width, float height);
+	RectCollider(class Actor* owner, float width, float height, Vector offset);
 	virtual ~RectCollider();
 
 	void InitComponent() override;
@@ -14,10 +14,14 @@ public:
 
 	RECT* GetCollisionRect() { return &_collision; }
 
+	void SetOffset(Vector pos) { _offset = pos; }
+
 private:
 	class Actor* _owner = nullptr;
 	RECT _collision = {}; // 충돌 영역
 	float _width = 0; // 너비
 	float _height = 0; // 높이
+
+	Vector _offset = { 0,0 };
 };
 

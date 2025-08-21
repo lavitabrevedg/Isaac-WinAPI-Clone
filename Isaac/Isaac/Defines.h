@@ -17,6 +17,7 @@ using uint64 = unsigned long long;
 
 float RadianToDegree(float radian);
 float DegreeToRadian(float degree);
+int32 RandRange(int32 min, int32 max);
 bool IsInPoint(RECT rect, POINT pos);
 bool AABBIntersect(const RECT& a, const RECT& b);
 
@@ -99,7 +100,6 @@ enum DirType
 	DIR_DOWN,
 	DIR_MAX,
 };
-
 
 // vector 구현 ((방향+크기)를 나타내는 벡터)
 struct Vector
@@ -234,6 +234,14 @@ struct Vector
 	}
 };
 
+const Vector dirValue[DirType::DIR_MAX] =
+{
+	{-1.f,0.f},
+	{1.f,0.f},
+	{0.f,-1.f},
+	{0.f,1.f}
+};
+
 struct CellInfo
 {
 	set<class Actor*> _actorsInCell;
@@ -278,4 +286,5 @@ struct Cell
 			return index_X < other.index_X;
 		return index_Y < other.index_Y;
 	}
+
 };

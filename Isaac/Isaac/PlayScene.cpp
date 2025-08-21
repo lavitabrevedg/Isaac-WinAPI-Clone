@@ -6,12 +6,12 @@
 #include "Tear.h"
 #include "Monster.h"
 #include "DropItem.h"
-#include "Stage.h"
 #include "InputManager.h"
 #include "Sprite.h"
 #include "MapData.h"
 #include "StageLoader.h"
 #include "Effect.h"
+#include "DataManager.h"
 
 PlayScene::PlayScene()
 {
@@ -24,6 +24,7 @@ PlayScene::~PlayScene()
 
 void PlayScene::Init()
 {
+	_gridOn = false;
 	SetCameraPos(Vector{ 0,0 });
 	Super::Init();
 }
@@ -100,16 +101,18 @@ void PlayScene::loadResources()
 	ResourceManager::GetInstance()->LoadDXBitmap("Well7", L"Room/Well7.png");
 	ResourceManager::GetInstance()->LoadDXBitmap("Well8", L"Room/Well8.png");
 	ResourceManager::GetInstance()->LoadDXBitmap("Well9", L"Room/Well9.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Door", L"Room/Door.png", 2, 1);
 
 	ResourceManager::GetInstance()->LoadDXBitmap("rock", L"Object/rock.png");
 	ResourceManager::GetInstance()->LoadDXBitmap("rocks", L"Object/rocks.png");
 
 	ResourceManager::GetInstance()->LoadDXBitmap("TearPop", L"Effect/TearPop.png", 4, 3);
+
 }
 
 void PlayScene::createObjects()
 {
-	CreateStage(999);
+	LoadRoom(1);
 	_player = new Player();
 	_player->Init(Vector(200, GWinSizeY / 2));
 	ReserveAdd(_player);
@@ -155,8 +158,8 @@ Vector PlayScene::AABBOverlapLength(const RECT& a, const RECT& b)
 {
 	Vector overlap = {0,0};
 
-	overlap.x = min(a.right, b.right) - max(a.left, b.left);
-	overlap.y = min(a.bottom, b.bottom) - max(a.top, b.top);
+	overlap.x = (float)(min(a.right, b.right) - max(a.left, b.left));
+	overlap.y = (float)(min(a.bottom, b.bottom) - max(a.top, b.top));
 
 	return overlap;
 }
@@ -287,20 +290,41 @@ void PlayScene::Clear_Stage()
 	//CreateStage()
 }
 
-void PlayScene::CreateStage(int32 stage)
+void PlayScene::LoadStage(int32 stageNumber)
 {
-
-	wstring fileName = std::format(L"Room_{}.json", stage);
-	fs::path fullPath = fs::current_path() / L"../Resources/" / fileName;
-
-	std::wifstream file(fullPath);
-	if (file.is_open())
+	RemoveAllActor();
+	StageInfo* stage = DataManager::GetInstance()->GetStageInfo(stageNumber);
 	{
-		StageLoader loader;
-		_maxMonsterCount = loader.Load(this, file);
-		_curMonsterCount = 0;
+		//wstring fileName = std::format(L"Room_{}.json", stage);
+		fs::path fullPath = ResourceManager::GetInstance()->GetResourcePath() / stage->rooms[stage->startRoom].MapPath;
 
-		file.close();
+		std::wifstream file(fullPath);
+		if (file.is_open())
+		{
+			StageLoader loader;
+			loader.Load(this, file);
+
+			file.close();
+		}
+		_currRoom = stage->rooms[stage->startRoom].id;
+	}
+}
+
+void PlayScene::LoadRoom(int32 roomNumber)
+{
+	RemoveAllActor();
+	RoomInfo* room = DataManager::GetInstance()->GetRoomInfo(_currStage,_currRoom);
+	{
+		fs::path fullPath = ResourceManager::GetInstance()->GetResourcePath() / room->MapPath;
+
+		std::wifstream file(fullPath);
+		if (file.is_open())
+		{
+			StageLoader loader;
+			loader.Load(this, file);
+
+			file.close();
+		}
 	}
 }
 

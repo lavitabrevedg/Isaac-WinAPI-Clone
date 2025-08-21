@@ -44,6 +44,7 @@ public:
 
 	const CellInfo& GetCellinfo(Cell cell);
 
+	bool IsRenderGrid() { return _gridOn; }
 
 protected:
 	bool _gridOn = true;

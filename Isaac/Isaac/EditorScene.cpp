@@ -10,6 +10,7 @@
 #include "Sprite.h"
 #include "Tile.h"
 #include "Block.h"
+#include "Door.h"
 
 
 void EditorScene::Init()
@@ -32,6 +33,11 @@ void EditorScene::Init()
 		guid->Init(Vector(0, 0));
 
 		_editActorInfo[(int32)mode].push_back(guid);
+
+		/*Actor* door = new Door("Door", 0, 0);
+		door->Init(Vector(0, 0));
+
+		_editActorInfo[(int32)mode].push_back(door);*/
 	}
 
 	{
@@ -120,6 +126,18 @@ void EditorScene::Update(float deltatime)
 		_Actorindex = 0;
 		_currMode = SELECT_MODE::MONSTER;
 	}
+	//else if (InputManager::GetInstance()->GetButtonDown(KeyType::E))
+	//{
+	//	_rotateIndex++;
+	//	if (_rotateIndex == DirType::DIR_MAX) { _rotateIndex = 0; }
+	//	_editActorInfo[(int32)_currMode][_Actorindex]->GetSprite()->SetRotate(_dir[_rotateIndex]); 방향바꾸기
+	//}
+	//else if (InputManager::GetInstance()->GetButtonDown(KeyType::Q))
+	//{
+	//	_rotateIndex++;
+	//	if (_rotateIndex == DirType::DIR_MAX) { _rotateIndex = 0; }
+	//	_editActorInfo[(int32)_currMode][_Actorindex]->GetSprite()->SetRotate(-_dir[_rotateIndex]);
+	//}
 	else if (InputManager::GetInstance()->GetButtonDown(KeyType::LeftMouse))
 	{
 		POINT mousePos = InputManager::GetInstance()->GetMousePos();
@@ -201,6 +219,7 @@ void EditorScene::loadResources()
 	ResourceManager::GetInstance()->LoadDXBitmap("Well7", L"Room/Well7.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Well8", L"Room/Well8.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Well9", L"Room/Well9.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("Door", L"Room/Door.png", 2, 1);
 
 	ResourceManager::GetInstance()->LoadDXBitmap("Combat", L"Monster/Combat.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Fly", L"Monster/Fly.png", 1, 1);
@@ -239,7 +258,7 @@ void EditorScene::Save()
 	ZeroMemory(&ofn, sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = Game::GetInstance()->GetHwnd();
-	ofn.lpstrFilter = L"JSON (*.json)\0*.json\0모든 파일 (*.*)\0*.*\0";
+	ofn.lpstrFilter = L"스테이지 파일 (*.stage)\0*.stage\0모든 파일 (*.*)\0*.*\0";
 	ofn.lpstrFile = szFileName;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
@@ -272,7 +291,7 @@ void EditorScene::Load()
 	ZeroMemory(&ofn, sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = Game::GetInstance()->GetHwnd();
-	ofn.lpstrFilter = L"JSON (*.json)\0*.json\0모든 파일 (*.*)\0*.*\0";
+	ofn.lpstrFilter = L"스테이지 파일 (*.stage)\0*.stage\0모든 파일 (*.*)\0*.*\0";
 	ofn.lpstrFile = szFileName;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;

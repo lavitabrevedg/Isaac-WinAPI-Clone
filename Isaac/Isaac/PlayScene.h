@@ -39,7 +39,8 @@ public:
     void Collide_Player(float dt);
     void Collide_PlayerTears(float dt);
 
-    void CreateStage(int32 stage);
+    void LoadStage(int32 stageNumber);
+    void LoadRoom(int32 roomNumber);
 
     Vector GetPlayerPos();
 
@@ -53,18 +54,12 @@ public:
 
     void Clear_Stage();
 
-    bool IsRenderGrid() { return _gridOn; }
-
 private:
     ObjectPool<class Tear> _tearPool;
     vector<class Tear*> _reserveTear;
 
     class Player* _player = nullptr;
-
-    int32 _stage = 1;	// 현재 진행중인 스테이지 
-    int32 _maxMonsterCount = 0;
-    int32 _curMonsterCount = 0;
-
-    //Stage _stage;
+    int32 _currStage = -1;
+    int32 _currRoom = -1;
 };
 

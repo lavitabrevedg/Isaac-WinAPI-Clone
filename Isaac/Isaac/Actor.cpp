@@ -78,9 +78,9 @@ Texture* Actor::CreateTextureComponent(string bitmapKey, int32 width, int32 heig
 	return sprite;
 }
 
-RectCollider* Actor::CreateRectCollider(int32 width, int32 height)
+RectCollider* Actor::CreateRectCollider(int32 width, int32 height,Vector offset)
 {
-	RectCollider* collider = new RectCollider(this, (float)width, (float)height);
+	RectCollider* collider = new RectCollider(this, (float)width, (float)height, offset);
 	_components.emplace_back(collider);
 	_collision = collider->GetCollisionRect();
 	return collider;
