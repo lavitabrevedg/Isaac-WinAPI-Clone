@@ -12,6 +12,7 @@
 #include "StageLoader.h"
 #include "Effect.h"
 #include "DataManager.h"
+#include "Door.h"
 
 PlayScene::PlayScene()
 {
@@ -112,7 +113,7 @@ void PlayScene::loadResources()
 
 void PlayScene::createObjects()
 {
-	LoadRoom(1);
+	LoadStage(1);
 	_player = new Player();
 	_player->Init(Vector(200, GWinSizeY / 2));
 	ReserveAdd(_player);
@@ -156,7 +157,7 @@ void PlayScene::RemoveTear(Tear* tear)
 
 Vector PlayScene::AABBOverlapLength(const RECT& a, const RECT& b)
 {
-	Vector overlap = {0,0};
+	Vector overlap = { 0,0 };
 
 	overlap.x = (float)(min(a.right, b.right) - max(a.left, b.left));
 	overlap.y = (float)(min(a.bottom, b.bottom) - max(a.top, b.top));
@@ -211,7 +212,7 @@ void PlayScene::Collide_Player(float dt)
 
 						if (overlap.x < overlap.y)
 						{
-							pos = { playerpos.x >= targetpos.x ? overlap.x + 1: -overlap.x - 1, 0 };
+							pos = { playerpos.x >= targetpos.x ? overlap.x + 1 : -overlap.x - 1, 0 };
 						}
 						else
 						{
@@ -220,6 +221,11 @@ void PlayScene::Collide_Player(float dt)
 
 						Vector setpos = playerpos + pos;
 						_player->SetPos(setpos);
+					}
+					else if (otherActor->GetActorType() == ActorType::AT_Door)
+					{
+						Door* door = dynamic_cast<Door*>(otherActor);
+						door->OnEnterCollision();
 					}
 				}
 			}
@@ -292,28 +298,15 @@ void PlayScene::Clear_Stage()
 
 void PlayScene::LoadStage(int32 stageNumber)
 {
-	RemoveAllActor();
 	StageInfo* stage = DataManager::GetInstance()->GetStageInfo(stageNumber);
-	{
-		//wstring fileName = std::format(L"Room_{}.json", stage);
-		fs::path fullPath = ResourceManager::GetInstance()->GetResourcePath() / stage->rooms[stage->startRoom].MapPath;
-
-		std::wifstream file(fullPath);
-		if (file.is_open())
-		{
-			StageLoader loader;
-			loader.Load(this, file);
-
-			file.close();
-		}
-		_currRoom = stage->rooms[stage->startRoom].id;
-	}
+	_currRoom = stage->rooms[stage->startRoom].id;
+	LoadRoom(stage->startRoom);
 }
 
 void PlayScene::LoadRoom(int32 roomNumber)
 {
 	RemoveAllActor();
-	RoomInfo* room = DataManager::GetInstance()->GetRoomInfo(_currStage,_currRoom);
+	RoomInfo* room = DataManager::GetInstance()->GetRoomInfo(_currStage, _currRoom);
 	{
 		fs::path fullPath = ResourceManager::GetInstance()->GetResourcePath() / room->MapPath;
 
@@ -325,6 +318,38 @@ void PlayScene::LoadRoom(int32 roomNumber)
 
 			file.close();
 		}
+
+		for (int i = 0; i < 4; i++)
+		{
+			if (room->neighbor[i] != -1)
+			{
+				Door* door = new Door("Door",0,0);
+				DirType dir = static_cast<DirType>(i);
+				Vector pos;
+				switch (dir)
+				{
+				case DIR_LEFT:
+					pos = { GridSize,GWinSizeY / 2 };
+					break;
+				case DIR_RIGHT:
+					pos = { GWinSizeX - GridSize - (GridSize - 30),GWinSizeY / 2 }; //@TODO Door collision 활성화 및 scene에서 monster수 확인해서 0이면 door.setoepn
+					break;
+				case DIR_UP:
+					pos = { GWinSizeX / 2, GridSize};
+					break;
+				case DIR_DOWN:
+					pos = { GWinSizeX / 2, GWinSizeY - GridSize - GridSize };
+					break;
+				case DIR_MAX:
+					break;
+				}
+
+				door->Init(pos, dir,room->neighbor[i]);
+				ReserveAdd(door);
+			}
+		}
+
+		_monsterCount = room->monsterCount;
 	}
 }
 

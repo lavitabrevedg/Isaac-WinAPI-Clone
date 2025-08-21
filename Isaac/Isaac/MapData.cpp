@@ -8,6 +8,7 @@ wstring MapData::GetFileName()
 
 void MapData::Load(const json& data)
 {
+	constexpr const char* kKeys[DIR_MAX] = { "left", "right", "up", "down" };
 	for (auto s : data["stages"])
 	{
 		StageInfo si;
@@ -21,11 +22,12 @@ void MapData::Load(const json& data)
 			RoomInfo ri;
 			ri.id = r["id"];
 			ri.MapPath = r["MapPath"];
-			ri.monsterCount = r["monsterCount"]; //@TODO json파일 저장해둔대로 수정, gpt에 써있는 대로 Stage manager가 있고 stage가 여기서 얻는 데이터들을 방정보들을 갖고있는다
-			for (int32 i = 0; i < 4; i++)
-			{
-				ri.neighbor[i] = r["neighbor"].at(i).get<int32>(); //오류
-			}
+			ri.monsterCount = r["monsterCount"];
+
+			const auto& nb = r.at("neighbor"); 
+			for (int i = 0; i < DIR_MAX; ++i)
+				ri.neighbor[i] = nb.value(kKeys[i], -1);   // 키 없으면 -1
+
 			si.rooms.emplace(ri.id, ri);
 		}
 		_stages.emplace(si.id, si);

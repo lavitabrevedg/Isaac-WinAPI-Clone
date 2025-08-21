@@ -53,6 +53,7 @@ void Game::Destroy()
 	InputManager::DestroyInstance();
 	TimeManager::DestroyInstance();
 	ResourceManager::DestroyInstance();
+	DataManager::DestroyInstance();
 
 
 	if (_currScene)

@@ -40,6 +40,7 @@ void DataManager::Destroy()
         delete res;
     }
     _data.clear();
+    SAFE_DELETE(_mapData);
 }
 
 int32 DataManager::GetRandomItemId() const

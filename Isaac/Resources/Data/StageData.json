@@ -8,7 +8,7 @@
       "rooms" : [
     {
         "id" : 101,
-        "MapPath" : "Room_101",
+        "MapPath" : "Room_101.stage",
         "monsterCount": 0,
         "neighbor": 
         {
@@ -17,7 +17,7 @@
     },
     {
         "id" : 102,
-        "MapPath" : "Room_102",
+        "MapPath" : "Room_102.stage",
         "monsterCount": 10,
         "neighbor": 
         {
@@ -26,7 +26,7 @@
     },
     {
         "id" : 103,
-        "MapPath" : "Room_103",
+        "MapPath" : "Room_103.stage",
         "monsterCount": 10,
         "neighbor": 
         {
@@ -35,7 +35,7 @@
     },
     {
         "id" : 104,
-        "MapPath" : "Room_104",
+        "MapPath" : "Room_104.stage",
         "monsterCount": 10,
         "neighbor": 
         {
@@ -44,7 +44,7 @@
     },
     {
         "id" : 105,
-        "MapPath" : "Room_105",
+        "MapPath" : "Room_105.stage",
         "monsterCount": 10,
         "neighbor": 
         {
@@ -52,16 +52,6 @@
         }
     }
     ]
-    },
-    {
-      "id" : 2,
-      "startRoom" : 201,
-      "bossRoom" : 209,
-      "rooms" : [
-        {
-
-        }
-      ]
-    }
-  ]
+  }
+]
 }

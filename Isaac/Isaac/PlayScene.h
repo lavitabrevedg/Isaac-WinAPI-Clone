@@ -59,7 +59,10 @@ private:
     vector<class Tear*> _reserveTear;
 
     class Player* _player = nullptr;
-    int32 _currStage = -1;
+    int32 _currStage = 1;
     int32 _currRoom = -1;
+
+    int32 _monsterCount = 0;
+
 };
 
