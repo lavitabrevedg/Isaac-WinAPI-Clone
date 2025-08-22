@@ -18,7 +18,7 @@
     {
         "id" : 102,
         "MapPath" : "Room_102.stage",
-        "monsterCount": 10,
+        "monsterCount": 3,
         "neighbor": 
         {
           "left" : 101, "right" : -1, "up" : 103, "down" : -1
@@ -27,16 +27,16 @@
     {
         "id" : 103,
         "MapPath" : "Room_103.stage",
-        "monsterCount": 10,
+        "monsterCount": 4,
         "neighbor": 
         {
-          "left" : 104, "right" : 1, "up" : -1, "down" : 102
+          "left" : 104, "right" : -1, "up" : -1, "down" : 102
         }
     },
     {
         "id" : 104,
         "MapPath" : "Room_104.stage",
-        "monsterCount": 10,
+        "monsterCount": 4,
         "neighbor": 
         {
           "left" : -1, "right" : 103, "up" : 105, "down" : -1
@@ -45,11 +45,20 @@
     {
         "id" : 105,
         "MapPath" : "Room_105.stage",
-        "monsterCount": 10,
+        "monsterCount": 6,
         "neighbor": 
         {
           "left" : -1, "right" : -1, "up" : -1, "down" : 104
         }
+    },
+    {
+      "id" : 999,
+      "MapPath" : "Room_999.stage",
+      "monsterCount" : 1,
+      "neighbor":
+      {
+        "left" : 1, "right" : 1, "up" : 1, "down" : 1
+      }
     }
     ]
   }

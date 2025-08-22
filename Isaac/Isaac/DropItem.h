@@ -15,9 +15,5 @@ public:
 	RenderLayer GetRenderLayer()override { return RenderLayer::RL_Item; }
 
 private:
-	class Sprite* _sprite;
-	Vector _pos;
-
-	AnimationController _Anim;
 };
 

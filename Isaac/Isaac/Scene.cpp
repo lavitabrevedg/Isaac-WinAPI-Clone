@@ -152,11 +152,37 @@ void Scene::RemoveAllActor()
 
 	for (auto iter : _actors)
 	{
-		delete iter;
+		RemoveActor(iter);
 	}
 	_actors.clear();
 }
 
+void Scene::RemoveExceptPlayer()
+{
+	if (_actors.empty())
+		return;
+
+	_reserveAdd.clear();
+	_reserveRemove.clear();
+
+	stack<Actor*> copy;
+	for (auto iter : _actors)
+	{
+		if (iter->GetRenderLayer() == RenderLayer::RL_Player)
+		{
+			copy.push(iter);
+			continue;
+		}
+
+		ReserveRemove(iter);
+	}
+
+	if(!copy.empty())
+	{
+		_actors.insert(copy.top());
+		copy.pop();
+	}
+}
 
 void Scene::CreateGrid()
 {

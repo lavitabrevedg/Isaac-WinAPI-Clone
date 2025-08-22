@@ -1,0 +1,53 @@
+{
+  "list" : [
+    {
+      "id" : 11,
+      "name" : "반칸하트",
+      "spriteName" : "heart",
+      "IsUse" : "no",
+      "amount" : "1"
+    },
+    {
+      "id" : 12,
+      "name" : "한칸하트",
+      "spriteName" : "heart",
+      "IsUse" : "no",
+      "amount" : "2"
+    },
+    {
+      "id" : 13,
+      "name" : "두칸하트",
+      "spriteName" : "heart",
+      "IsUse" : "no",
+      "amount" : "4"
+    },
+    {
+      "id" : 14,
+      "name" : "열쇠",
+      "spriteName" : "key",
+      "IsUse" : "no",
+      "amount" : "1"
+    },
+    {
+      "id" : 15,
+      "name" : "두배열쇠",
+      "spriteName" : "key",
+      "IsUse" : "no",
+      "amount" : "2"
+    },
+    {
+      "id" : 16,
+      "name" : "폭탄",
+      "spriteName" : "boom",
+      "IsUse" : "no",
+      "amount" : "1"
+    },
+    {
+      "id" : 17,
+      "name" : "두배폭탄",
+      "spriteName" : "boom",
+      "IsUse" : "no",
+      "amount" : "2"
+    }
+  ]
+}

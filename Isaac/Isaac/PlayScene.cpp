@@ -34,6 +34,8 @@ void PlayScene::Destroy()
 {
 	Super::Destroy();
 	_tearPool.Clear();
+	_monsterPool.Clear();
+	//_dorpItemPool.Clear();
 }
 
 void PlayScene::Update(float deltatime)
@@ -51,9 +53,11 @@ void PlayScene::Update(float deltatime)
 
 	for (Tear* tear : _reserveTear)
 	{
+		UpdateGrid(tear, tear->GetPos(), Vector{ -1,-1 });
+
 		_actors.erase(tear);
 
-		auto& list = _renderList[RenderLayer::RL_Tear];
+		                                                                                                                                                                                                                                                                                                                                                                                                                                                                auto& list = _renderList[RenderLayer::RL_Tear];
 		auto iter = std::find(list.begin(), list.end(), tear);
 		if (iter != list.end())
 			list.erase(iter);
@@ -61,8 +65,18 @@ void PlayScene::Update(float deltatime)
 		tear->CleanTear();
 		_tearPool.RePush(tear);
 	}
-
 	_reserveTear.clear();
+
+	if (_monsterCount == 0)
+	{
+		for (auto iter : _doors)
+		{
+			if (iter == nullptr)
+				continue;
+
+			iter->Open();
+		}
+	}
 
 	Collide_PlayerTears(deltatime);
 	Collide_Player(deltatime);
@@ -109,16 +123,23 @@ void PlayScene::loadResources()
 
 	ResourceManager::GetInstance()->LoadDXBitmap("TearPop", L"Effect/TearPop.png", 4, 3);
 
+	ResourceManager::GetInstance()->LoadDXBitmap("EmptyRoom", L"UI/EmptyRoom.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("MiniMapBoard", L"UI/MiniMapBoard.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Player_HP", L"UI/Player_HP.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("ui_crafting", L"UI/ui_crafting.png");
 }
 
 void PlayScene::createObjects()
 {
 	LoadStage(1);
+
 	_player = new Player();
-	_player->Init(Vector(200, GWinSizeY / 2));
+	_player->Init(Vector(GWinSizeX / 2, GWinSizeY / 2));
 	ReserveAdd(_player);
 
 	_tearPool.Init(100);
+	_monsterPool.Init(20);
+	//_dorpItemPool.Init(30);
 
 	_gridOn = false;
 }
@@ -152,7 +173,7 @@ void PlayScene::RemoveTear(Tear* tear)
 {
 	Sprite* sprite = tear->GetSprite();
 	SpawnEffect(tear->GetPos(), "TearPop", sprite->GetSize().Width, sprite->GetSize().Height, EffectAnim::tearEffect);
-	_reserveTear.push_back(tear);
+	_reserveTear.insert(tear);
 }
 
 Vector PlayScene::AABBOverlapLength(const RECT& a, const RECT& b)
@@ -225,7 +246,27 @@ void PlayScene::Collide_Player(float dt)
 					else if (otherActor->GetActorType() == ActorType::AT_Door)
 					{
 						Door* door = dynamic_cast<Door*>(otherActor);
-						door->OnEnterCollision();
+						if (door->IsOpen())
+						{
+							door->OnEnterCollision();
+							DirType doordir = door->GetDir();
+
+							switch (doordir)
+							{
+							case DIR_LEFT:
+								_player->SetPos(Vector(GWinSizeX - (GridSize * 2) - 50, GWinSizeY / 2));
+								break;
+							case DIR_RIGHT:
+								_player->SetPos(Vector((GridSize * 2) + 25, GWinSizeY / 2));
+								break;
+							case DIR_UP:
+								_player->SetPos(Vector(GWinSizeX / 2, GWinSizeY - (GridSize * 2) ));
+								break;
+							case DIR_DOWN:
+								_player->SetPos(Vector(GWinSizeX / 2, (GridSize * 2)));
+								break;
+							}
+						}
 					}
 				}
 			}
@@ -271,10 +312,8 @@ void PlayScene::Collide_PlayerTears(float dt)
 						if (otherActor->GetActorType() == ActorType::AT_Monster)
 						{
 							Tear* casttear = dynamic_cast<Tear*>(tear);
-							//Monster* monster = dynamic_cast<Monster*>(otherActor);
 							float damage = casttear->GetTearstat().damage;
 							otherActor->TakeDamage(damage);
-							OutputDebugString(L"takeDamage Enemy");
 
 							RemoveTear(casttear);
 						}
@@ -284,16 +323,12 @@ void PlayScene::Collide_PlayerTears(float dt)
 
 							RemoveTear(casttear);
 						}
+						break;
 					}
 				}
 			}
 		}
 	}
-}
-
-void PlayScene::Clear_Stage()
-{
-	//CreateStage()
 }
 
 void PlayScene::LoadStage(int32 stageNumber)
@@ -305,8 +340,7 @@ void PlayScene::LoadStage(int32 stageNumber)
 
 void PlayScene::LoadRoom(int32 roomNumber)
 {
-	RemoveAllActor();
-	RoomInfo* room = DataManager::GetInstance()->GetRoomInfo(_currStage, _currRoom);
+	RoomInfo* room = DataManager::GetInstance()->GetRoomInfo(_currStage, roomNumber);
 	{
 		fs::path fullPath = ResourceManager::GetInstance()->GetResourcePath() / room->MapPath;
 
@@ -314,42 +348,58 @@ void PlayScene::LoadRoom(int32 roomNumber)
 		if (file.is_open())
 		{
 			StageLoader loader;
-			loader.Load(this, file);
+			bool stageload = loader.Load(this, file);
 
+			if (stageload)
+			{
+				OutputDebugString(L"Invalid Load!!");
+			}
 			file.close();
 		}
-
-		for (int i = 0; i < 4; i++)
-		{
-			if (room->neighbor[i] != -1)
-			{
-				Door* door = new Door("Door",0,0);
-				DirType dir = static_cast<DirType>(i);
-				Vector pos;
-				switch (dir)
-				{
-				case DIR_LEFT:
-					pos = { GridSize,GWinSizeY / 2 };
-					break;
-				case DIR_RIGHT:
-					pos = { GWinSizeX - GridSize - (GridSize - 30),GWinSizeY / 2 }; //@TODO Door collision 활성화 및 scene에서 monster수 확인해서 0이면 door.setoepn
-					break;
-				case DIR_UP:
-					pos = { GWinSizeX / 2, GridSize};
-					break;
-				case DIR_DOWN:
-					pos = { GWinSizeX / 2, GWinSizeY - GridSize - GridSize };
-					break;
-				case DIR_MAX:
-					break;
-				}
-
-				door->Init(pos, dir,room->neighbor[i]);
-				ReserveAdd(door);
-			}
-		}
-
+		CreateDoor(room);
 		_monsterCount = room->monsterCount;
+		_currRoom = roomNumber;
+
+		if(_player != nullptr)
+		{ 
+			_player->SetPos(Vector(100, GWinSizeY / 2));
+		}
+	}
+}
+
+void PlayScene::CreateDoor(RoomInfo* room)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		_doors[i] = nullptr; //초기화
+
+		if (room->neighbor[i] != -1)
+		{
+			_doors[i] = new Door("Door", 0, 0);
+			DirType dir = static_cast<DirType>(i);
+			Vector pos;
+
+			switch (dir)
+			{
+			case DIR_LEFT:
+				pos = { GridSize + 25,GWinSizeY / 2 };
+				break;
+			case DIR_RIGHT:
+				pos = { GWinSizeX - GridSize - (GridSize - 30),GWinSizeY / 2 };
+				break;
+			case DIR_UP:
+				pos = { GWinSizeX / 2, GridSize - 30 };
+				break;
+			case DIR_DOWN:
+				pos = { GWinSizeX / 2, GWinSizeY - GridSize + 30};
+				break;
+			case DIR_MAX:
+				break;
+			}
+
+			_doors[i]->Init(pos, dir, room->neighbor[i]);
+			ReserveAdd(_doors[i]);
+		}
 	}
 }
 

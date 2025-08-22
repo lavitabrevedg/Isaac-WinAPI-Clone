@@ -136,6 +136,7 @@ void Monster::OnDamage()
 
 void Monster::Die()
 {
+	PlayScene::GetGameScene()->OnMonsterDied(this);
 	Game::GetInstance()->GetCurrScene()->ReserveRemove(this);
 }
 

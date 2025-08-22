@@ -73,8 +73,7 @@ Player::Player()
 	base = _IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_DOWN];
 	_headAnimCtrl.SetAnim(base);
 
-	CreateRectCollider(_Head->GetSize().Width - 20, _Head->GetSize().Height + _Body->GetSize().Height - 10);
-	CreateRectCollider(_Body->GetSize().Width, _Body->GetSize().Height);
+	CreateRectCollider(_Body->GetSize().Width, _Body->GetSize().Height,Vector(0,10));
 }
 
 void Player::Destroy()
@@ -135,25 +134,25 @@ void Player::Update(float deltatime)
 	_currheadDir = _currbodyDir;
 
 	// Attack/Head
-	if (InputManager::GetInstance()->GetButtonPressed(KeyType::Left))
+	if (InputManager::GetInstance()->GetButtonDown(KeyType::Left))
 	{
 		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_LEFT];
 		_headAnimCtrl.SetAnim(headInfo);
 		PlayScene::GetGameScene()->CreateTear(DIR_LEFT, _pos, _playerTearStat, _velocity);
 	}
-	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Right))
+	else if (InputManager::GetInstance()->GetButtonDown(KeyType::Right))
 	{
 		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_RIGHT];
 		_headAnimCtrl.SetAnim(headInfo);
 		PlayScene::GetGameScene()->CreateTear(DIR_RIGHT, _pos, _playerTearStat, _velocity);
 	}
-	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Up))
+	else if (InputManager::GetInstance()->GetButtonDown(KeyType::Up))
 	{
 		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_UP];
 		_headAnimCtrl.SetAnim(headInfo);
 		PlayScene::GetGameScene()->CreateTear(DIR_UP, _pos, _playerTearStat, _velocity);
 	}
-	else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Down))
+	else if (InputManager::GetInstance()->GetButtonDown(KeyType::Down))
 	{
 		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_DOWN];
 		_headAnimCtrl.SetAnim(headInfo);

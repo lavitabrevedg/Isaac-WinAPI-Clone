@@ -7,7 +7,7 @@
 Door::Door(string spriteName, int32 width, int32 height)
 {
 	_sprite = CreateSpriteComponent(spriteName, width, height);
-	CreateRectCollider(0,0);
+	CreateRectCollider(100, 100);
 }
 
 Door::Door(Sprite* sprite)
@@ -19,8 +19,23 @@ void Door::Init(Vector pos, DirType dir, int32 nextRoomid)
 {
 	Super::Init(pos);
 	_dir = dir;
-	_sprite->SetRotate(dir * 90.f);
 	_roomKey = nextRoomid;
+
+	switch (_dir)
+	{
+	case DIR_LEFT:
+		_sprite->SetRotate(-90);
+		break;
+	case DIR_RIGHT:
+		_sprite->SetRotate(90);
+		break;
+	case DIR_UP:
+		break;
+	case DIR_DOWN:
+		_sprite->SetRotate(180);
+		break;
+	}
+
 }
 
 void Door::Destroy()
@@ -50,8 +65,5 @@ void Door::Render(ID2D1RenderTarget* _dxRenderTarget)
 
 void Door::OnEnterCollision()
 {
-	if (_isopen)
-	{
-		PlayScene::GetGameScene()->LoadRoom(_roomKey);
-	}
+	PlayScene::GetGameScene()->LoadRoom(_roomKey);
 }

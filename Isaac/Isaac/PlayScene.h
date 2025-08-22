@@ -41,6 +41,7 @@ public:
 
     void LoadStage(int32 stageNumber);
     void LoadRoom(int32 roomNumber);
+    void CreateDoor(struct RoomInfo* room);
 
     Vector GetPlayerPos();
 
@@ -49,20 +50,23 @@ public:
         return (abs(end.index_X - curr.index_X) + abs(end.index_Y - curr.index_Y)) * 10;
     }
     bool FindPath(Cell start, Cell end, vector<Cell>& findPath, int32 maxDepth = 10);
-
     void SpawnEffect(Vector pos, string sprite, int32 width, int32 heigh, AnimInfo info);
 
-    void Clear_Stage();
+    void OnMonsterDied(class Monster* enemy) { _monsterCount--; }
 
 private:
     ObjectPool<class Tear> _tearPool;
-    vector<class Tear*> _reserveTear;
+    ObjectPool<class Monster> _monsterPool;
+    //ObjectPool<class DorpItem> _dorpItemPool;
+    unordered_set<class Tear*> _reserveTear;
 
     class Player* _player = nullptr;
     int32 _currStage = 1;
     int32 _currRoom = -1;
 
     int32 _monsterCount = 0;
+
+    array<class Door*, DirType::DIR_MAX> _doors = { nullptr };
 
 };
 

@@ -11,7 +11,7 @@ bool StageLoader::Load(Scene* scene, std::wifstream& file)
     int32 maxMonster = 0;
 
     // 이미 추가된 객체들은 싹다 날려버리고, 파일에서 읽은 정보로 씬을 채운다.
-    scene->RemoveAllActor();
+    scene->RemoveExceptPlayer();
 
     std::wstring line;
     while (std::getline(file, line))

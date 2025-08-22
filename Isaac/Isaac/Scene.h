@@ -1,5 +1,4 @@
 #pragma once
-
 class Actor;
 
 struct Camera {
@@ -37,6 +36,7 @@ public:
 	void ReserveRemove(Actor* actor);
 	void ReserveAdd(Actor* actor);
 	void RemoveAllActor();
+	void RemoveExceptPlayer();
 
 	void CreateGrid();
 	void UpdateGrid(Actor* actor,Vector prevPos, Vector newPos);
@@ -59,5 +59,7 @@ protected:
 	int32 _gridCountY;
 
 	Camera _camera;
+
+	//UIManager _ui; @TODO 추가한 후 ui.넣어줘야함
 };
 

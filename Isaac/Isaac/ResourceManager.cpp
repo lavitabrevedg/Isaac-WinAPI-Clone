@@ -30,6 +30,18 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 	}
 
 	{
+		//UI
+		_spriteNames.emplace("EmptyHeart",SpriteInfo(3,0,"EmptyHeart",true));
+		_spriteNames.emplace("HalpHeart",SpriteInfo(2,0,"HalpHeart",true));
+		_spriteNames.emplace("Heart",SpriteInfo(1,0,"Heart",true));
+		_spriteNames.emplace("Coin", SpriteInfo(0, 1, "Coin", true));
+		_spriteNames.emplace("Boom", SpriteInfo(7, 1, "Boom", true));
+		_spriteNames.emplace("Key", SpriteInfo(4, 1, "Key", true));
+		_spriteNames.emplace("MiniMapBoard", SpriteInfo(0, 0, "MiniMapBoard", true));
+		_spriteNames.emplace("EmptyRoom", SpriteInfo(0, 0, "EmptyRoom", true));
+	}
+
+	{
 		//room
 		_spriteNames.emplace("Guid", SpriteInfo(0, 0, "Guid", true));
 		_spriteNames.emplace("Tile", SpriteInfo(0, 0, "Tile", true));

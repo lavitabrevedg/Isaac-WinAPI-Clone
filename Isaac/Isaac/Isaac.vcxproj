@@ -167,6 +167,11 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="UIBase.h" />
+    <ClInclude Include="UIHud.h" />
+    <ClInclude Include="UIImage.h" />
+    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UIWidget.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
@@ -208,6 +213,11 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="UIBase.cpp" />
+    <ClCompile Include="UIHud.cpp" />
+    <ClCompile Include="UIImage.cpp" />
+    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIWidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Isaac.rc" />
