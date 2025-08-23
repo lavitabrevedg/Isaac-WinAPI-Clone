@@ -44,6 +44,7 @@ public:
     void CreateDoor(struct RoomInfo* room);
 
     Vector GetPlayerPos();
+    class Player* GetPlayer();
 
     int Heuristic(Cell curr, Cell end)
     {
@@ -68,5 +69,6 @@ private:
 
     array<class Door*, DirType::DIR_MAX> _doors = { nullptr };
 
+    class UIHud* _gameHud = nullptr;
 };
 

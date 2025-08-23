@@ -13,6 +13,8 @@
 #include "Effect.h"
 #include "DataManager.h"
 #include "Door.h"
+#include "UIHud.h"
+#include "UIManager.h"
 
 PlayScene::PlayScene()
 {
@@ -125,7 +127,9 @@ void PlayScene::loadResources()
 
 	ResourceManager::GetInstance()->LoadDXBitmap("EmptyRoom", L"UI/EmptyRoom.png");
 	ResourceManager::GetInstance()->LoadDXBitmap("MiniMapBoard", L"UI/MiniMapBoard.png");
-	ResourceManager::GetInstance()->LoadDXBitmap("Player_HP", L"UI/Player_HP.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("P_EmptyHeart", L"UI/Player_HP.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("P_HalpHeart", L"UI/Player_HP.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("P_Heart", L"UI/Player_HP.png");
 	ResourceManager::GetInstance()->LoadDXBitmap("ui_crafting", L"UI/ui_crafting.png");
 }
 
@@ -146,6 +150,8 @@ void PlayScene::createObjects()
 
 void PlayScene::createUI()
 {
+	_gameHud = new UIHud();
+	_ui->AddPanel(_gameHud);
 }
 
 void PlayScene::initTimer()
@@ -406,6 +412,11 @@ void PlayScene::CreateDoor(RoomInfo* room)
 Vector PlayScene::GetPlayerPos()
 {
 	return _player->GetPos();
+}
+
+Player* PlayScene::GetPlayer()
+{
+	return _player;
 }
 
 bool PlayScene::FindPath(Cell start, Cell end, vector<Cell>& findPath, int32 maxDepth)

@@ -39,6 +39,9 @@ public:
 
 	virtual void Die() abstract;
 
+	virtual float GetCurrHp() { return _hp; }
+	virtual float GetMaxHp() { return _maxhp; }
+
 protected:
 	float _hp;
 	float _maxhp;

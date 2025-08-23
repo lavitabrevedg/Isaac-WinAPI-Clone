@@ -31,9 +31,9 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 
 	{
 		//UI
-		_spriteNames.emplace("EmptyHeart",SpriteInfo(3,0,"EmptyHeart",true));
-		_spriteNames.emplace("HalpHeart",SpriteInfo(2,0,"HalpHeart",true));
-		_spriteNames.emplace("Heart",SpriteInfo(1,0,"Heart",true));
+		_spriteNames.emplace("P_EmptyHeart",SpriteInfo(3,0,"Player_HP",true));
+		_spriteNames.emplace("P_HalpHeart",SpriteInfo(2,0,"Player_HP",true));
+		_spriteNames.emplace("P_Heart",SpriteInfo(1,0,"Player_HP",true));
 		_spriteNames.emplace("Coin", SpriteInfo(0, 1, "Coin", true));
 		_spriteNames.emplace("Boom", SpriteInfo(7, 1, "Boom", true));
 		_spriteNames.emplace("Key", SpriteInfo(4, 1, "Key", true));

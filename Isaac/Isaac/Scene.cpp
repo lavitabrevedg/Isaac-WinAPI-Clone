@@ -3,9 +3,12 @@
 #include "Actor.h"
 #include "ResourceManager.h"
 #include "Game.h"
+#include "UIManager.h"
 
 Scene::Scene()
 {
+	_ui = new UIManager(); //@TODO 삭제 delete해줘야함 
+	_ui->Init();
 }
 
 Scene::~Scene()
@@ -39,6 +42,7 @@ void Scene::Destroy()
 		SAFE_DELETE(iter);
 	}
 	_actors.clear();
+	_ui->Destroy();
 }
 
 void Scene::Update(float deltatime)
@@ -59,6 +63,7 @@ void Scene::Update(float deltatime)
  		AddActor(iter);
 	}
 	_reserveAdd.clear();
+	_ui->Update(deltatime);
 }
 
 void Scene::Render(ID2D1RenderTarget* _dxRenderTarget)
@@ -68,12 +73,12 @@ void Scene::Render(ID2D1RenderTarget* _dxRenderTarget)
 
 	for (auto& list : _renderList)
 		for (auto* a : list)
-			a->Render(_dxRenderTarget); //@카메라 복붙하긴 했는데 좀 이상한거 같음 고쳐야돼 카메라 잠깐 뺴두고 나중에 추가해도 되고
+			a->Render(_dxRenderTarget); //@TODO카메라 복붙하긴 했는데 좀 이상한거 같음 고쳐야돼 카메라 잠깐 뺴두고 나중에 추가해도 되고
 
 	if (useGrid() && _gridOn) RenderGrid(_dxRenderTarget);
 
 	_dxRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
-
+	_ui->Render(_dxRenderTarget);
 }
 
 void Scene::RemoveActor(Actor* actor)

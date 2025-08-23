@@ -1,4 +1,5 @@
 #pragma once
+
 class Actor;
 
 struct Camera {
@@ -60,6 +61,6 @@ protected:
 
 	Camera _camera;
 
-	//UIManager _ui; @TODO 추가한 후 ui.넣어줘야함
+	class UIManager* _ui = nullptr;
 };
 

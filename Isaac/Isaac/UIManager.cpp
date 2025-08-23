@@ -4,7 +4,6 @@
 #include "Scene.h"
 #include "UIBase.h"
 
-
 void UIManager::Init()
 {
 }
