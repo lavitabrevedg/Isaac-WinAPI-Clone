@@ -22,6 +22,9 @@ public:
 	uint32 GetFps() { return _fps; }
 	float GetDeltaTime() { return _deltaTime; }
 
+	float GetNow() const { return _totalTime; }
+	float GetUnscaledNow() const { return _unscaledTotalTime; }
+
 private:
 	uint64 _frequency = 0;	// CPU Å¬·°
 	uint64 _prevCount = 0;
@@ -35,5 +38,9 @@ private:
 	uint32 _frameCount = 0;
 	float _frameTime = 0.f;
 	uint32 _fps = 0;
+
+	float _totalTime = 0.f;
+	float _unscaledTotalTime = 0.f;
+	float _timeScale = 1.f;
 };
 

@@ -49,6 +49,9 @@ private:
 	int _pathIdx = 0;
 	float _arrive = 5.0f;
 
+	float _attacedTime;
+	float now;
+
 	void UpdateFacingFromDir(const Vector& dir) {
 		if (fabs(dir.x) > fabs(dir.y)) _currbodyDir = (dir.x >= 0) ? DirType::DIR_RIGHT : DirType::DIR_LEFT;
 		else                            _currbodyDir = (dir.y >= 0) ? DirType::DIR_DOWN : DirType::DIR_UP;

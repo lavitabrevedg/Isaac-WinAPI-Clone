@@ -22,6 +22,7 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 		//player
 		_spriteNames.emplace("IsaacHead", SpriteInfo(0, 0, "IsaacHead", true));
 		_spriteNames.emplace("IsaacBody", SpriteInfo(0, 0, "IsaacBody", true));
+		_spriteNames.emplace("IsaacAction", SpriteInfo(0, 0, "IsaacAction", true));
 	}
 
 	{
@@ -31,12 +32,12 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 
 	{
 		//UI
-		_spriteNames.emplace("P_EmptyHeart",SpriteInfo(3,0,"Player_HP",true));
-		_spriteNames.emplace("P_HalpHeart",SpriteInfo(2,0,"Player_HP",true));
-		_spriteNames.emplace("P_Heart",SpriteInfo(1,0,"Player_HP",true));
-		_spriteNames.emplace("Coin", SpriteInfo(0, 1, "Coin", true));
-		_spriteNames.emplace("Boom", SpriteInfo(7, 1, "Boom", true));
-		_spriteNames.emplace("Key", SpriteInfo(4, 1, "Key", true));
+		_spriteNames.emplace("P_EmptyHeart",SpriteInfo(2,0,"Player_HP",true));
+		_spriteNames.emplace("P_HalpHeart",SpriteInfo(1,0,"Player_HP",true));
+		_spriteNames.emplace("P_Heart",SpriteInfo(0,0,"Player_HP",true));
+		_spriteNames.emplace("Coin", SpriteInfo(0, 1, "crafting", true));
+		_spriteNames.emplace("Boom", SpriteInfo(7, 1, "crafting", true));
+		_spriteNames.emplace("Key", SpriteInfo(4, 1, "crafting", true));
 		_spriteNames.emplace("MiniMapBoard", SpriteInfo(0, 0, "MiniMapBoard", true));
 		_spriteNames.emplace("EmptyRoom", SpriteInfo(0, 0, "EmptyRoom", true));
 	}
@@ -153,84 +154,6 @@ DXBitmap* ResourceManager::GetDXBitmap(string key)
 
 	return nullptr;
 }
-
-//Sliced3Texture* ResourceManager::LoadSlicedTexture(wstring key, wstring path, int32 left, int32 right)
-//{
-//	if (_slicedtexture.find(key) != _slicedtexture.end())
-//	{
-//		// 이미 존재하는 키라면 리턴
-//		return _slicedtexture[key];
-//	}
-//
-//	fs::path fullPath = _resourcePath / path;
-//
-//	Sliced3Texture* texture = new Sliced3Texture();
-//	texture->Load(fullPath.c_str(), left, right);
-//	_slicedtexture[key] = texture;
-//	return texture;
-//}
-//
-//Sliced3Texture* ResourceManager::GetSlicedexture(wstring key)
-//{
-//	if (_slicedtexture.find(key) != _slicedtexture.end())
-//	{
-//		// 이미 존재하는 키라면 리턴
-//		return _slicedtexture[key];
-//	}
-//	return nullptr;
-//}
-//
-//PNGTexture* ResourceManager::LoadPNGTexture(wstring key, wstring path, int32 width, int32 height)
-//{
-//	if (_texture.find(key) != _texture.end())
-//	{
-//		// 이미 존재하는 키라면 리턴
-//		return _texture[key];
-//	}
-//
-//	fs::path fullPath = _resourcePath / path;
-//
-//	PNGTexture* texture = new PNGTexture();
-//	texture->Load(fullPath.c_str(), width, height);
-//	_texture[key] = texture;
-//	return texture;
-//}
-//
-//PNGTexture* ResourceManager::GetPNGTexture(wstring key)
-//{
-//	if (_texture.find(key) != _texture.end())
-//	{
-//		// 이미 존재하는 키라면 리턴
-//		return _texture[key];
-//	}
-//	return nullptr;
-//}
-//
-//Sprite* ResourceManager::LoadSprite(wstring key, wstring path, int32 countX, int32 countY)
-//{
-//	if (_sprites.find(key) != _sprites.end())
-//	{
-//		// 이미 존재하는 키라면 리턴
-//		return _sprites[key];
-//	}
-//
-//	fs::path fullPath = _resourcePath / path;
-//
-//	Sprite* sprite = new Sprite();
-//	sprite->Load(fullPath.c_str(), countX, countY);
-//	_sprites[key] = sprite;
-//	return sprite;
-//}
-//
-//Sprite* ResourceManager::GetSprite(wstring key)
-//{
-//	if (_sprites.find(key) != _sprites.end())
-//	{
-//		// 이미 존재하는 키라면 리턴
-//		return _sprites[key];
-//	}
-//	return nullptr;
-//}
 
 const SpriteInfo* ResourceManager::GetSpriteInfo(string key)
 {

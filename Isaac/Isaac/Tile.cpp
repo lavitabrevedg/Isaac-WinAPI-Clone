@@ -13,7 +13,7 @@ Tile::Tile(string spriteName, int32 width, int32 height)
 
 Tile::Tile(Sprite* sprite)
 {
-	_sprite = sprite;
+	_sprite = CreateSpriteComponent(sprite->GetSpriteName(),sprite->GetSize().Width, sprite->GetSize().Height);
 }
 
 void Tile::Init(Vector pos)
@@ -33,7 +33,8 @@ void Tile::Update(float deltatime)
 
 void Tile::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	_sprite->RenderImage(_dxRenderTarget,_pos);
+	_sprite->SetPos(_pos);
+	Super::Render(_dxRenderTarget);
 }
 
 void Tile::LoadActor(std::wistringstream& steam)

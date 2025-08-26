@@ -42,7 +42,9 @@ void Scene::Destroy()
 		SAFE_DELETE(iter);
 	}
 	_actors.clear();
+
 	_ui->Destroy();
+	SAFE_DELETE(_ui);
 }
 
 void Scene::Update(float deltatime)

@@ -28,7 +28,8 @@ void Effect::Update(float deltatime)
 
 void Effect::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	_sprite->RenderImage(_dxRenderTarget, _pos);
+	_sprite->SetPos(_pos);
+	_sprite->RenderComponent(_dxRenderTarget);
 }
 
 void Effect::Destroy()

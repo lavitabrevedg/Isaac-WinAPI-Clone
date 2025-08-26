@@ -128,7 +128,7 @@ void Game::Render()
 			str.c_str(),
 			(uint32)str.size(),
 			font,
-			D2D1::RectF(5, 10, 600, 200),
+			D2D1::RectF(880, 510, GWinSizeX, GWinSizeY),
 			brush
 		);
 	}

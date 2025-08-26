@@ -12,7 +12,7 @@ public:
 	void Update(float deltatime)override;
 	void Render(ID2D1RenderTarget* _dxRenderTarget)override;
 
-	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_UI; }
+	virtual RenderLayer GetRenderLayer() override { return RenderLayer::RL_Image; }
 private:
 	bool _visible = true;
 };

@@ -14,13 +14,13 @@ Sprite::~Sprite()
 
 }
 
-void Sprite::UpdateImage(float deltaTime)
+void Sprite::UpdateComponent(float deltaTime)
 {
 
 }
 
 
-void Sprite::RenderImage(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
+void Sprite::RenderComponent(ID2D1RenderTarget* _dxRenderTarget)
 {
 	Dimension frameSize = _bitmap->GetFrameSize();
 
@@ -37,7 +37,7 @@ void Sprite::RenderImage(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
 
 	Vector offset = _getFrameOffset(this);
 	if (_flip) offset.x = -offset.x;
-	Vector drawPos = pos + offset;
+	Vector drawPos = _pos + offset;
 
 	// 화면에 렌더링할 위치와 크기 (대상 영역)
 	D2D1_RECT_F destRect;

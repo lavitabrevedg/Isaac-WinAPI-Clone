@@ -80,6 +80,7 @@ struct SpriteInfo
 
 enum RenderLayer
 {
+	RL_Image,
 	RL_Room,
 	RL_Item,
 	RL_Object,
@@ -88,7 +89,6 @@ enum RenderLayer
 	RL_Effect,
 	RL_Tear,
 	RL_UI,	// UI 는 제일 마지막
-	RL_Image,
 	RL_Count
 };
 
@@ -99,6 +99,16 @@ enum DirType
 	DIR_UP,
 	DIR_DOWN,
 	DIR_MAX,
+};
+
+enum DropItemType
+{
+	Coin,
+	Boom,
+	Key,
+	Card,
+	Pill,
+	Max
 };
 
 // vector 구현 ((방향+크기)를 나타내는 벡터)

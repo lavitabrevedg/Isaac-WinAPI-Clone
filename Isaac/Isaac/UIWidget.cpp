@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "UIWidget.h"
+#include "Sprite.h"
 
 UIWidget::UIWidget()
 {
@@ -7,6 +8,7 @@ UIWidget::UIWidget()
 
 UIWidget::~UIWidget()
 {
+	Destroy();
 }
 
 void UIWidget::Init(Vector pos)

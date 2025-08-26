@@ -171,6 +171,7 @@
     <ClInclude Include="UIHud.h" />
     <ClInclude Include="UIImage.h" />
     <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UITitle.h" />
     <ClInclude Include="UIWidget.h" />
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +218,7 @@
     <ClCompile Include="UIHud.cpp" />
     <ClCompile Include="UIImage.cpp" />
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UITitle.cpp" />
     <ClCompile Include="UIWidget.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@
 #include "ObjectPool.h"
 
 class Stage;
+class UIHud;
 
 namespace EffectAnim
 {
@@ -55,6 +56,8 @@ public:
 
     void OnMonsterDied(class Monster* enemy) { _monsterCount--; }
 
+    UIHud* GetGameHud() { return _gameHud; }
+
 private:
     ObjectPool<class Tear> _tearPool;
     ObjectPool<class Monster> _monsterPool;
@@ -69,6 +72,6 @@ private:
 
     array<class Door*, DirType::DIR_MAX> _doors = { nullptr };
 
-    class UIHud* _gameHud = nullptr;
+    UIHud* _gameHud = nullptr;
 };
 

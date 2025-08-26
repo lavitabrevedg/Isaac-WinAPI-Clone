@@ -107,6 +107,7 @@ void EditorScene::Destroy()
 			SAFE_DELETE(iter);
 		}
 	}
+	_editActorInfo->clear();
 }
 
 void EditorScene::Update(float deltatime)

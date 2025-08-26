@@ -30,6 +30,7 @@ public:
 		_gravity = 0.f;          // 0이 아니라 기본 중력값
 		_distance = 0.f;
 		falling = false;
+		Destroy();
 	}
 	
 private:

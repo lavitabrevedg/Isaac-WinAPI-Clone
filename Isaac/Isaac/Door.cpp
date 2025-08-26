@@ -59,8 +59,8 @@ void Door::Update(float deltatime)
 
 void Door::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
+	_sprite->SetPos(_pos);
 	Super::Render(_dxRenderTarget);
-	_sprite->RenderImage(_dxRenderTarget, _pos);
 }
 
 void Door::OnEnterCollision()

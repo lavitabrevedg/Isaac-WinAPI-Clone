@@ -48,7 +48,7 @@ public:
 	virtual void TakeDamage(float amount,DirType dir) {}; //@TODO OnEnterCollision을 만들어야하나
 protected:
 	class Sprite* CreateSpriteComponent(string spriteName, int32 width = 0, int32 height = 0);
-	class Texture* CreateTextureComponent(string bitmapKey, int32 width = 0, int32 height = 0);
+	class Texture* CreateTextureComponent(Vector pos, string bitmapKey, int32 width = 0, int32 height = 0);
 	class RectCollider* CreateRectCollider(int32 width, int32 height,Vector offset = {0,0});
 
 protected:
@@ -74,4 +74,3 @@ public:
 	void Update(float deltatime, Sprite* sprite);
 	bool IsEndAnim() { return _isEnd; }
 };
-

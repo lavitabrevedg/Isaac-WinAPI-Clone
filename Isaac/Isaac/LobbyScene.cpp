@@ -4,6 +4,10 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "ImageActor.h"
+#include "UIManager.h"
+#include "UIBase.h"
+#include "UIImage.h"
+#include "UITitle.h"
 
 LobbyScene::LobbyScene()
 {
@@ -52,20 +56,16 @@ void LobbyScene::loadResources()
 void LobbyScene::createObjects()
 {
 	ImageActor* titlemenu = new ImageActor("titlemenu", GWinSizeX, GWinSizeY);
-	ImageActor* titlemenu2 = new ImageActor("titlemenu2", 300, 300);
-	ImageActor* titlemenu3 = new ImageActor("titlemenu3", 500, 300);
-
 	titlemenu->Init(Vector{ GWinSizeX / 2, GWinSizeY / 2 });
-	titlemenu2->Init(Vector{ GWinSizeX / 2, 360 });
-	titlemenu3->Init(Vector{ GWinSizeX / 2, 130 });
 
 	ReserveAdd(titlemenu);
-	ReserveAdd(titlemenu2);
-	ReserveAdd(titlemenu3);
+
 }
 
 void LobbyScene::createUI()
 {
+	UITitle* title = new UITitle();
+	_ui->AddPanel(title);
 }
 
 void LobbyScene::initTimer()

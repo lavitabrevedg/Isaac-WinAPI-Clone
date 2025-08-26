@@ -6,13 +6,12 @@
 #include "Tear.h"
 #include "PlayScene.h"
 #include "Sprite.h"
+#include "TimeManager.h"
+#include "UIHud.h"
 
 
 Player::Player()
 {
-	_maxhp = 3;
-	_hp = _maxhp;
-
 	_IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_DOWN] = AnimInfo{ 0,0,1,1,false,0.1f };
 	_IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_RIGHT] = AnimInfo{ 2,0,1,1,false,0.1f };
 	_IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_UP] = AnimInfo{ 4,0,1,1,false, 0.1f };
@@ -33,16 +32,17 @@ Player::Player()
 	_IsaacAnim._bodyAnim[BodyState::B_WALK][DirType::DIR_RIGHT] = AnimInfo{ 1,1,9,1,true,0.1f };
 	_IsaacAnim._bodyAnim[BodyState::B_WALK][DirType::DIR_LEFT] = AnimInfo{ 1,1,9,1,true,0.1f,true };
 
-	_Head = CreateSpriteComponent("IsaacHead", 72, 50);
+	//_IsaacAnim._actionAnim[0] = AnimInfo{ 2,1,1,1,true,0.2f };
+
 	_Body = CreateSpriteComponent("IsaacBody", 50, 35);
+	_sprite = CreateSpriteComponent("IsaacHead", 72, 50);
 
-
-	_Head->SetFrameOffset(0, 0, { 5, 0 });
-	_Head->SetFrameOffset(1, 0, { 5, 0 });
-	_Head->SetFrameOffset(4, 0, { -3,0 });
-	_Head->SetFrameOffset(5, 0, { -3,0 });
-	_Head->SetFrameOffset(6, 0, { -5,0 });
-	_Head->SetFrameOffset(7, 0, { -5,0 });
+	_sprite->SetFrameOffset(0, 0, { 5, 0 });
+	_sprite->SetFrameOffset(1, 0, { 5, 0 });
+	_sprite->SetFrameOffset(4, 0, { -3,0 });
+	_sprite->SetFrameOffset(5, 0, { -3,0 });
+	_sprite->SetFrameOffset(6, 0, { -5,0 });
+	_sprite->SetFrameOffset(7, 0, { -5,0 });
 
 
 	_Body->SetFrameOffset(0, 0, { 9, 0 });  
@@ -84,6 +84,8 @@ void Player::Destroy()
 void Player::Init(Vector pos)
 {
 	Super::Init(pos);
+	_maxhp = 6;
+	_hp = _maxhp;
 	_maxSpeed = 250.f;
 	_friction = 0.95f;
 	_velocity = { 0,0 };
@@ -100,6 +102,9 @@ void Player::Init(Vector pos)
 	_currbodyState = BodyState::B_IDEL;
 	_prevbodyState = BodyState::B_IDEL;
 
+	_coins = 0;
+	_booms = 1;
+	_keys = 0;
 }
 
 void Player::Update(float deltatime)
@@ -122,6 +127,10 @@ void Player::Update(float deltatime)
 	if (InputManager::GetInstance()->GetButtonPressed(KeyType::S)) {
 		_acceleration.y += moveForce; _currbodyDir = DIR_DOWN; moving = true;
 	}
+	//if (InputManager::GetInstance()->GetButtonDown(KeyType::E))
+	//{
+	//	PlayScene::GetGameScene()->createObjects
+	//}
 
 	if (moving) {
 		_currbodyState = B_WALK;
@@ -133,30 +142,38 @@ void Player::Update(float deltatime)
 
 	_currheadDir = _currbodyDir;
 
+	now = TimeManager::GetInstance()->GetNow();
 	// Attack/Head
-	if (InputManager::GetInstance()->GetButtonDown(KeyType::Left))
+	if (now >= nextReadyTime)
 	{
-		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_LEFT];
-		_headAnimCtrl.SetAnim(headInfo);
-		PlayScene::GetGameScene()->CreateTear(DIR_LEFT, _pos, _playerTearStat, _velocity);
-	}
-	else if (InputManager::GetInstance()->GetButtonDown(KeyType::Right))
-	{
-		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_RIGHT];
-		_headAnimCtrl.SetAnim(headInfo);
-		PlayScene::GetGameScene()->CreateTear(DIR_RIGHT, _pos, _playerTearStat, _velocity);
-	}
-	else if (InputManager::GetInstance()->GetButtonDown(KeyType::Up))
-	{
-		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_UP];
-		_headAnimCtrl.SetAnim(headInfo);
-		PlayScene::GetGameScene()->CreateTear(DIR_UP, _pos, _playerTearStat, _velocity);
-	}
-	else if (InputManager::GetInstance()->GetButtonDown(KeyType::Down))
-	{
-		AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_DOWN];
-		_headAnimCtrl.SetAnim(headInfo);
-		PlayScene::GetGameScene()->CreateTear(DIR_DOWN, _pos, _playerTearStat, _velocity);
+		if (InputManager::GetInstance()->GetButtonPressed(KeyType::Left))
+		{
+			AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_LEFT];
+			_headAnimCtrl.SetAnim(headInfo);
+			PlayScene::GetGameScene()->CreateTear(DIR_LEFT, _pos, _playerTearStat, _velocity);
+			nextReadyTime = now + 1.f / _playerTearStat.tears;
+		}
+		else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Right))
+		{
+			AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_RIGHT];
+			_headAnimCtrl.SetAnim(headInfo);
+			PlayScene::GetGameScene()->CreateTear(DIR_RIGHT, _pos, _playerTearStat, _velocity);
+			nextReadyTime = now + 1.f / _playerTearStat.tears;
+		}
+		else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Up))
+		{
+			AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_UP];
+			_headAnimCtrl.SetAnim(headInfo);
+			PlayScene::GetGameScene()->CreateTear(DIR_UP, _pos, _playerTearStat, _velocity);
+			nextReadyTime = now + 1.f / _playerTearStat.tears;
+		}
+		else if (InputManager::GetInstance()->GetButtonPressed(KeyType::Down))
+		{
+			AnimInfo headInfo = _IsaacAnim._headAnim[HeadState::H_ATTACK][DirType::DIR_DOWN];
+			_headAnimCtrl.SetAnim(headInfo);
+			PlayScene::GetGameScene()->CreateTear(DIR_DOWN, _pos, _playerTearStat, _velocity);
+			nextReadyTime = now + 1.f / _playerTearStat.tears;
+		}
 	}
 
 	if (_headAnimCtrl.IsEndAnim())
@@ -181,18 +198,24 @@ void Player::Update(float deltatime)
 	}
 
 	_bodyAnimCtrl.Update(deltatime, _Body);
-	_headAnimCtrl.Update(deltatime, _Head);
+	_headAnimCtrl.Update(deltatime, _sprite);
 }
 
 void Player::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	_Body->RenderImage(_dxRenderTarget, _pos + Vector{ 0,13 });
-	_Head->RenderImage(_dxRenderTarget, _pos + Vector{ 0,-13 });
+	float _blinkHz = 10.f;
+	bool isInvuln = (now < _invulnEndTime);
+	bool blinkOn = ((int)floor(now * _blinkHz) % 2 == 0);
+	if (isInvuln && !blinkOn) return;
+
+	_Body->SetPos(_pos + Vector{ 0,13 });
+	_sprite->SetPos(_pos + Vector{ 0,-13 });
 	Super::Render(_dxRenderTarget);
 }
 
 void Player::OnDamage()
 {
+	PlayScene::GetGameScene()->GetGameHud()->PlayerOnDamage(1);
 }
 
 void Player::Die()
@@ -202,10 +225,16 @@ void Player::Die()
 
 void Player::TakeDamage(float amount)
 {
+	if (now < _invulnEndTime)
+		return;
+
 	_hp -= amount;
 	OnDamage();
+
 	if (_hp <= 0)
 	{
 		Die();
 	}
+
+	_invulnEndTime = now + 1.0f; //무적시간
 }

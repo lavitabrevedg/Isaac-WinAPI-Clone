@@ -19,6 +19,9 @@ void TimeManager::Update()
 	_frameCount++;
 	_frameTime += _deltaTime;
 
+	_unscaledTotalTime += _deltaTime;
+	_totalTime += _deltaTime * _timeScale;
+
 	// 1초당 프레임 카운트가 나온다.
 	if (_frameTime >= 1.0f)
 	{

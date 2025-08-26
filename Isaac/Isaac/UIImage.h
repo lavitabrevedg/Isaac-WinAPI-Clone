@@ -24,7 +24,8 @@ public:
 	virtual ~UISprite();
 
 	void SetIndex(int32 x, int32 y);
+	void GetIndex(int32& Outx, int32& Outy);
 
 private:
-	Sprite* _sprite = nullptr;
+	//Sprite* _sprite = nullptr;
 };

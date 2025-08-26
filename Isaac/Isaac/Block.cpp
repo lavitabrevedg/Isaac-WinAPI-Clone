@@ -15,7 +15,7 @@ Block::Block()
 
 Block::Block(Sprite* sprite)
 {
-	_sprite = sprite;
+	_sprite = CreateSpriteComponent(sprite->GetSpriteName(), sprite->GetSize().Width, sprite->GetSize().Height);
 }
 
 void Block::Init(Vector pos)
@@ -36,7 +36,7 @@ void Block::Update(float deltatime)
 
 void Block::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	_sprite->RenderImage(_dxRenderTarget,_pos);
+	_sprite->SetPos(_pos);
 	Super::Render(_dxRenderTarget);
 }
 
@@ -61,8 +61,9 @@ void Block::LoadActor(std::wistringstream& steam)
 	std::string spriteName;
 	spriteName.assign(wspriteName.begin(), wspriteName.end());
 
-	Vector pos = Vector(x, y);
-	SetPos(pos);
 	_sprite = CreateSpriteComponent(spriteName, w, h);
 	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height);
+
+	Vector pos = Vector(x, y);
+	SetPos(pos);
 }

@@ -3,23 +3,18 @@
 
 class UISprite;
 
-class UIHud : public UIBase
+class UITitle : public UIBase
 {
 	using Super = UIBase;
 public:
-	UIHud();
-	virtual ~UIHud() {};
+	UITitle();
+	virtual ~UITitle();
 
 	void Init() override;
 	void Update(float deltaTime) override;
 	void Render(ID2D1RenderTarget* renderTarget) override;
 
-	void PlayerOnDamage(int32 amount);
-
 private:
-	vector<UISprite*> _playerHp;
-
-	int32 _coin;
-	int32 _boom;
-	int32 _key;
+    UISprite* _titles;
+	struct AnimationController* _anim;
 };

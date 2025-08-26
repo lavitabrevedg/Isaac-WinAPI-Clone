@@ -99,6 +99,7 @@ void PlayScene::loadResources()
 	ResourceManager::GetInstance()->LoadDXBitmap("IsaacHead", L"Player/IsaacHead.png", 8, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("IsaacBody", L"Player/IsaacBody.png", 10, 2);
 	ResourceManager::GetInstance()->LoadDXBitmap("Tear", L"Player/Tear.png", 1, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("IsaacAction", L"Player/IsaacAction.png", 4, 3);
 
 	ResourceManager::GetInstance()->LoadDXBitmap("Monstrobase", L"Monster/Monstrobase.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Fly2", L"Monster/Fly2.png", 4, 4);
@@ -127,10 +128,8 @@ void PlayScene::loadResources()
 
 	ResourceManager::GetInstance()->LoadDXBitmap("EmptyRoom", L"UI/EmptyRoom.png");
 	ResourceManager::GetInstance()->LoadDXBitmap("MiniMapBoard", L"UI/MiniMapBoard.png");
-	ResourceManager::GetInstance()->LoadDXBitmap("P_EmptyHeart", L"UI/Player_HP.png");
-	ResourceManager::GetInstance()->LoadDXBitmap("P_HalpHeart", L"UI/Player_HP.png");
-	ResourceManager::GetInstance()->LoadDXBitmap("P_Heart", L"UI/Player_HP.png");
-	ResourceManager::GetInstance()->LoadDXBitmap("ui_crafting", L"UI/ui_crafting.png");
+	ResourceManager::GetInstance()->LoadDXBitmap("Player_HP", L"UI/Player_HP.png",5,2);
+	ResourceManager::GetInstance()->LoadDXBitmap("crafting", L"UI/crafting.png",8,4);
 }
 
 void PlayScene::createObjects()
@@ -319,7 +318,7 @@ void PlayScene::Collide_PlayerTears(float dt)
 						{
 							Tear* casttear = dynamic_cast<Tear*>(tear);
 							float damage = casttear->GetTearstat().damage;
-							otherActor->TakeDamage(damage);
+							otherActor->TakeDamage(damage,casttear->GetDir());
 
 							RemoveTear(casttear);
 						}
@@ -421,6 +420,9 @@ Player* PlayScene::GetPlayer()
 
 bool PlayScene::FindPath(Cell start, Cell end, vector<Cell>& findPath, int32 maxDepth)
 {
+	if (start == Cell(-1, -1) || end == Cell(-1, -1))
+		return false;
+
 	findPath.clear();
 
 	Heuristic(start, end);

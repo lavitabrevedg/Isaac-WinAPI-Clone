@@ -29,7 +29,7 @@ void RectCollider::UpdateComponent(float deltaTime)
 	_collision.bottom = (LONG)((_owner->GetPos().y + _offset.y) + _height * 0.5f);
 }
 
-void RectCollider::RenderComponent(ID2D1RenderTarget* _dxRenderTarget, Vector pos)
+void RectCollider::RenderComponent(ID2D1RenderTarget* _dxRenderTarget)
 {
 	// 충돌 영역을 그리기
 	if (Game::GetInstance()->GetCurrScene()->IsRenderGrid())

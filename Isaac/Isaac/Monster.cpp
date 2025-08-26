@@ -3,12 +3,10 @@
 #include "Sprite.h"
 #include "Game.h"
 #include "PlayScene.h"
+#include "TimeManager.h"
 
 Monster::Monster()
 {
-	_maxhp = 3;
-	_hp = _maxhp;
-
 	_bodyAnim[BodyState::B_IDEL][DirType::DIR_DOWN] = AnimInfo{ 0,0,1,1,true,0.1f };
 
 	_bodyAnim[BodyState::B_WALK][DirType::DIR_DOWN] = AnimInfo{ 0,0,10,1,true,0.1f };
@@ -16,8 +14,8 @@ Monster::Monster()
 	_bodyAnim[BodyState::B_WALK][DirType::DIR_RIGHT] = AnimInfo{ 0,1,10,1,true,0.1f };
 	_bodyAnim[BodyState::B_WALK][DirType::DIR_LEFT] = AnimInfo{ 0,1,10,1,true,0.1f,true };
 
-	_sprite = CreateSpriteComponent("gaperHead", 55, 60);
 	_Body = CreateSpriteComponent("gaperBody", 50, 35);
+	_sprite = CreateSpriteComponent("gaperHead", 55, 60);
 
 	_Body->SetFrameOffset(0, 0, { 9, 0 });
 	_Body->SetFrameOffset(1, 0, { 7, 0 });
@@ -64,11 +62,16 @@ void Monster::Init(Vector pos)
 	_velocity = { 0,0 };
 	_acceleration = { 0,0 };
 
+	_maxhp = 25;
+	_hp = _maxhp;
+
 	_currbodyDir = DirType::DIR_DOWN;
 }
 
 void Monster::Update(float deltatime)
 {
+	now = TimeManager::GetInstance()->GetNow();
+
 	_currCount++;
 
 	if (_checkCount < _currCount)
@@ -89,7 +92,7 @@ void Monster::Update(float deltatime)
 		_currCount = 0;
 	}
 
-	float moveForce = 200.f;
+	float moveForce = 500.f;
 	bool moving = false;
 
 	if (_pathIdx < (int)_path.size())
@@ -125,8 +128,11 @@ void Monster::Update(float deltatime)
 
 void Monster::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
-	_Body->RenderImage(_dxRenderTarget, _pos + Vector{ 0,13 });
-	_sprite->RenderImage(_dxRenderTarget, _pos + Vector{ 0,-13 });
+	if (_attacedTime > now)
+		return;
+
+	_Body->SetPos(_pos + Vector{ 0,13 });
+	_sprite->SetPos(_pos + Vector{ 0,-13 });
 	Super::Render(_dxRenderTarget);
 }
 
@@ -142,15 +148,16 @@ void Monster::Die()
 
 void Monster::TakeDamage(float amount)
 {
-	_hp -= amount;
-	if (_hp <= 0)
-	{
-		Die();
-	}
+
 }
 
 void Monster::TakeDamage(float amount, DirType dir)
 {
+	float speed = 20.f;
+	Vector pos = dirValue[dir];
+	_pos += pos * speed;
+
+	_attacedTime = now + 0.1f;
 	_hp -= amount;
 	OnDamage();
 	if (_hp <= 0)

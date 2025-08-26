@@ -189,6 +189,9 @@
     <ClInclude Include="UIManager.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="UITitle.h">
+      <Filter>UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Isaac.cpp">
@@ -315,6 +318,9 @@
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UITitle.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>

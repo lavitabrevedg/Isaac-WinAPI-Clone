@@ -19,6 +19,7 @@ struct HeadAndBody
 {
 	AnimInfo _headAnim[HeadState::H_MAX][DirType::DIR_MAX];
 	AnimInfo _bodyAnim[BodyState::B_MAX][DirType::DIR_MAX];
+	AnimInfo _actionAnim[4]; //¿”Ω√ 4∞≥
 };
 
 class Creature : public Actor

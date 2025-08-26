@@ -32,12 +32,6 @@ void Actor::Destroy()
 		SAFE_DELETE(iter);
 	}
 	_components.clear();
-
-	for (auto iter : _sprites)
-	{
-		SAFE_DELETE(iter);
-	}
-	_sprites.clear();
 }
 
 void Actor::Update(float deltatime)
@@ -52,7 +46,7 @@ void Actor::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
 	for (auto iter : _components)
 	{
-		iter->RenderComponent(_dxRenderTarget,_pos);
+		iter->RenderComponent(_dxRenderTarget);
 	}
 }
 
@@ -67,13 +61,16 @@ Sprite* Actor::CreateSpriteComponent(string spriteName, int32 width, int32 heigh
 	sprite->SetApplyCamera(GetRenderLayer() != RenderLayer::RL_UI);
 	sprite->SetSpriteName(spriteName);
 	_sprites.push_back(sprite);
+	_components.emplace_back(sprite);
 
 	return sprite;
 }
 
-Texture* Actor::CreateTextureComponent(string bitmapKey, int32 width, int32 height)
+Texture* Actor::CreateTextureComponent(Vector pos,string bitmapKey, int32 width, int32 height)
 {
 	Texture* sprite = new Texture(bitmapKey, width, height);
+	_components.emplace_back(sprite);
+	sprite->SetPos(pos);
 
 	return sprite;
 }
