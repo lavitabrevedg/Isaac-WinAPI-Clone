@@ -1,0 +1,16 @@
+{
+  "list": [
+  {
+  "id": 1001,
+  "key": "cyclops",
+  "name": "싸이클롭스",
+  "type": "Passive",
+  "playercostumePath": "Player/IsaaccyclopsHead.png",
+  "Itemstat": {
+    "damageAdd": 1.0,
+    "damageMul": 2.0,
+    "tearsMul": 0.75,
+    "shotspeedMul": 0.9
+  }}
+  ]
+}

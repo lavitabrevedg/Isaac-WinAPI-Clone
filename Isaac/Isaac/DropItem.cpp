@@ -2,21 +2,21 @@
 #include "DropItem.h"
 #include "Sprite.h"
 
-DropItem::DropItem()
+DropItem::DropItem(string spriteName, int32 width, int32 height)
 {
-	_sprite = CreateSpriteComponent("Penny1");
-	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height);
+	_sprite = CreateSpriteComponent(spriteName,width,height);
+	CreateRectCollider(0,0);
 }
 
 void DropItem::Init(Vector pos)
 {
 	_pos = pos;
+	_sprite->SetPos(_pos);
 	Super::Init(pos);
 }
 
 void DropItem::Destroy()
 {
-	SAFE_DELETE(_sprite);
 	Super::Destroy();
 }
 

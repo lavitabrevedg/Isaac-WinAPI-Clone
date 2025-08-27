@@ -4,6 +4,7 @@
 #include "MapData.h"
 #include "MonsterData.h"
 #include "ItemData.h"
+#include "DropItemData.h"
 
 DataManager::DataManager()
 {
@@ -22,15 +23,20 @@ void DataManager::Init()
         loadMapDataObject(directory);
     }
 
+    //dropItem
+    {
+        loadDropItemDataObject(directory);
+    }
+
     // monster
     /*{
         loadMonsterDataObject(directory);
     }*/
 
     // itemData
-   /* {
+    {
         loadItemDataObject(directory);
-    }*/
+    }
 }
 
 void DataManager::Destroy()
@@ -41,6 +47,17 @@ void DataManager::Destroy()
     }
     _data.clear();
     SAFE_DELETE(_mapData);
+    for (auto& [key, res] : _dropitemData)
+    {
+        delete res;
+    }
+    for (auto& [key, res] : _itemData)
+    {
+        delete res;
+    }
+    _itemData.clear();
+    _itemIdList.clear();
+    _dropitemData.clear();
 }
 
 int32 DataManager::GetRandomItemId() const
@@ -133,6 +150,29 @@ void DataManager::loadItemDataObject(fs::path directory)
         data->Load(iter);
         _itemData.emplace(id, data);
         _itemIdList.emplace_back(id);
+    }
+}
+
+void DataManager::loadDropItemDataObject(fs::path directory)
+{
+    fs::path path = directory / L"DropItemData.json";
+    std::ifstream file(path.c_str());
+    if (!file.is_open())
+    {
+        MessageBox(nullptr, L"Failed to open JSON file", L"Error", MB_OK);
+        return;
+    }
+
+    json data = json::parse(file);
+    for (auto iter : data["list"])
+    {
+        int32 id = iter["id"];
+        if (id == 0)
+            continue;
+
+        DropItemData* data = new DropItemData();
+        data->Load(iter);
+        _dropitemData.emplace(id, data);
     }
 }
 

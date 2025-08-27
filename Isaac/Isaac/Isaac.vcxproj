@@ -143,6 +143,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ImageActor.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="ItemData.h" />
     <ClInclude Include="MapData.h" />
     <ClInclude Include="MonsterData.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StageLoader.h" />
+    <ClInclude Include="Stat.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Tear.h" />
     <ClInclude Include="Texture.h" />
@@ -191,6 +193,7 @@
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ImageActor.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemData.cpp" />
     <ClCompile Include="MapData.cpp" />
     <ClCompile Include="MonsterData.cpp" />
@@ -210,6 +213,7 @@
     <ClCompile Include="RectCollider.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="StageLoader.cpp" />
+    <ClCompile Include="Stat.cpp" />
     <ClCompile Include="Tear.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tile.cpp" />

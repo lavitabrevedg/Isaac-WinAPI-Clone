@@ -27,7 +27,6 @@ void MapData::Load(const json& data)
 			const auto& nb = r.at("neighbor"); 
 			for (int i = 0; i < DIR_MAX; ++i)
 				ri.neighbor[i] = nb.value(kKeys[i], -1);   // 키 없으면 -1
-
 			si.rooms.emplace(ri.id, ri);
 		}
 		_stages.emplace(si.id, si);

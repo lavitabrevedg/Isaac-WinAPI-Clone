@@ -23,6 +23,9 @@ public:
 	virtual void TakeDamage(float amount)override;
 	void Die()override;
 
+	void PickUp(ItemStat item);
+	void PickUpDropItem(class DorpItem* item);
+
 private:
 	TearStat _playerTearStat;
 

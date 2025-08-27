@@ -7,7 +7,7 @@
 Door::Door(string spriteName, int32 width, int32 height)
 {
 	_sprite = CreateSpriteComponent(spriteName, width, height);
-	CreateRectCollider(100, 100);
+	CreateRectCollider(80, 80);
 }
 
 Door::Door(Sprite* sprite)

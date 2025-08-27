@@ -2,9 +2,13 @@
 #include "Singleton.h"
 #include "DataObject.h"
 
+#define MIN_ID 1001
+#define MAX_ID 1001
+
 class MonsterData;
 class ItemData;
 class MapData;
+class DropItemData;
 
 class DataManager : public Singleton<DataManager>
 {
@@ -40,7 +44,7 @@ public:
 		return nullptr;
 	}
 
-	const ItemData* GetItemData(int32 key) const
+	ItemData* GetItemData(int32 key) const
 	{
 		auto find = _itemData.find(key);
 		if (find != _itemData.end())
@@ -52,6 +56,16 @@ public:
 		return nullptr;
 	}
 
+	const DropItemData* GetDroItemData(int32 key) const
+	{
+		auto find = _dropitemData.find(key);
+		if (find != _dropitemData.end())
+		{
+			return find->second;
+		}
+		return nullptr;
+	}
+
 	int32 GetRandomItemId() const;
 
 	struct StageInfo* GetStageInfo(int32 stageNumber) const;
@@ -59,9 +73,11 @@ public:
 
 private:
 	void loadDataObject(fs::path directory, wstring key, DataObject* obj);
+
 	void loadMapDataObject(fs::path directory);
 	void loadMonsterDataObject(fs::path directory);
 	void loadItemDataObject(fs::path directory);
+	void loadDropItemDataObject(fs::path directory);
 
 private:
 	map<wstring, DataObject*>	_data;
@@ -69,4 +85,5 @@ private:
 	map<int32, ItemData*>		_itemData;
 	vector<int32>				_itemIdList;	// 아이템 랜덤 생성을 위함
 	MapData* _mapData;
+	map<int32, DropItemData*> _dropitemData;
 };

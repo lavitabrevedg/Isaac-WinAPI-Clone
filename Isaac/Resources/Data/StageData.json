@@ -4,7 +4,7 @@
       "id" : 1,
       "startRoom" : 101,
       "bossRoom" : 105,
-      "itemRoom" : 103,
+      "itemRoom" : 108,
       "rooms" : [
     {
         "id" : 101,
@@ -12,7 +12,16 @@
         "monsterCount": 0,
         "neighbor": 
         {
-          "left" : -1, "right" : 102, "up" : -1, "down" : -1
+          "left" : -1, "right" : 102, "up" : 108, "down" : -1
+        }
+    },
+    {
+      "id" : 108,
+        "MapPath" : "Gold.stage",
+        "monsterCount": 0,
+        "neighbor": 
+        {
+          "left" : -1, "right" : -1, "up" : -1, "down" : 101
         }
     },
     {

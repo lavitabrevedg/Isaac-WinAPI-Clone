@@ -18,7 +18,7 @@ public:
 	DirType GetDir() { return _dir; }
 	void OnEnterCollision();
 
-	void Open() { _isopen = true; } //¾Ë¾Æ¼­ ¹Ù²ã³ö
+	void Open() { _isopen = true; } 
 	void Close() { _isopen = false; }
 	bool IsOpen() { return _isopen; }
 

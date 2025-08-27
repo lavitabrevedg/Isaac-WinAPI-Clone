@@ -1,12 +1,13 @@
 #pragma once
 #include "Actor.h"
 
-class DropItem : public Actor
+class Item : public Actor
 {
 	using Super = Actor;
+
 public:
-	DropItem(string spriteName, int32 width, int32 height);
-	void Init(Vector pos)override;
+	Item(class ItemData* data);
+	void Init(Vector pos);
 	void Destroy()override;
 
 	void Update(float deltatime)override;
@@ -14,5 +15,10 @@ public:
 
 	RenderLayer GetRenderLayer()override { return RenderLayer::RL_Item; }
 
+	void PickUp(class Player* player);
+
 private:
+	class ItemData* _data = nullptr;
+	ItemStat _tearstat;
 };
+

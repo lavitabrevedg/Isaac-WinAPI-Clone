@@ -143,6 +143,7 @@ void Monster::OnDamage()
 void Monster::Die()
 {
 	PlayScene::GetGameScene()->OnMonsterDied(this);
+	PlayScene::GetGameScene()->SpawnEffect(_pos,"bloodpoof",0,0,EffectAnim::bloodEffect);
 	Game::GetInstance()->GetCurrScene()->ReserveRemove(this);
 }
 

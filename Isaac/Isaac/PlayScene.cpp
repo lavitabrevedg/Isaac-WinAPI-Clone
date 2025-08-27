@@ -15,6 +15,8 @@
 #include "Door.h"
 #include "UIHud.h"
 #include "UIManager.h"
+#include "ItemData.h"
+#include "Item.h"
 
 PlayScene::PlayScene()
 {
@@ -42,10 +44,6 @@ void PlayScene::Destroy()
 
 void PlayScene::Update(float deltatime)
 {
-	//if (currentRoom)
-	//{
-	//	_camera.pos = currentRoom->GetPos();
-	//}
 	if (InputManager::GetInstance()->GetButtonDown(KeyType::F7))
 	{
 		_gridOn = !_gridOn;
@@ -53,13 +51,23 @@ void PlayScene::Update(float deltatime)
 
 	Super::Update(deltatime);
 
+	RepushTears();
+
+	Collide_PlayerTears(deltatime);
+	Collide_Player(deltatime);
+
+	CheckClearRoom();
+}
+
+void PlayScene::RepushTears()
+{
 	for (Tear* tear : _reserveTear)
 	{
 		UpdateGrid(tear, tear->GetPos(), Vector{ -1,-1 });
 
 		_actors.erase(tear);
 
-		                                                                                                                                                                                                                                                                                                                                                                                                                                                                auto& list = _renderList[RenderLayer::RL_Tear];
+		auto& list = _renderList[RenderLayer::RL_Tear];
 		auto iter = std::find(list.begin(), list.end(), tear);
 		if (iter != list.end())
 			list.erase(iter);
@@ -68,7 +76,10 @@ void PlayScene::Update(float deltatime)
 		_tearPool.RePush(tear);
 	}
 	_reserveTear.clear();
+}
 
+void PlayScene::CheckClearRoom()
+{
 	if (_monsterCount == 0)
 	{
 		for (auto iter : _doors)
@@ -79,9 +90,6 @@ void PlayScene::Update(float deltatime)
 			iter->Open();
 		}
 	}
-
-	Collide_PlayerTears(deltatime);
-	Collide_Player(deltatime);
 }
 
 void PlayScene::Render(ID2D1RenderTarget* _dxRenderTarget)
@@ -107,6 +115,7 @@ void PlayScene::loadResources()
 	ResourceManager::GetInstance()->LoadDXBitmap("gaperBody", L"Monster/gaperBody.png", 10, 2);
 
 	ResourceManager::GetInstance()->LoadDXBitmap("Penny1", L"Items/Penny1.png", 6, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("Items", L"Items/Items.png", 20,27);
 
 	ResourceManager::GetInstance()->LoadDXBitmap("Guid", L"Room/Guid.png");
 	ResourceManager::GetInstance()->LoadDXBitmap("Tile", L"Room/Tile.png");
@@ -125,6 +134,7 @@ void PlayScene::loadResources()
 	ResourceManager::GetInstance()->LoadDXBitmap("rocks", L"Object/rocks.png");
 
 	ResourceManager::GetInstance()->LoadDXBitmap("TearPop", L"Effect/TearPop.png", 4, 3);
+	ResourceManager::GetInstance()->LoadDXBitmap("bloodpoof", L"Effect/bloodpoof.png", 4, 3);
 
 	ResourceManager::GetInstance()->LoadDXBitmap("EmptyRoom", L"UI/EmptyRoom.png");
 	ResourceManager::GetInstance()->LoadDXBitmap("MiniMapBoard", L"UI/MiniMapBoard.png");
@@ -177,7 +187,7 @@ void PlayScene::CreateTear(DirType dir, Vector pos, TearStat stat, Vector player
 void PlayScene::RemoveTear(Tear* tear)
 {
 	Sprite* sprite = tear->GetSprite();
-	SpawnEffect(tear->GetPos(), "TearPop", sprite->GetSize().Width, sprite->GetSize().Height, EffectAnim::tearEffect);
+	SpawnEffect(tear->GetPos(), "TearPop", sprite->GetSize().Width * 2, sprite->GetSize().Height * 2, EffectAnim::tearEffect);
 	_reserveTear.insert(tear);
 }
 
@@ -195,6 +205,7 @@ void PlayScene::Collide_Player(float dt)
 {
 	if (_player == nullptr)
 		return;
+
 	const RECT* playerRC = _player->GetCollisionRect();
 	if (playerRC == nullptr)
 		return;
@@ -215,6 +226,9 @@ void PlayScene::Collide_Player(float dt)
 
 			for (const auto& otherActor : info._actorsInCell)
 			{
+				if (otherActor == nullptr)
+					continue;
+
 				if (otherActor == _player)
 					continue;
 
@@ -303,9 +317,15 @@ void PlayScene::Collide_PlayerTears(float dt)
 
 				const CellInfo& info = GetCellinfo(checkCell);
 
-				for (const auto& otherActor : info._actorsInCell)
+				for (const auto& otherActor : info._actorsInCell) //@TODO 버그 고쳐야함 아마 예약되고 삭제되기 전에 걸리는듯?
 				{
+					if (otherActor == nullptr)
+						continue;
+
 					if (otherActor == _player)
+						continue;
+
+					if (otherActor->GetRenderLayer() == RenderLayer::RL_Tear)
 						continue;
 
 					const RECT* TargetRC = otherActor->GetCollisionRect();
@@ -318,7 +338,8 @@ void PlayScene::Collide_PlayerTears(float dt)
 						{
 							Tear* casttear = dynamic_cast<Tear*>(tear);
 							float damage = casttear->GetTearstat().damage;
-							otherActor->TakeDamage(damage,casttear->GetDir());
+							DirType dir = casttear->GetDir();
+							otherActor->TakeDamage(damage,dir);
 
 							RemoveTear(casttear);
 						}
@@ -328,7 +349,7 @@ void PlayScene::Collide_PlayerTears(float dt)
 
 							RemoveTear(casttear);
 						}
-						break;
+						return;
 					}
 				}
 			}
@@ -338,14 +359,20 @@ void PlayScene::Collide_PlayerTears(float dt)
 
 void PlayScene::LoadStage(int32 stageNumber)
 {
-	StageInfo* stage = DataManager::GetInstance()->GetStageInfo(stageNumber);
+	stage = DataManager::GetInstance()->GetStageInfo(stageNumber);
+	_currStage = stageNumber;
 	_currRoom = stage->rooms[stage->startRoom].id;
 	LoadRoom(stage->startRoom);
 }
 
+void PlayScene::RandDropItem()
+{
+
+}
+
 void PlayScene::LoadRoom(int32 roomNumber)
 {
-	RoomInfo* room = DataManager::GetInstance()->GetRoomInfo(_currStage, roomNumber);
+	room = DataManager::GetInstance()->GetRoomInfo(_currStage, roomNumber);
 	{
 		fs::path fullPath = ResourceManager::GetInstance()->GetResourcePath() / room->MapPath;
 
@@ -365,10 +392,20 @@ void PlayScene::LoadRoom(int32 roomNumber)
 		_monsterCount = room->monsterCount;
 		_currRoom = roomNumber;
 
-		if(_player != nullptr)
+		if (room->id == stage->itemRoom)
+		{
+			int32 random = RandRange(MIN_ID, MAX_ID);
+			ItemData* data = DataManager::GetInstance()->GetItemData(random);
+			Item* item = new Item(data);
+			item->Init(Vector(GWinSizeX / 2, GWinSizeY / 2));
+
+			ReserveAdd(item);
+		}
+
+		/*if(_player != nullptr)
 		{ 
 			_player->SetPos(Vector(100, GWinSizeY / 2));
-		}
+		}*/
 	}
 }
 

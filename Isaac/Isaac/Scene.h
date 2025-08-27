@@ -42,6 +42,7 @@ public:
 	void CreateGrid();
 	void UpdateGrid(Actor* actor,Vector prevPos, Vector newPos);
 	void RenderGrid(ID2D1RenderTarget* _dxRenderTarget);
+	void RemoveCellInActor(Actor* actor);
 
 	const CellInfo& GetCellinfo(Cell cell);
 

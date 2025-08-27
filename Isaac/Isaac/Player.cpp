@@ -8,7 +8,8 @@
 #include "Sprite.h"
 #include "TimeManager.h"
 #include "UIHud.h"
-
+#include "Item.h"
+#include "DropItem.h"
 
 Player::Player()
 {
@@ -73,7 +74,7 @@ Player::Player()
 	base = _IsaacAnim._headAnim[HeadState::H_IDEL][DirType::DIR_DOWN];
 	_headAnimCtrl.SetAnim(base);
 
-	CreateRectCollider(_Body->GetSize().Width, _Body->GetSize().Height,Vector(0,10));
+	CreateRectCollider(_Body->GetSize().Width - 20, _Body->GetSize().Height,Vector(0,10));
 }
 
 void Player::Destroy()
@@ -223,6 +224,20 @@ void Player::Die()
 	Game::GetInstance()->GetCurrScene()->ReserveRemove(this);
 }
 
+void Player::PickUp(ItemStat item)
+{
+	_playerTearStat.damage += item.damageAdd;
+	_playerTearStat.damage *= item.damageMul;
+	_playerTearStat.tears += item.tearsAdd;
+	_playerTearStat.tears *= item.tearsMul;
+	_playerTearStat.shot_speed += item.shotspeedAdd;
+	_playerTearStat.shot_speed *= item.shotspeedMul;
+}
+
+void Player::PickUpDropItem(DorpItem* item)
+{
+}
+
 void Player::TakeDamage(float amount)
 {
 	if (now < _invulnEndTime)
@@ -235,6 +250,5 @@ void Player::TakeDamage(float amount)
 	{
 		Die();
 	}
-
 	_invulnEndTime = now + 1.0f; //무적시간
 }

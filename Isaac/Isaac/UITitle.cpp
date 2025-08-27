@@ -12,7 +12,7 @@ UITitle::UITitle()
 	_isOpen = true;
 	
 	_titles = CreateSprite(Vector{ Vector{ GWinSizeX / 2, 360 } }, "titlemenu2", 300, 300);
-	UISprite* sp2 = CreateSprite(Vector{ GWinSizeX / 2, 130 }, "titlemenu3", 500, 300);
+	UISprite* sp2 = CreateSprite(Vector{ GWinSizeX / 2, 130 }, "titlemenu3", 550, 300);
 
 	AnimInfo tr = { 0,0,2,1,true,0.3f,false };
 	_anim = new AnimationController();

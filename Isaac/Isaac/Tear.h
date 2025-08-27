@@ -32,7 +32,7 @@ public:
 		falling = false;
 		Destroy();
 	}
-	
+
 private:
 	DirType _dirtype = DirType::DIR_MAX;
 	TearStat _tearStat;

@@ -7,7 +7,7 @@
 
 Scene::Scene()
 {
-	_ui = new UIManager(); //@TODO 삭제 delete해줘야함 
+	_ui = new UIManager();
 	_ui->Init();
 }
 
@@ -91,7 +91,7 @@ void Scene::RemoveActor(Actor* actor)
 	if (actor->GetRenderLayer() < 0 || actor->GetRenderLayer() >= RenderLayer::RL_Count)
 		return;
 
-	UpdateGrid(actor, actor->GetPos(), Vector{ -1,-1 });
+	RemoveCellInActor(actor);
 
 	{
 		auto& list = _renderList[actor->GetRenderLayer()];
@@ -108,7 +108,7 @@ void Scene::RemoveActor(Actor* actor)
 		{
 			_actors.erase(iter);
 			actor->Destroy();
-			delete actor;
+			SAFE_DELETE(actor);
 		}
 	}
 }
@@ -203,6 +203,26 @@ void Scene::CreateGrid()
 			Cell cell{ x,y };
 			CellInfo data;
 			_grid.emplace(std::make_pair(cell, data));
+		}
+	}
+}
+
+void Scene::RemoveCellInActor(Actor* actor)
+{
+	Cell cell = Cell::ConvertToCell(actor->GetPos(), GridSize);
+
+	if (cell == Cell(-1, -1))
+		return;
+
+	auto find = _grid.find(cell);
+	if (find != _grid.end())
+	{
+		auto& cellInfo = find->second;
+
+		auto iter = cellInfo._actorsInCell.find(actor);
+		if (iter != cellInfo._actorsInCell.end())
+		{
+			cellInfo._actorsInCell.erase(actor);
 		}
 	}
 }

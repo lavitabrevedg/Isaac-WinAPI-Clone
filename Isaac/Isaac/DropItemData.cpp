@@ -3,9 +3,14 @@
 
 wstring DropItemData::GetFileName()
 {
-	return wstring();
+	return L"DropItemData";
 }
 
 void DropItemData::Load(const json& data)
 {
+	_id = data["id"];
+	_name = data["name"];
+	_spritePath = data["spritePath"];
+	_amount = data["amount"];
+	//ConvertEnum<DropItemType>(data, "DropItemType", _itemtype);
 }

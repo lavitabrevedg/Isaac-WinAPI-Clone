@@ -8,6 +8,7 @@ class UIHud;
 namespace EffectAnim
 {
     inline constexpr AnimInfo tearEffect = { 0,0,4,3,false,0.1f };
+    inline constexpr AnimInfo bloodEffect = { 0,0,4,3,false,0.1f };
 }
 
 class PlayScene : public Scene
@@ -34,6 +35,7 @@ public:
 
     void CreateTear(DirType dir, Vector pos,TearStat stat, Vector playervelocity);
     void RemoveTear(class Tear* tear);
+    void RepushTears();
 
     Vector AABBOverlapLength(const RECT& a, const RECT& b);
 
@@ -55,8 +57,10 @@ public:
     void SpawnEffect(Vector pos, string sprite, int32 width, int32 heigh, AnimInfo info);
 
     void OnMonsterDied(class Monster* enemy) { _monsterCount--; }
+    void CheckClearRoom();
 
     UIHud* GetGameHud() { return _gameHud; }
+    void RandDropItem();
 
 private:
     ObjectPool<class Tear> _tearPool;
@@ -67,6 +71,8 @@ private:
     class Player* _player = nullptr;
     int32 _currStage = 1;
     int32 _currRoom = -1;
+    struct StageInfo* stage = nullptr;
+    struct RoomInfo* room = nullptr;
 
     int32 _monsterCount = 0;
 

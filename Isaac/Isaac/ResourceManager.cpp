@@ -70,6 +70,10 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 
 	{
 		//Items
+		_spriteNames.emplace("cyclops", SpriteInfo(5, 8, "Items", true));
+		_spriteNames.emplace("1", SpriteInfo(4, 8, "Items", true));
+		_spriteNames.emplace("2", SpriteInfo(6, 8, "Items", true));
+
 		_spriteNames.emplace("Bomb", SpriteInfo(0, 0, "Bomb", true));
 		_spriteNames.emplace("Bomb Animat", SpriteInfo(0, 0, "Bomb Animat", true));
 		_spriteNames.emplace("Chest", SpriteInfo(0, 0, "Chest", true));
@@ -83,6 +87,7 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 
 		//effect
 		_spriteNames.emplace("TearPop", SpriteInfo(1, 1, "TearPop", true));
+		_spriteNames.emplace("bloodpoof", SpriteInfo(1, 1, "bloodpoof", true));
 	}
 
 	// font

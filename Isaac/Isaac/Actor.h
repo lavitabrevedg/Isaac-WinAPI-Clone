@@ -9,6 +9,7 @@ enum ActorType : int8
 	AT_Monster,
 	AT_Block,
 	AT_Door,
+	AT_Item,
 	AT_Count,
 };
 
@@ -52,7 +53,7 @@ protected:
 	class RectCollider* CreateRectCollider(int32 width, int32 height,Vector offset = {0,0});
 
 protected:
-	vector<Component*> _components; //@TODO std::Map으로 만들어서 COmponent가 pos를 갖고있어서 그리거나 업데이트 할때 내가 지정한 pos대로 그리고 업데이트하면 좋을것 같은데
+	vector<Component*> _components; //component들이 따로 그려질 pos를 가지고있다.
 	vector<Sprite*> _sprites;
 	Vector _pos;
 	RECT* _collision;
