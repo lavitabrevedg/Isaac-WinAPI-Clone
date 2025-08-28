@@ -54,11 +54,10 @@ protected:
 
 protected:
 	vector<Component*> _components; //component들이 따로 그려질 pos를 가지고있다.
-	vector<Sprite*> _sprites;
-	Vector _pos;
-	RECT* _collision;
+	Vector _pos = { -1,-1 };
+	RECT* _collision = nullptr;
 
-	Sprite* _sprite;
+	Sprite* _sprite = nullptr;
 };
 
 struct AnimationController

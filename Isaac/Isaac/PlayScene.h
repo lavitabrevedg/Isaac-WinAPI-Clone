@@ -62,6 +62,8 @@ public:
     UIHud* GetGameHud() { return _gameHud; }
     void RandDropItem();
 
+    void DiePlayer() { _player = nullptr; }
+
 private:
     ObjectPool<class Tear> _tearPool;
     ObjectPool<class Monster> _monsterPool;
@@ -69,10 +71,10 @@ private:
     unordered_set<class Tear*> _reserveTear;
 
     class Player* _player = nullptr;
-    int32 _currStage = 1;
-    int32 _currRoom = -1;
-    struct StageInfo* stage = nullptr;
-    struct RoomInfo* room = nullptr;
+    int32 _currStageId = 1;
+    int32 _currRoomId = -1;
+    struct StageInfo* _currStage = nullptr;
+    struct RoomInfo* _currRoom = nullptr;
 
     int32 _monsterCount = 0;
 

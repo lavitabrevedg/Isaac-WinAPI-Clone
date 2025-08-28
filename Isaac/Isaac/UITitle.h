@@ -17,4 +17,10 @@ public:
 private:
     UISprite* _titles;
 	struct AnimationController* _anim;
+
+	UIImage* _gameName;
+	
+	bool _movingUp = true;
+	float _distance = 0;
+	Vector _namepos = { GWinSizeX / 2, 130 };
 };

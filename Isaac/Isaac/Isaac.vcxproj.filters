@@ -195,9 +195,6 @@
     <ClInclude Include="Item.h">
       <Filter>Object\Items</Filter>
     </ClInclude>
-    <ClInclude Include="Stat.h">
-      <Filter>Object\Components</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Isaac.cpp">
@@ -331,9 +328,6 @@
     </ClCompile>
     <ClCompile Include="Item.cpp">
       <Filter>Object\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Stat.cpp">
-      <Filter>Object\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

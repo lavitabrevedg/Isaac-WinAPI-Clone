@@ -23,8 +23,10 @@ public:
 	virtual void TakeDamage(float amount)override;
 	void Die()override;
 
-	void PickUp(ItemStat item);
+	void PickUp(ItemStat item, string sprite);
 	void PickUpDropItem(class DorpItem* item);
+
+	bool IsDied() { return _isDied; }
 
 private:
 	TearStat _playerTearStat;
@@ -49,5 +51,7 @@ private:
 	float nextReadyTime = 0.f;
 	float _invulnEndTime = 0.f;
 	float now = 0.f;
+
+	bool _isDied = false;
 };
 

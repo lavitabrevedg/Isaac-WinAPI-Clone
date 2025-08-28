@@ -44,6 +44,8 @@ public:
 	void RenderGrid(ID2D1RenderTarget* _dxRenderTarget);
 	void RemoveCellInActor(Actor* actor);
 
+	void AddLoad(string key, wstring path, int32 countX, int32 countY);
+
 	const CellInfo& GetCellinfo(Cell cell);
 
 	bool IsRenderGrid() { return _gridOn; }
@@ -63,5 +65,7 @@ protected:
 	Camera _camera;
 
 	class UIManager* _ui = nullptr;
+
+	bool _paused = false;
 };
 

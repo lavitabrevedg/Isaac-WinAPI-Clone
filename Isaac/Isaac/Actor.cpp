@@ -21,7 +21,6 @@ Actor::~Actor()
 
 void Actor::Init(Vector pos)
 {
-	Game::GetInstance()->GetCurrScene()->UpdateGrid(this, Vector(-1, -1), pos);
 	SetPos(pos);
 }
 
@@ -60,7 +59,6 @@ Sprite* Actor::CreateSpriteComponent(string spriteName, int32 width, int32 heigh
 	sprite->SetIndex(info->indexX, info->indexY);
 	sprite->SetApplyCamera(GetRenderLayer() != RenderLayer::RL_UI);
 	sprite->SetSpriteName(spriteName);
-	_sprites.push_back(sprite);
 	_components.emplace_back(sprite);
 
 	return sprite;
@@ -95,6 +93,7 @@ void AnimationController::SetAnim(const AnimInfo& newInfo)
 void AnimationController::Update(float deltatime, Sprite* sprite)
 {
 	timer += deltatime;
+	bool same = info.startY == info.countY ? true : false;
 	if (timer > info.duration && !_isEnd)
 	{
 		timer -= info.duration;
@@ -104,8 +103,9 @@ void AnimationController::Update(float deltatime, Sprite* sprite)
 		sprite->SetFlip(info.flipX);
 		if (curFrameX == 0)
 		{
-			if (info.countY != 0) { curFrameY++;}
-			if (curFrameY = info.countY)
+			if (!same) { curFrameY++; curFrameX = info.startX; }
+
+			if (curFrameY = info.countY) //¼öÁ¤ÇØ¾ß´ï
 			{
 				if (info.loop == true) { curFrameX = info.startX; curFrameY = info.startY; }
 				else { _isEnd = true; }

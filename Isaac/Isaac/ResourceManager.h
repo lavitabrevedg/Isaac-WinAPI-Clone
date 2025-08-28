@@ -23,6 +23,7 @@ public:
 	IDWriteTextFormat* GetFont(FontSize fontSize);
 	ID2D1SolidColorBrush* GetBrush(BrushColor color);
 
+	void AddSpriteINfo(string key, SpriteInfo info);
 
 public:
 	fs::path GetResourcePath() const { return _resourcePath; }

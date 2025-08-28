@@ -58,6 +58,6 @@ void Tile::LoadActor(std::wistringstream& steam)
 	std::string spriteName;
 	spriteName.assign(wspriteName.begin(), wspriteName.end());
 
-	_pos = Vector(x, y);
+	_pos = Vector((float)x, (float)y);
 	_sprite = CreateSpriteComponent(spriteName, w, h);
 }

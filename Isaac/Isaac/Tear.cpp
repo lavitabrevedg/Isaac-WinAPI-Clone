@@ -17,7 +17,7 @@ void Tear::Destroy()
 void Tear::Init(Vector pos, DirType dir,TearStat stat, Vector playervelocity)
 {
 	_tearStat = stat;
-	_gravity = 980.f;
+	_gravity = 980.f * 2;
 	//float limitVel = 70.0f;
 	_dirtype = dir;
 
@@ -32,8 +32,23 @@ void Tear::Init(Vector pos, DirType dir,TearStat stat, Vector playervelocity)
 
 	_sprite = CreateSpriteComponent("Tear", (int)_tearStat.damage * 8, (int)_tearStat.damage * 8);
 	CreateRectCollider(_sprite->GetSize().Width, _sprite->GetSize().Height);
-
-	Vector plus = { 20,-20 };
+	//20 -10
+	Vector plus;
+	switch (dir)
+	{
+	case DIR_LEFT:
+		plus = { -20,-10 };
+		break;
+	case DIR_RIGHT:
+		plus = { 20,-10 };
+		break;
+	case DIR_UP:
+		plus = { 0,-20 };
+		break;
+	case DIR_DOWN:
+		plus = { 0,20 };
+		break;
+	}
 	Super::Init(pos + plus);
 }
 
@@ -51,10 +66,11 @@ void Tear::Update(float deltatime)
 		}
 	}
 	else {
+		_velocity.y += (_gravity * deltatime);
 		_zvelocity -= _gravity * deltatime;
 		_z += _zvelocity * deltatime;
 		Vector pos = _pos + _velocity * deltatime * 0.3f;
-		pos.y += 1.f;
+		//pos.y += 1.f;
 		SetPos(pos);
 		if (_z <= 0) {
 			// ÅÍÁü/»èÁ¦

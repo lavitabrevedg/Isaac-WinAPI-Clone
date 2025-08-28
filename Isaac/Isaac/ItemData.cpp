@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "ItemData.h"
+#include "ResourceManager.h"
+#include "PlayScene.h"
 
 wstring ItemData::GetFileName()
 {
@@ -12,7 +14,8 @@ void ItemData::Load(const json& data)
 	_key = data["key"];
 	_name = data["name"];
 	ConvertEnum<types>(data, "types", _type);
-	_playercostumePath = data["playercostumePath"];
+
+	_playercostumeKey = data["playercostumeKey"];
 
 	const auto& st = data["Itemstat"];
 

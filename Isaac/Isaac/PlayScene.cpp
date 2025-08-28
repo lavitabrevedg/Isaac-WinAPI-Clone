@@ -44,6 +44,11 @@ void PlayScene::Destroy()
 
 void PlayScene::Update(float deltatime)
 {
+	if (_player->IsDied())
+	{
+		return;
+	}
+
 	if (InputManager::GetInstance()->GetButtonDown(KeyType::F7))
 	{
 		_gridOn = !_gridOn;
@@ -63,8 +68,7 @@ void PlayScene::RepushTears()
 {
 	for (Tear* tear : _reserveTear)
 	{
-		UpdateGrid(tear, tear->GetPos(), Vector{ -1,-1 });
-
+		RemoveCellInActor(tear);
 		_actors.erase(tear);
 
 		auto& list = _renderList[RenderLayer::RL_Tear];
@@ -105,6 +109,7 @@ PlayScene* PlayScene::GetGameScene()
 void PlayScene::loadResources()
 {
 	ResourceManager::GetInstance()->LoadDXBitmap("IsaacHead", L"Player/IsaacHead.png", 8, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("IsaaccyclopsHead", L"Player/IsaaccyclopsHead.png", 8, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("IsaacBody", L"Player/IsaacBody.png", 10, 2);
 	ResourceManager::GetInstance()->LoadDXBitmap("Tear", L"Player/Tear.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("IsaacAction", L"Player/IsaacAction.png", 4, 3);
@@ -129,6 +134,7 @@ void PlayScene::loadResources()
 	ResourceManager::GetInstance()->LoadDXBitmap("Well8", L"Room/Well8.png");
 	ResourceManager::GetInstance()->LoadDXBitmap("Well9", L"Room/Well9.png");
 	ResourceManager::GetInstance()->LoadDXBitmap("Door", L"Room/Door.png", 2, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("GoldDoor", L"Room/GoldDoor.png", 2, 1);
 
 	ResourceManager::GetInstance()->LoadDXBitmap("rock", L"Object/rock.png");
 	ResourceManager::GetInstance()->LoadDXBitmap("rocks", L"Object/rocks.png");
@@ -317,9 +323,12 @@ void PlayScene::Collide_PlayerTears(float dt)
 
 				const CellInfo& info = GetCellinfo(checkCell);
 
-				for (const auto& otherActor : info._actorsInCell) //@TODO 버그 고쳐야함 아마 예약되고 삭제되기 전에 걸리는듯?
+				for (const auto& otherActor : info._actorsInCell)
 				{
 					if (otherActor == nullptr)
+						continue;
+
+					if (otherActor == tear)
 						continue;
 
 					if (otherActor == _player)
@@ -342,14 +351,19 @@ void PlayScene::Collide_PlayerTears(float dt)
 							otherActor->TakeDamage(damage,dir);
 
 							RemoveTear(casttear);
+							dx = 5;
+							dy = 5;
+							break;
 						}
 						else if (otherActor->GetActorType() == ActorType::AT_Block)
 						{
 							Tear* casttear = dynamic_cast<Tear*>(tear);
 
 							RemoveTear(casttear);
+							dx = 5;
+							dy = 5;
+							break;
 						}
-						return;
 					}
 				}
 			}
@@ -359,10 +373,10 @@ void PlayScene::Collide_PlayerTears(float dt)
 
 void PlayScene::LoadStage(int32 stageNumber)
 {
-	stage = DataManager::GetInstance()->GetStageInfo(stageNumber);
-	_currStage = stageNumber;
-	_currRoom = stage->rooms[stage->startRoom].id;
-	LoadRoom(stage->startRoom);
+	_currStage = DataManager::GetInstance()->GetStageInfo(stageNumber);
+	_currStageId = stageNumber;
+	_currRoomId = _currStage->rooms[_currStage->startRoom].id;
+	LoadRoom(_currStage->startRoom);
 }
 
 void PlayScene::RandDropItem()
@@ -372,13 +386,20 @@ void PlayScene::RandDropItem()
 
 void PlayScene::LoadRoom(int32 roomNumber)
 {
-	room = DataManager::GetInstance()->GetRoomInfo(_currStage, roomNumber);
+	_currRoom = DataManager::GetInstance()->GetRoomInfo(_currStageId, roomNumber);
 	{
-		fs::path fullPath = ResourceManager::GetInstance()->GetResourcePath() / room->MapPath;
+		fs::path fullPath = ResourceManager::GetInstance()->GetResourcePath() / _currRoom->MapPath;
 
 		std::wifstream file(fullPath);
 		if (file.is_open())
 		{
+			for (auto& iter : _renderList[RenderLayer::RL_Tear])
+			{
+				Tear* tear = static_cast<Tear*>(iter);
+				RemoveTear(tear);
+			}
+			RepushTears();
+
 			StageLoader loader;
 			bool stageload = loader.Load(this, file);
 
@@ -388,11 +409,11 @@ void PlayScene::LoadRoom(int32 roomNumber)
 			}
 			file.close();
 		}
-		CreateDoor(room);
-		_monsterCount = room->monsterCount;
-		_currRoom = roomNumber;
+		CreateDoor(_currRoom);
+		_monsterCount = _currRoom->monsterCount;
+		_currRoomId = roomNumber;
 
-		if (room->id == stage->itemRoom)
+		if (_currRoom->id == _currStage->itemRoom)
 		{
 			int32 random = RandRange(MIN_ID, MAX_ID);
 			ItemData* data = DataManager::GetInstance()->GetItemData(random);
@@ -417,7 +438,14 @@ void PlayScene::CreateDoor(RoomInfo* room)
 
 		if (room->neighbor[i] != -1)
 		{
-			_doors[i] = new Door("Door", 0, 0);
+			if (room->neighbor[i] == _currStage->itemRoom)
+			{
+				_doors[i] = new Door("GoldDoor",0,0);
+			}
+			else
+			{
+				_doors[i] = new Door("Door", 0, 0);
+			}
 			DirType dir = static_cast<DirType>(i);
 			Vector pos;
 

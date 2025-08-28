@@ -11,20 +11,20 @@ Item::Item(ItemData* data)
 	{
 		//_data = new ItemData();
 		_data = data;
+
+		string sprite = _data->_key;
+
+		_sprite = CreateSpriteComponent(sprite, 50, 50);
+		CreateRectCollider(50, 50);
+
+		_tearstat = _data->_tearstat;
+		_spritekey = _data->_playercostumeKey;
 	}
-	string sprite = _data->_key;
-
-	_sprite = CreateSpriteComponent(sprite, 50, 50);
-	CreateRectCollider(50,50);
-
-	_tearstat = _data->_tearstat;
 }
 
 void Item::Init(Vector pos)
 {
-	Super::Init(pos);
 	_pos = pos;
-	_sprite->SetPos(_pos);
 }
 
 void Item::Destroy()
@@ -35,23 +35,50 @@ void Item::Destroy()
 void Item::Update(float deltatime)
 {
 	Super::Update(deltatime);
-
+	Move();
 	const RECT* rect = GetCollisionRect();
 	Player* player = PlayScene::GetGameScene()->GetPlayer();
 	const RECT* rect2 = player->GetCollisionRect();
-	if (AABBIntersect(*rect, *rect2));
+	if (AABBIntersect(*rect, *rect2))
 	{
 		PickUp(player);
-		PlayScene::GetGameScene()->ReserveRemove(this); //@TODO 적용은 되는데 템이 갑자기 사라진다.
+		PlayScene::GetGameScene()->ReserveRemove(this); 
 	}
 }
 
 void Item::Render(ID2D1RenderTarget* _dxRenderTarget)
 {
+	_sprite->SetPos(_pos);
 	Super::Render(_dxRenderTarget);
 }
 
 void Item::PickUp(Player* player)
 {
-	player->PickUp(_tearstat);
+	player->PickUp(_tearstat,_spritekey);
+}
+
+void Item::Move()
+{
+	float speed = 0.3f;
+
+	if (_movingUp)
+	{
+		_pos.y -= speed;
+		_distance += speed;
+		if (_distance >= 20.f)  
+		{
+			_movingUp = false; 
+			_distance = 0.f;
+		}
+	}
+	else
+	{
+		_pos.y += speed;
+		_distance += speed;
+		if (_distance >= 20.f) 
+		{
+			_movingUp = true;
+			_distance = 0.f;
+		}
+	}
 }

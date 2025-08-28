@@ -155,8 +155,10 @@ void Monster::TakeDamage(float amount)
 void Monster::TakeDamage(float amount, DirType dir)
 {
 	float speed = 20.f;
-	Vector pos = dirValue[dir];
-	_pos += pos * speed;
+	Vector dirvalue = dirValue[dir];
+	Vector pos = _pos;
+	pos += dirvalue * speed;
+	SetPos(pos);
 
 	_attacedTime = now + 0.1f;
 	_hp -= amount;

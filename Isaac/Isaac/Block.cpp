@@ -20,7 +20,6 @@ Block::Block(Sprite* sprite)
 
 void Block::Init(Vector pos)
 {
-	_pos = pos;
 	Super::Init(pos);
 }
 

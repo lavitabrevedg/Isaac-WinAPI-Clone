@@ -20,9 +20,14 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 
 	{
 		//player
-		_spriteNames.emplace("IsaacHead", SpriteInfo(0, 0, "IsaacHead", true));
 		_spriteNames.emplace("IsaacBody", SpriteInfo(0, 0, "IsaacBody", true));
-		_spriteNames.emplace("IsaacAction", SpriteInfo(0, 0, "IsaacAction", true));
+
+		_spriteNames.emplace("IsaacHead", SpriteInfo(0, 0, "IsaacHead", true));
+		_spriteNames.emplace("IsaaccyclopsHead", SpriteInfo(0, 0, "IsaaccyclopsHead", true));
+
+		_spriteNames.emplace("A_Hurt", SpriteInfo(2, 1, "IsaacAction", true));
+		_spriteNames.emplace("A_GetItem", SpriteInfo(1, 1, "IsaacAction", true));
+		_spriteNames.emplace("A_Die", SpriteInfo(3, 0, "IsaacAction", true));
 	}
 
 	{
@@ -56,6 +61,7 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 		_spriteNames.emplace("Well8", SpriteInfo(0, 0, "Well8", true));
 		_spriteNames.emplace("Well9", SpriteInfo(0, 0, "Well9", true));
 		_spriteNames.emplace("Door", SpriteInfo(0, 0, "Door", true));
+		_spriteNames.emplace("GoldDoor", SpriteInfo(0, 0, "GoldDoor", true));
 	}
 
 	{
@@ -71,8 +77,8 @@ void ResourceManager::Init(HWND hwnd, fs::path directory)
 	{
 		//Items
 		_spriteNames.emplace("cyclops", SpriteInfo(5, 8, "Items", true));
-		_spriteNames.emplace("1", SpriteInfo(4, 8, "Items", true));
-		_spriteNames.emplace("2", SpriteInfo(6, 8, "Items", true));
+		/*_spriteNames.emplace("1", SpriteInfo(4, 8, "Items", true));
+		_spriteNames.emplace("2", SpriteInfo(6, 8, "Items", true));*/
 
 		_spriteNames.emplace("Bomb", SpriteInfo(0, 0, "Bomb", true));
 		_spriteNames.emplace("Bomb Animat", SpriteInfo(0, 0, "Bomb Animat", true));
@@ -188,6 +194,11 @@ ID2D1SolidColorBrush* ResourceManager::GetBrush(BrushColor color)
 		return _brushCache[color];
 	}
 	return nullptr;
+}
+
+void ResourceManager::AddSpriteINfo(string key, SpriteInfo info)
+{
+	_spriteNames.emplace(key, info);
 }
 
 bool ResourceManager::loadFont()

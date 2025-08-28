@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "Game.h"
 #include "UIManager.h"
+#include "PlayScene.h"
 
 Scene::Scene()
 {
@@ -49,9 +50,11 @@ void Scene::Destroy()
 
 void Scene::Update(float deltatime)
 {
+	if (_paused) return;
+
 	for (auto iter : _actors)
 	{
-		iter->Update(deltatime);
+ 		iter->Update(deltatime);
 	}
 
 	for (auto iter : _reserveRemove)
@@ -133,6 +136,7 @@ void Scene::ReserveRemove(Actor* actor)
 	if (_reserveRemove.contains(actor))
 		return;
 
+
 	_reserveRemove.emplace(actor);
 }
 
@@ -181,6 +185,11 @@ void Scene::RemoveExceptPlayer()
 			continue;
 		}
 
+		if (iter->GetActorType() == ActorType::AT_Block)
+		{
+			Cell cell = Cell::ConvertToCell(iter->GetPos(), GridSize);
+			_grid.find(cell)->second.canMoveCell = true;
+		}
 		ReserveRemove(iter);
 	}
 
@@ -227,6 +236,11 @@ void Scene::RemoveCellInActor(Actor* actor)
 	}
 }
 
+void Scene::AddLoad(string key, wstring path, int32 countX, int32 countY)
+{
+	
+}
+
 void Scene::UpdateGrid(Actor* actor, Vector prevPos, Vector newPos)
 {
 	if (!useGrid() || _grid.empty()) return;
@@ -258,7 +272,10 @@ void Scene::UpdateGrid(Actor* actor, Vector prevPos, Vector newPos)
 			}
 			else
 			{
-				OutputDebugString(L"Invalid Grid!!");
+				if (prevCell != Cell(-1, -1))
+				{
+					OutputDebugString(L"Invalid Grid!!");
+				}
 			}
 		}
 	}
@@ -276,11 +293,7 @@ void Scene::UpdateGrid(Actor* actor, Vector prevPos, Vector newPos)
 
 			// 셀이 관리하고 있는 N개의 액터중에 진짜로 현재 Actor가 있는지 검사
 			auto findActor = cellInfo._actorsInCell.find(actor);
-			if (findActor != cellInfo._actorsInCell.end())
-			{
-				OutputDebugString(L"Invalid Grid!!"); //@TODO 경고음 고쳐야 됨 계속 뜸 setPos떄문인지
-			}
-			else
+			if (findActor == cellInfo._actorsInCell.end())
 			{
 				cellInfo._actorsInCell.insert(actor);
 				if (Block)
@@ -327,5 +340,6 @@ const CellInfo& Scene::GetCellinfo(Cell cell)
 	{
 		return it->second;
 	}
-	return CellInfo{};
+	static CellInfo kEmpty;
+	return kEmpty;
 }

@@ -41,9 +41,12 @@ public:
 
 	int32 _id;
 	string _key;
+	/*int32 _indexX;
+	int32 _indexY;*/
 	string _name;
 	types _type;
-	string _playercostumePath;
+	string _playercostumeKey;
+	/*string _playercostumePath;*/ //@TODO 리소스등록 및 playscene에서 load를 여기서 값을 받아서 하면 좋을 것 같다.
 	ItemStat _tearstat;
 };
 

@@ -15,11 +15,19 @@ enum BodyState
 	B_MAX
 };
 
+enum Action
+{
+	A_Hurt,
+	A_GetItem,
+	A_Die,
+	Count
+};
+
 struct HeadAndBody
 {
 	AnimInfo _headAnim[HeadState::H_MAX][DirType::DIR_MAX];
 	AnimInfo _bodyAnim[BodyState::B_MAX][DirType::DIR_MAX];
-	AnimInfo _actionAnim[4]; //임시 4개
+	AnimInfo _actionAnim[Count]; //임시 4개
 };
 
 class Creature : public Actor

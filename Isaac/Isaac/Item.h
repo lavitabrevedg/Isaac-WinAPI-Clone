@@ -16,9 +16,14 @@ public:
 	RenderLayer GetRenderLayer()override { return RenderLayer::RL_Item; }
 
 	void PickUp(class Player* player);
+	void Move();
 
 private:
 	class ItemData* _data = nullptr;
 	ItemStat _tearstat;
+	string _spritekey;
+
+	float _distance = 0;
+	bool _movingUp = true;
 };
 

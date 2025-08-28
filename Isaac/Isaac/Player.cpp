@@ -33,10 +33,13 @@ Player::Player()
 	_IsaacAnim._bodyAnim[BodyState::B_WALK][DirType::DIR_RIGHT] = AnimInfo{ 1,1,9,1,true,0.1f };
 	_IsaacAnim._bodyAnim[BodyState::B_WALK][DirType::DIR_LEFT] = AnimInfo{ 1,1,9,1,true,0.1f,true };
 
-	//_IsaacAnim._actionAnim[0] = AnimInfo{ 2,1,1,1,true,0.2f };
+	_IsaacAnim._actionAnim[A_Hurt] = AnimInfo{ 2,1,1,1,true,2.f };
+	_IsaacAnim._actionAnim[A_GetItem] = AnimInfo{ 1,1,1,1,true,2.f };
+	_IsaacAnim._actionAnim[A_Die] = AnimInfo{ 3,0,1,1,true,2.f };
 
 	_Body = CreateSpriteComponent("IsaacBody", 50, 35);
 	_sprite = CreateSpriteComponent("IsaacHead", 72, 50);
+	
 
 	_sprite->SetFrameOffset(0, 0, { 5, 0 });
 	_sprite->SetFrameOffset(1, 0, { 5, 0 });
@@ -45,17 +48,16 @@ Player::Player()
 	_sprite->SetFrameOffset(6, 0, { -5,0 });
 	_sprite->SetFrameOffset(7, 0, { -5,0 });
 
-
 	_Body->SetFrameOffset(0, 0, { 9, 0 });  
-	_Body->SetFrameOffset(1, 0, { 7, 0 });
-	_Body->SetFrameOffset(2, 0, { 6, 0 });  
-	_Body->SetFrameOffset(3, 0, { 5, 0 });  
-	_Body->SetFrameOffset(4, 0, { 4, 0 });  
-	_Body->SetFrameOffset(5, 0, { -3, 0 });  
-	_Body->SetFrameOffset(6, 0, { -4, 0 });  
-	_Body->SetFrameOffset(7, 0, { -5, 0 });  
-	_Body->SetFrameOffset(8, 0, { -6, 0 });  
-	_Body->SetFrameOffset(9, 0, { -7, 0 });  
+	_Body->SetFrameOffset(1, 0, { 5, 0 });
+	_Body->SetFrameOffset(2, 0, { 4, 0 });  
+	_Body->SetFrameOffset(3, 0, { 1, 0 });  
+	_Body->SetFrameOffset(4, 0, { 0, 0 });  
+	_Body->SetFrameOffset(5, 0, { -6, 0 });  
+	_Body->SetFrameOffset(6, 0, { -7, 0 });  
+	_Body->SetFrameOffset(7, 0, { -8, 0 });  
+	_Body->SetFrameOffset(8, 0, { -9, 0 });  
+	_Body->SetFrameOffset(9, 0, { -10, 0 });  
 
 	_Body->SetFrameOffset(0, 1, { 9, 0 });
 	_Body->SetFrameOffset(1, 1, { 8, 0 });
@@ -67,7 +69,6 @@ Player::Player()
 	_Body->SetFrameOffset(7, 1, { -4, 0 });
 	_Body->SetFrameOffset(8, 1, { -5, 0 });
 	_Body->SetFrameOffset(9, 1, { -6, 0 });
-
 
 	AnimInfo base = _IsaacAnim._bodyAnim[BodyState::B_IDEL][DirType::DIR_DOWN];
 	_bodyAnimCtrl.SetAnim(base);
@@ -85,7 +86,7 @@ void Player::Destroy()
 void Player::Init(Vector pos)
 {
 	Super::Init(pos);
-	_maxhp = 6;
+	_maxhp = 2;
 	_hp = _maxhp;
 	_maxSpeed = 250.f;
 	_friction = 0.95f;
@@ -222,10 +223,20 @@ void Player::OnDamage()
 void Player::Die()
 {
 	Game::GetInstance()->GetCurrScene()->ReserveRemove(this);
+	_isDied = true;
 }
 
-void Player::PickUp(ItemStat item)
+void Player::PickUp(ItemStat item, string sprite)
 {
+	_sprite->SetBitmapKey(sprite, 55, 50);
+
+	_sprite->SetFrameOffset(0, 0, { 0, 0 });
+	_sprite->SetFrameOffset(1, 0, { 0, 0 });
+	_sprite->SetFrameOffset(4, 0, { 0,0 });
+	_sprite->SetFrameOffset(5, 0, { 0,0 });
+	_sprite->SetFrameOffset(6, 0, { 0,0 });
+	_sprite->SetFrameOffset(7, 0, { 0,0 });
+
 	_playerTearStat.damage += item.damageAdd;
 	_playerTearStat.damage *= item.damageMul;
 	_playerTearStat.tears += item.tearsAdd;

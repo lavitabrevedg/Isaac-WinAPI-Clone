@@ -5,7 +5,7 @@
   "key": "cyclops",
   "name": "싸이클롭스",
   "type": "Passive",
-  "playercostumePath": "Player/IsaaccyclopsHead.png",
+  "playercostumeKey": "IsaaccyclopsHead",
   "Itemstat": {
     "damageAdd": 1.0,
     "damageMul": 2.0,

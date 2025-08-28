@@ -15,7 +15,7 @@ UIHud::UIHud()
 	if (player == nullptr)
 		return;
 
-	int32 maxhp = player->GetMaxHp();
+	int32 maxhp = (int32)player->GetMaxHp();
 
 	for (int i = 2; i <= maxhp; i += 2)
 	{
@@ -70,7 +70,7 @@ void UIHud::Render(ID2D1RenderTarget* renderTarget)
 
 void UIHud::PlayerOnDamage(int32 amount)
 {
-	for (int i = _playerHp.size() - 1; i >= 0 && amount > 0; --i)
+	for (int i = (int)_playerHp.size() - 1; i >= 0 && amount > 0; --i)
 	{
 			int32 x, y;
 			_playerHp[i]->GetIndex(x, y);

@@ -33,11 +33,6 @@ void EditorScene::Init()
 		guid->Init(Vector(0, 0));
 
 		_editActorInfo[(int32)mode].push_back(guid);
-
-		/*Actor* door = new Door("Door", 0, 0);
-		door->Init(Vector(0, 0));
-
-		_editActorInfo[(int32)mode].push_back(door);*/
 	}
 
 	{
@@ -221,6 +216,7 @@ void EditorScene::loadResources()
 	ResourceManager::GetInstance()->LoadDXBitmap("Well8", L"Room/Well8.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Well9", L"Room/Well9.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Door", L"Room/Door.png", 2, 1);
+	ResourceManager::GetInstance()->LoadDXBitmap("GoldDoor", L"Room/GoldDoor.png", 2, 1);
 
 	ResourceManager::GetInstance()->LoadDXBitmap("Combat", L"Monster/Combat.png", 1, 1);
 	ResourceManager::GetInstance()->LoadDXBitmap("Fly", L"Monster/Fly.png", 1, 1);
