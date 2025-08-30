@@ -86,7 +86,7 @@ void Player::Destroy()
 void Player::Init(Vector pos)
 {
 	Super::Init(pos);
-	_maxhp = 2;
+	_maxhp = 6;
 	_hp = _maxhp;
 	_maxSpeed = 250.f;
 	_friction = 0.95f;
@@ -222,7 +222,7 @@ void Player::OnDamage()
 
 void Player::Die()
 {
-	Game::GetInstance()->GetCurrScene()->ReserveRemove(this);
+	Game::GetInstance()->GetCurrScene()->RemoveActor(this);
 	_isDied = true;
 }
 

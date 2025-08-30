@@ -51,9 +51,13 @@ void UIHud::Render(ID2D1RenderTarget* renderTarget)
 	if (player == nullptr)
 		return;
 
-	_coin = player->GetCoins(); //@TODO 플레이어 죽는 순간 -57막 몇만개로 바뀜
-	_boom = player->GetBooms();
-	_key = player->GetKeys();
+	 int32 coin = player->GetCoins(); //@TODO 플레이어 죽는 순간 -57막 몇만개로 바뀜
+	 int32 boom = player->GetBooms();
+	 int32 key = player->GetKeys();
+
+	 _coin = coin;
+	 _boom = boom;
+	 _key = key;
 
 	auto brush = ResourceManager::GetInstance()->GetBrush(BrushColor::White);
 	auto font = ResourceManager::GetInstance()->GetFont(FontSize::FONT_20);
